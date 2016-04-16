@@ -1,0 +1,43 @@
+\BOOKMARK [0][-]{chapter*.1}{摘 \040要}{}% 1
+\BOOKMARK [0][-]{chapter*.2}{Abstract}{}% 2
+\BOOKMARK [0][-]{chapter*.3}{目 \040录}{}% 3
+\BOOKMARK [0][-]{chapter.1}{第 1 章 \040绪论}{}% 4
+\BOOKMARK [1][-]{section.1.1}{1.1 引言}{chapter.1}% 5
+\BOOKMARK [1][-]{section.1.2}{1.2 研究背景}{chapter.1}% 6
+\BOOKMARK [1][-]{section.1.3}{1.3 论文的组织}{chapter.1}% 7
+\BOOKMARK [0][-]{chapter.2}{第 2 章 \040预备知识}{}% 8
+\BOOKMARK [1][-]{section.2.1}{2.1 混合有限元}{chapter.2}% 9
+\BOOKMARK [1][-]{section.2.2}{2.2 几何遗传树结构}{chapter.2}% 10
+\BOOKMARK [1][-]{section.2.3}{2.3 移动网格方法}{chapter.2}% 11
+\BOOKMARK [1][-]{section.2.4}{2.4 预处理方法}{chapter.2}% 12
+\BOOKMARK [2][-]{subsection.2.4.1}{2.4.1 针对Stokes方程}{section.2.4}% 13
+\BOOKMARK [2][-]{subsection.2.4.2}{2.4.2 针对Navier-Stokes方程}{section.2.4}% 14
+\BOOKMARK [0][-]{chapter.3}{第 3 章 \040基于4P1-P1元求解 Navier-Stokes 方程的移动网格有限元方法}{}% 15
+\BOOKMARK [1][-]{section.3.1}{3.1 数据结构}{chapter.3}% 16
+\BOOKMARK [1][-]{section.3.2}{3.2 混合元近似}{chapter.3}% 17
+\BOOKMARK [2][-]{subsection.3.2.1}{3.2.1 流体方程}{section.3.2}% 18
+\BOOKMARK [2][-]{subsection.3.2.2}{3.2.2 弱形式}{section.3.2}% 19
+\BOOKMARK [1][-]{section.3.3}{3.3 预处理策略}{chapter.3}% 20
+\BOOKMARK [1][-]{section.3.4}{3.4 移动网格策略}{chapter.3}% 21
+\BOOKMARK [2][-]{subsection.3.4.1}{3.4.1 获取控制函数}{section.3.4}% 22
+\BOOKMARK [2][-]{subsection.3.4.2}{3.4.2 获取新的逻辑网格}{section.3.4}% 23
+\BOOKMARK [2][-]{subsection.3.4.3}{3.4.3 物理网格的移动方向}{section.3.4}% 24
+\BOOKMARK [2][-]{subsection.3.4.4}{3.4.4 散度为 0 的插值}{section.3.4}% 25
+\BOOKMARK [1][-]{section.3.5}{3.5 数值算例}{chapter.3}% 26
+\BOOKMARK [2][-]{subsection.3.5.1}{3.5.1 碰撞流}{section.3.5}% 27
+\BOOKMARK [2][-]{subsection.3.5.2}{3.5.2 喷射流}{section.3.5}% 28
+\BOOKMARK [2][-]{subsection.3.5.3}{3.5.3 流体经过一个凹形台阶}{section.3.5}% 29
+\BOOKMARK [2][-]{subsection.3.5.4}{3.5.4 圆柱绕流}{section.3.5}% 30
+\BOOKMARK [0][-]{chapter.4}{第 4 章 \040不可压 Navier-Stokes 方程的代数多重网格预处理的移动网格有限元方法}{}% 31
+\BOOKMARK [1][-]{section.4.1}{4.1 数值离散}{chapter.4}% 32
+\BOOKMARK [2][-]{subsection.4.1.1}{4.1.1 时间方向的离散}{section.4.1}% 33
+\BOOKMARK [2][-]{subsection.4.1.2}{4.1.2 空间离散}{section.4.1}% 34
+\BOOKMARK [1][-]{section.4.2}{4.2 快速 Krylov 求解}{chapter.4}% 35
+\BOOKMARK [1][-]{section.4.3}{4.3 移动网格策略}{chapter.4}% 36
+\BOOKMARK [2][-]{subsection.4.3.1}{4.3.1 网格移动的流程}{section.4.3}% 37
+\BOOKMARK [2][-]{subsection.4.3.2}{4.3.2 用AMG 预处理求解 \(4.48\)}{section.4.3}% 38
+\BOOKMARK [1][-]{section.4.4}{4.4 数值算例}{chapter.4}% 39
+\BOOKMARK [2][-]{subsection.4.4.1}{4.4.1 方腔驱动流}{section.4.4}% 40
+\BOOKMARK [2][-]{subsection.4.4.2}{4.4.2 向后台阶流}{section.4.4}% 41
+\BOOKMARK [2][-]{subsection.4.4.3}{4.4.3 圆柱绕流}{section.4.4}% 42
+\BOOKMARK [0][-]{chapter*.6}{参考文献}{}% 43

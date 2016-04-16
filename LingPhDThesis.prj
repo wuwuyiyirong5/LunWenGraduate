@@ -1,0 +1,180 @@
+247 Patch Control
+
+0
+0
+1
+LingPhDThesis.tex
+50
+12
+8
+
+
+
+
+
+
+LingPhDThesis.tex
+TeX
+135278587 0 99 17 98 16 154 154 1362 506 0 142 227 -1 -1 0 0 100 0 0 100 1 0 16 98   0
+ZJUThesis.cfg
+DATA
+5243122 1 148 22 148 15 44 44 1252 396 1 190 120 -1 -1 0 0 3 0 0 3 1 0 15 148   0
+ZJUThesis.cls
+DATA
+5243122 0 59 80 59 68 88 88 1296 440 1 614 239 -1 -1 0 0 3 0 0 3 1 0 68 59   0
+references\LingBib.dbj
+DATA
+5243122 0 486 15 90 1 0 0 1252 228 1 78 239 -1 -1 0 0 51 0 0 51 1 0 1 90   0
+references\LingBib.bib
+BibTeX
+1049586 1 1182 10 1182 18 22 22 1274 250 0 158 477 -1 -1 0 0 88 0 0 88 1 0 18 1182   0
+isomath.tex
+TeX
+1060859 1 6 30 6 1 22 22 1230 374 0 22 103 -1 -1 0 0 80 0 0 80 1 0 1 6   0
+chapters\abstract.tex
+TeX
+1060859 0 17 52 17 52 66 66 1274 418 0 430 290 -1 -1 0 0 80 0 0 80 1 0 52 17   0
+chapters\chapter1.tex
+TeX
+1060859 0 872 1 889 55 0 0 1208 352 0 454 154 -1 -1 0 0 80 0 0 80 1 0 55 889   0
+chapters\chapter2.tex
+TeX
+269496315 0 721 20 697 52 22 22 1274 250 1 486 154 518 290 1 0 59 540 538 41 1 0 52 697   0
+chapters\chapter3.tex
+TeX
+1060859 0 1648 18 1657 32 22 22 1230 374 0 270 256 -1 -1 0 0 80 0 0 80 1 0 32 1657   0
+chapters\chapter4.tex
+TeX
+1060859 0 1 24 5 14 66 66 1274 418 0 126 86 -1 -1 0 0 80 0 0 80 1 0 14 5   0
+chapters\chapter5.tex
+TeX
+1060859 0 1 26 5 14 88 88 1296 440 0 126 86 -1 -1 0 0 80 0 0 80 1 0 14 5   0
+E:\【硕士毕业论文】\论文正文\chapters\chapter1.tex
+TeX
+269496315 0 379 1 438 14 88 88 1296 440 0 126 239 -1 -1 0 0 80 0 0 80 1 0 14 438   0
+LingPhDThesis.toc
+DATA
+273678578 8 5 169 5 1 88 88 1296 440 1 78 86 -1 -1 0 0 29 0 0 29 1 0 1 5   0
+E:\【Research】\Ling_Papers\MatrixRoot_NM_Smale\MatrixRoot_NM_Smale.tex
+TeX
+269496315 1 349 52 349 16 44 44 1252 396 0 142 217 254 1 0 0 30 0 0 30 1 0 16 349   0
+D:\CTeX\texmf\doc\latex\cite\README
+TeX:UNIX
+303149051 0 3 6 18 18 0 0 1252 228 0 158 307 -1 -1 0 0 70 0 0 70 1 0 18 18   0
+E:\【Research】\Ling_Papers\计算复杂性课程论文\非线性数值逼近中的计算复杂性问题探讨.tex
+TeX
+269496315 1 742 1 783 68 66 66 1274 418 0 558 299 -1 -1 0 0 30 0 0 30 1 0 68 783   0
+references\LingBib.bst
+DATA
+273678578 0 0 1 0 1 66 66 1274 418 1 78 -12902 -1 -1 0 0 3 0 0 3 1 0 1 0   0
+LingPhDThesis.bbl
+DATA
+273678578 0 0 1 0 1 132 132 1340 484 1 78 -1478 -1 -1 0 0 -1 -1 -1 -1 1 0 1 0   0
+D:\CTeX\texmf\tex\latex\algorithms\algorithm.sty
+TeX:UNIX
+303149051 7 94 51 94 71 0 0 1252 228 0 582 1276 -1 -1 0 0 43 0 0 43 1 0 71 94   0
+D:\CTeX\texmf\tex\latex\algorithm2e\algorithm2e.sty
+TeX:UNIX
+269594619 0 1770 169 1772 12 22 22 1274 250 0 110 188 -1 -1 0 0 49 0 0 49 1 0 12 1772   0
+E:\【硕士毕业论文】\论文正文\References\LingBibTex.bst
+DATA
+273678578 0 0 1 0 1 22 22 1230 374 1 78 1 -1 -1 0 0 -1 -1 -1 -1 1 0 1 0   0
+E:\【Research】\Ling_Papers\MatrixRoot_NM_HM\MatrixRoot_NM_HM.tex
+TeX
+1060859 0 1366 51 1370 54 110 110 1318 462 0 446 358 -1 -1 0 0 30 0 0 30 1 0 54 1370   0
+E:\【Research】\Ling_Papers\MatrixRoot_EM\MatrixRoot_EM.tex
+TeX
+1060859 0 1438 115 1438 6 44 44 1252 396 0 62 205 -1 -1 0 0 30 0 0 30 1 0 6 1438   0
+E:\[BibTex]\LingBib.bib
+BibTeX
+1049586 0 1371 10 1373 39 44 44 1252 396 0 326 273 -1 -1 0 0 88 0 0 88 1 0 39 1373   0
+chapters\thanks.tex
+TeX
+1060859 0 14 50 14 48 154 154 1362 506 0 398 239 -1 -1 0 0 80 0 0 80 1 0 48 14   0
+chapters\statements.tex
+TeX
+269496315 0 0 1 37 9 132 132 1340 484 0 86 273 -1 -1 0 0 -1 -1 -1 -1 1 0 9 37   0
+chapters\publications.tex
+TeX
+269496315 0 13 1 13 1 110 110 1318 462 0 22 222 -1 -1 0 0 -1 -1 -1 -1 1 0 1 13   0
+E:\【硕士毕业论文】\论文正文\chapters\chapter4.tex
+TeX
+269496315 0 0 1 0 1 44 44 1252 396 0 22 1 -1 -1 0 0 -1 -1 -1 -1 1 0 1 0   0
+E:\【硕士毕业论文】\论文正文\ZJNUThesis.cls
+DATA
+273678578 1 93 1 107 40 88 88 1296 440 1 390 392 -1 -1 0 0 3 0 0 3 1 0 40 107   0
+E:\【硕士毕业论文】\论文正文\bib\bib.tex
+TeX
+269496315 0 0 1 0 1 0 0 1208 352 0 22 1 -1 -1 0 0 -1 -1 -1 -1 1 0 1 0   0
+E:\【Research】\Ling_Papers\response_letterminorrevision.tex
+TeX
+269496315 0 0 1 0 31 88 88 1296 440 0 262 1 -1 -1 0 0 39 0 0 39 1 0 31 0   0
+C:\Documents and Settings\Owner\My Documents\Unknown Artist\Unknown Album\response_letterminorre...on.tex.mp3
+TeX
+269496315 0 0 1 0 1 110 110 1318 462 0 22 1 -1 -1 0 0 -1 -1 -1 -1 1 0 1 0   0
+C:\Documents and Settings\Owner\My Documents\Downloads\response_letter (2).tex
+TeX
+269496315 0 0 1 0 1 132 132 1340 484 0 22 -1594 -1 -1 0 0 -1 -1 -1 -1 1 0 1 0   0
+E:\【Research】\Ling_Papers\HM_MajoringPrinciple\HM_MajoringPrinciple_revised_COA.tex
+TeX
+269496315 8 698 169 698 1 66 66 1274 418 0 22 239 -1 -1 0 0 30 0 0 30 1 0 1 698   0
+E:\【Research】\Ling_Papers\response_letter(Gao).tex
+TeX
+269496315 8 144 115 144 1 22 22 818 327 0 22 494 -1 -1 0 0 -1 -1 -1 -1 1 0 1 144   0
+E:\【Research】\Ling_Papers\INM_Local\INM_Local.tex
+TeX
+269496315 8 340 115 340 1 0 0 1208 352 0 22 205 -1 -1 0 0 30 0 0 30 1 0 1 340   0
+E:\【Research】\Ling_Papers\HM_MajoringPrinciple\response_letter_COA.tex
+TeX
+269496315 0 0 1 3 30 110 110 1318 462 0 254 52 -1 -1 0 0 -1 -1 -1 -1 1 0 30 3   0
+C:\Documents and Settings\Owner\My Documents\新建文件夹 (2)\temp.tex
+TeX
+269496315 0 1 32 6 1 132 132 1340 484 0 22 103 -1 -1 0 0 24 0 0 24 1 0 1 6   0
+E:\【Research】\Ling_Papers\MatrixRoot_NM_HM\MatrixRoot_NM_HM.bbl
+DATA
+273678578 8 3 169 3 1 88 88 1296 440 1 78 52 -1 -1 0 0 28 0 0 28 1 0 1 3   0
+E:\【Research】\Ling_Papers\MatrixRoot_NM_Smale\LingBib.bib
+BibTeX
+269485042 0 1817 15 1817 15 110 110 1318 462 0 134 341 134 307 0 0 17 220 220 17 1 0 15 1817   0
+E:\【Research】\Ling_Papers\MatrixRoot_EM\LingBib.bib
+BibTeX
+269485042 0 1796 15 1796 15 154 154 1362 506 0 134 341 -1 -1 0 0 -1 -1 -1 -1 1 0 15 1796   0
+E:\【Research】\Ling_Papers\MatrixRoot_EM\EM_MatrixRoot(20130804).tex
+TeX
+269496315 1 2034 13 2027 1 88 88 1296 440 0 22 171 -1 -1 0 0 30 0 0 30 1 0 1 2027   0
+E:\【Research】\Ling_Papers\[Tex_PDF_Files]\CHM_w-condition(20100422).tex
+TeX
+269496315 1 1336 13 1330 1 110 110 1318 462 0 22 171 -1 -1 0 0 -1 -1 -1 -1 1 0 1 1330   0
+E:\【Research】\Ling_Papers\MatrixRoot_NM_Smale\MatrixRoot_NM_Smale.bbl
+DATA
+273678578 1 88 23 89 21 132 132 1340 484 1 238 256 -1 -1 0 0 28 0 0 28 1 0 21 89   0
+E:\【Research】\Ling_Papers\GNM_Nonsmooth\GeneralizedNewtonMethod.tex
+TeX
+269496315 0 0 1 0 1 44 44 1252 396 0 22 1 -1 -1 0 0 30 0 0 30 1 0 1 0   0
+E:\【Research】\Ling_Papers\_NSM_Gamma_Cond\reply_composition_comments_Galley_Proofs.tex
+TeX
+269496315 0 0 1 0 1 66 66 1274 418 0 22 1 -1 -1 0 0 -1 -1 -1 -1 1 0 1 0   0
+E:\【Research】\Ling_Papers\HM_MajoringPrinciple\AMC-S-10-03658.fdf
+DATA:UNIX
+273776882 0 0 1 0 1 44 44 1252 396 1 78 1 -1 -1 0 0 -1 -1 -1 -1 1 0 1 0   0
+E:\【硕士毕业论文】\毕业答辩\毕业答辩幻灯片.tex
+TeX
+269496315 0 0 1 0 1 0 0 1208 352 0 22 1 -1 -1 0 0 38 0 0 38 1 0 1 0   0
+E:\【博士毕业论文】\Temp\test.tex
+TeX
+269496315 0 0 1 0 1 22 22 1230 374 0 22 1 -1 -1 0 0 -1 -1 -1 -1 1 0 1 0   0
+
+*LingPhDThesis.tex
+>
+*isomath
+*Chapters/abstract
+*Chapters/chapter1
+*Chapters/chapter2
+*Chapters/chapter3
+*Chapters/chapter4
+*Chapters/chapter5
+*references/LingBib.bib
+*Chapters/publications
+*Chapters/thanks
+*Chapters/statements
+<

@@ -1,0 +1,38 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces 左: 压力 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces $p$ 单元, $\circ $ 为\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces $p$ 单元上的自由度; 右: 4个速度\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces $v$ 单元, $\bullet $ 表示\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces $v$ 单元上的自由度.}}{8}{figure.2.1}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces 全局加密一次的网格}}{9}{figure.2.2}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces 它的几何遗传树}}{9}{figure.2.3}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces 几何遗传树结构}}{9}{figure.2.4}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces 左: $p$ 单元; 右: 与压力单元对应的\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces $4$ 个速度\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces $v$单元 }}{29}{figure.3.1}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces 左：$m = \frac {1}{G_1}$的等高线和网格移 动方向；右：压力等高线和速度的流速线，$\alpha = 0.002, \beta = 2.0$。}}{37}{figure.3.2}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces 速度$L^2$误差分布，左：均匀网格；右：移动网格 $\alpha = 0.002, \beta = 2.0$。}}{37}{figure.3.3}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces 网格对比，左：均匀网格$20 \times 20$；右：移动网格 $\alpha = 0.002, \beta = 2.0$。}}{38}{figure.3.4}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces 顶部：移动网格，底部：涡量等高线，$t = 12s$。}}{39}{figure.3.5}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces 顶部：移动网格，底部: 涡量等高线，$t = 27s$。}}{40}{figure.3.6}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces 顶部：移动网格；底部：涡量等高线 ，$t = 0.5s$。}}{41}{figure.3.7}
+\contentsline {figure}{\numberline {3.8}{\ignorespaces 顶部：移动网格；底部：涡量等高线 ，$t = 1s$。}}{41}{figure.3.8}
+\contentsline {figure}{\numberline {3.9}{\ignorespaces 顶部：移动网格；底部：涡量等高线 ，$t = 1.5s$。}}{42}{figure.3.9}
+\contentsline {figure}{\numberline {3.10}{\ignorespaces 顶部：移动网格；底部：涡量等高线 ，$t = 2s$。}}{42}{figure.3.10}
+\contentsline {figure}{\numberline {3.11}{\ignorespaces 顶部：压力等高线；底部：速度流速线 ，$t = 2s$。}}{43}{figure.3.11}
+\contentsline {figure}{\numberline {3.12}{\ignorespaces 顶部：均匀网格；底部：初始移动网格，粘性系 数 $\nu = 0.003$。}}{44}{figure.3.12}
+\contentsline {figure}{\numberline {3.13}{\ignorespaces 顶部：移动网格；底部：涡量等高线， $t = 24.5s$，粘性系数 $\nu = 0.003$。}}{44}{figure.3.13}
+\contentsline {figure}{\numberline {3.14}{\ignorespaces 顶部：移动网格；底部：涡量等高线， $t = 23s$，粘性系数 $\nu = 0.001$。}}{45}{figure.3.14}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces 全局加密一次的网格}}{52}{figure.4.1}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces 它的几何遗传树}}{52}{figure.4.2}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces 几何遗传树结构}}{52}{figure.4.3}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces 方腔流：左：移动网格，右：涡量的等高线，压力网格 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces $20 \times 20$，$Re = 2000$。}}{59}{figure.4.4}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces 方腔流，速度的散度等高线，左：均匀网格，右：移动网格，压力网格 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces $20 \times 20$，$Re = 2000$。}}{59}{figure.4.5}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces 方腔流：流速线，压力网格 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces $20 \times 20$，$Re = 2000$。}}{60}{figure.4.6}
+\contentsline {figure}{\numberline {4.7}{\ignorespaces 方腔流：对比在\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces PCD 预处理中用不同的 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces $F_p$ 来求解\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces \textup {\hbox {\mathsurround \z@ \normalfont \CJKfamily {rm}(\ignorespaces \ref {eq::linear_system}\unskip \@@italiccorr )}} 时，GMRES 的迭代步数， 压力网格 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces $20 \times 20$， $Re = 2000$。}}{60}{figure.4.7}
+\contentsline {figure}{\numberline {4.8}{\ignorespaces 向后台阶流，上: 移动网格，下: 流速线，$t = 100s$，粘性系数 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces $\nu = 0.02$.}}{61}{figure.4.8}
+\contentsline {figure}{\numberline {4.9}{\ignorespaces 向后台阶流: 对比不同的 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces $M_S^*$ 求解 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces \textup {\hbox {\mathsurround \z@ \normalfont \CJKfamily {rm}(\ignorespaces \ref {eq::full_discreted_update}\unskip \@@italiccorr )}} 时， \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces GMRES 随时间的迭代次数，$\nu = 0.02$}}{62}{figure.4.9}
+\contentsline {figure}{\numberline {4.10}{\ignorespaces 圆柱绕流：对比不同 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces $\alpha $，用 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces PCD 预处理求解 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces \textup {\hbox {\mathsurround \z@ \normalfont \CJKfamily {rm}(\ignorespaces \ref {eq::linear_system}\unskip \@@italiccorr )}}，GMRES 的迭代次数，$Re = 240$.}}{63}{figure.4.10}
+\contentsline {figure}{\numberline {4.11}{\ignorespaces 圆柱绕流，上：移动网格，下：涡量等高线，$t = 2s$， $Re = 240$。}}{64}{figure.4.11}
+\contentsline {figure}{\numberline {4.12}{\ignorespaces 圆柱绕流，上：移动网格，下：涡量等高线，$t = 40s$， $Re = 240$。}}{64}{figure.4.12}
+\addvspace {10\p@ }

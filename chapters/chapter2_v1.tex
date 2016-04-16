@@ -1,0 +1,1672 @@
+%%---------------------------------------------------------------------------%%
+%%------------ 第二章：矩阵根的~Newton~法 -----------------------------------%%
+%%---------------------------------------------------------------------------%%
+
+
+\chapter{计算矩阵~$p$~次根的~Newton~法}
+\label{chapter:NM_MatrixRoot}
+
+
+%Newton's method and Halley's method are the ones most widely used
+%for computing the principal $p$th root $A^{1/p}$. Their iterative
+%forms can be obtained by applying the corresponding classical forms
+%to the matrix equation
+
+应用迭代法计算给定矩阵~$A \in \CS^{n\times n}$~的~$p$~次根,
+实际上是求解如下的非线性矩阵方程
+\begin{equation}
+\label{eq:f(X)=0} f(X) = X^p - A = 0, \quad p \geq 2.
+\end{equation}
+%Formally, Newton's method can be written as follows:
+若假设初始迭代点~$X_0$~与矩阵~$A$~是可交换的,  且对于任意的~$k \geq
+0$, $X_k$~都是非奇异的,
+则计算上述矩阵方程的~Newton~法~(\ref{it:NM_BanachSpace})~可写成:
+\begin{equation}
+\label{it:NM} X_{k+1}= N(X_k),\ \ \ k = 0,1,2,\ldots,
+\end{equation}
+%provided $X_0$ commutes with $A$ and that $X_k$ is nonsingular for
+%any $k \geq 0$, where
+其中
+\begin{equation}
+\label{it:NM_fun} N(X) := \frac{1}{p}X\left[(p-1)\I +
+AX^{-p}\right].
+\end{equation}
+说标量~Newton~法~(\ref{it:NM})~意为应用~Newton~法~(\ref{it:NM_BanachSpace})~于标量方程~$f(z)
+= z^p-\lambda = 0, z \in \CS$~中所得到的迭代形式
+$$
+z_{k+1} = N(z_k), \quad k = 0,1,2,\ldots,
+$$
+其中
+$$
+N(z) = \frac{1}{p}z\left[(p-1) + \lambda z^{-p}\right],
+$$
+即为~(\ref{it:NM_fun})~的标量形式.
+
+
+本章将研究通过~Newton~法来计算矩阵~$p$~次根的一个新的 收敛性结果.
+新的结果比其他现有的结果在计算矩阵~$p$~次根时有更好的计算效果.
+本章中总假定整数~$p \geq 2$.
+
+
+
+
+
+
+
+
+
+%In this paper, we study refined convergence results on Newton's
+%method and Halley's method for computing the principal $p$th root of
+%a matrix. The new convergence regions which contain all the
+%eigenvalues of $A$ guarantee (\ref{ineq:def_conv_order}) holds for
+%all $k \geq 0$ for both methods. In Section 2 we will state our main
+%results for both methods. And then the result concerning Newton's
+%method will be proved in Section 3, while the one for Halley's
+%method can be proved by using the similar approaches.
+
+
+
+
+
+\section{收敛性结果}
+
+
+在给出本章的主要收敛结果前, 先引入一些记号. 令
+\begin{equation}
+\label{fun:NM_phi(z)} \phi_{\textup{N}}(z) := 1 -
+u^p_{\text{N}}(z)(1 - z), \quad z \in \MCD^{\textup{N}}_1,
+\end{equation}
+其中
+\begin{equation*}
+u_{\textup{N}}(z) := \frac{1}{1 - \frac{1}{p}z}, \quad z \in
+\MCD^{\textup{N}}_1,
+\end{equation*}
+及
+\begin{equation}
+\label{set:NM_D1} \MCD^{\textup{N}}_1 := \left\{z \in \CS: |z| < p
+\right\}.
+\end{equation}
+定义
+\begin{equation}
+\label{set:NM_R} \MCR_{\textup{N}} := \left\{z\in \CS: 1 - z \in
+\overline{\MCD} \bigcup \left(\MCD^{\textup{N}}_1 \bigcap
+\MCD^{\textup{N}}_2\right)\right\}
+\end{equation}
+及
+\begin{equation}
+\label{set:NM_R_hat} \widehat{\MCR}_{\textup{N}} := \left\{z\in\CS:
+1-z \in \MCD \bigcup \left(\MCD^{\textup{N}}_1 \bigcap
+\MCD^{\textup{N}}_2\right)\right\},
+\end{equation}
+其中~$\MCD^{\textup{N}}_1$~由~(\ref{set:NM_D1})~给出, $\MCD$~定义为
+\begin{equation}
+\label{set:D} \MCD  := \{z \in \CS: |z| < 1\},
+\end{equation}
+$\overline{\MCD}$~为~$\MCD$~的闭包, 而
+\begin{equation}
+\label{set:NM_D2} \MCD^{\textup{N}}_2  := \left\{z \in \CS: \sup_{m
+\geq 2} \left\{\frac{|S^{\textup{N}}_m(z)|}{|z|}\right\} \cdot
+\frac{|z| +|\phi_{\textup{N}}(z)|}{\big||z| -
+|\phi_{\textup{N}}(z)|\big|} < 1 \right\},
+\end{equation}
+其中~$\phi_{\textup{N}}$~ 由~(\ref{fun:NM_phi(z)})~给出,
+\begin{equation}
+\label{ser:NM_Sm(z)} S^{\textup{N}}_m(z) = \sum\limits_{j = 2}^{m}
+c^{\textup{N}}_j z^{j}, \quad z \in \MCD^{\textup{N}}_1,
+\end{equation}
+这里
+\begin{equation*}
+\label{cons:NM_c1j} c^{\textup{N}}_j =
+\frac{p(p+1)\cdot(p+j-2)}{(j-1)!p^{j-1}} -
+\frac{p(p+1)\cdot(p+j-1)}{j!p^j} > 0, \quad j=2,3,\ldots,
+\end{equation*}
+并满足
+$$
+\sum_{j=2}^\infty c^{\textup{N}}_j=1.
+$$
+故 ~$\phi_{\textup{N}}(z)$ 有如下的~Maclaurin~级数形式
+\begin{equation}
+\label{fun:NM_phi1(z)_series} \phi_{\textup{N}}(z) =
+\sum_{j=2}^\infty c^{\textup{N}}_j z^j, \quad z \in
+\MCD^{\textup{N}}_1,
+\end{equation}
+其中 ~$\MCD^{\textup{N}}_1$~ 由 ~(\ref{set:NM_D1})~给出.
+
+\begin{figure}[t!]
+\centering
+\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_ConvReg_p25m20.eps}}
+\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_ConvReg_p25m100.eps}}
+\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_ConvReg_p25m500.eps}}\\
+\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_ConvReg_p100m20.eps}}
+\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_ConvReg_p100m100.eps}}
+\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_ConvReg_p100m500.eps}}\\
+\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_ConvReg_p400m20.eps}}
+\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_ConvReg_p400m100.eps}}
+\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_ConvReg_p400m500.eps}}\\
+%\caption{The approximating regions of $\MCR_{\textup{N}}$ defined in
+%(\ref{set:NM_R}) for $p = 25, 100, 400$ and $m = 20, 100, 500$,
+%where the red and blue regions denote the sets $\{z\in\CS: 1-z \in
+%\overline{\MCD}\}$ and $\{z\in \CS: 1-z \in \MCD^{\textup{N}}_1 \bigcap
+%\MCD^{\textup{N}}_2\}$, respectively. }
+\caption{由~(\ref{set:NM_R})~给出的~$\MCR_{\textup{N}}$~在九种不同情形~($p$~分别取~25,
+100, 400~及~$m$~分别取~20, 100, 500)~下的近似域,
+其中红色域表示集合~$\{z\in\CS: 1-z \in \overline{\MCD}\}$,
+而蓝色域表示集合~$\{z\in \CS: 1-z \in \MCD^{\textup{N}}_1
+\bigcap\MCD^{\textup{N}}_2\}.$}\label{fig:NM_ConvReg}
+\end{figure}
+
+基于上述的记号,
+下面给出应用~Newton~法~(\ref{it:NM})~来计算矩阵主~$p$~次根时的收敛性结果：
+
+
+\begin{theorem}
+\label{th:MatrixNMCon}
+设~$\MCR_{\textup{N}}$~由~$(\ref{set:NM_R})$~定义,
+而~$\widehat{\MCR}_{\textup{N}}$~ 由~$(\ref{set:NM_R_hat})$~定义.
+如果矩阵~$A \in \CS^{n \times
+n}$~的所有特征值都属于~$\MCR_{\textup{N}}$~
+且所有零特征值都是半单的, 那么以~$X_0 =
+\I$~为初始点的~Newton~法~$(\ref{it:NM})$~迭代所产生的矩阵序列~$\{X_k\}$~收敛于
+矩阵~$A$~的主~$p$~次根~$A^{1/p}$. 特别地,
+如果~$A$~的所有特征值都属于~$\widehat{\MCR}_{\textup{N}}\backslash\{0\}$,
+那么~Newton~法~$(\ref{it:NM})$~是~Q~二阶收敛的.
+\end{theorem}
+
+
+
+\begin{remark}
+图~\ref{fig:NM_ConvReg}~所示的是,
+由~(\ref{set:NM_R})~所定义的~$\MCR_{\textup{N}}$~
+在九种不同情形下的近似收敛域, 其中红色表示的是收敛域~$\{z \in \CS:
+1-z \in \overline{\MCD}\}$, 而蓝色表示的是收敛域~$\{z\in \CS: 1-z
+\in \MCD^{\textup{N}}_1\bigcap\MCD^{\textup{N}}_2\}$. 由该图可知,
+对于某一固定的~$p$, 当~$m$~分别取 ~$m=20, 100, 500$~时,
+所得到的近似收敛域~(见~(a)-(c),或 ~(d)-(f), 或 ~(g)-(i))~几乎一样.
+为此, 在实际计算中只需要取~$m=20$~即可.
+\end{remark}
+
+%\begin{figure}[t!]
+%\centering
+%\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_ConvReg_p25m20.eps}}
+%\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_ConvReg_p25m100.eps}}
+%\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_ConvReg_p25m500.eps}}\\
+%\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_ConvReg_p100m20.eps}}
+%\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_ConvReg_p100m100.eps}}
+%\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_ConvReg_p100m500.eps}}\\
+%\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_ConvReg_p400m20.eps}}
+%\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_ConvReg_p400m100.eps}}
+%\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_ConvReg_p400m500.eps}}\\
+%%\caption{The approximating regions of $\MCR_{\textup{N}}$ defined in
+%%(\ref{set:NM_R}) for $p = 25, 100, 400$ and $m = 20, 100, 500$,
+%%where the red and blue regions denote the sets $\{z\in\CS: 1-z \in
+%%\overline{\MCD}\}$ and $\{z\in \CS: 1-z \in \MCD^{\textup{N}}_1 \bigcap
+%%\MCD^{\textup{N}}_2\}$, respectively. }
+%\caption{由~(\ref{set:NM_R})~给出的~$\MCR_{\textup{N}}$~在九种不同情形~($p$~分别取~25,
+%100, 400~及~$m$~分别取~20, 100, 500)~下的近似域,
+%其中红色域表示集合~$\{z\in\CS: 1-z \in \overline{\MCD}\}$,
+%而蓝色域表示集合~$\{z\in \CS: 1-z \in \MCD^{\textup{N}}_1
+%\bigcap\MCD^{\textup{N}}_2\}.$}\label{fig:NM_ConvReg}
+%\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%\section{定理~\ref{th:MatrixNMCon}~的证明}
+
+
+%In this section, we will prove in detail Theorem
+%\ref{th:MatrixNMCon}, the results on convergence and convergence
+%order for Newton's method (\ref{it:NM}). Theorem
+%\ref{th:MatrixHMCon} for Halley's method (\ref{it:HM}) can be
+%similarly proved by using the analysis approaches. We omit the
+%details.
+
+
+
+\section{预备引理}
+
+在证明定理~\ref{th:MatrixNMCon}~前, 需要一些有用的预备引理.
+
+给定任意一个复数~$\lambda \in \CS$, 令
+
+%For a complex number $\lambda \in \CS$, let
+%\begin{equation}
+%\label{fun:NM_f(z)} f(z) := z^p - \lambda, \ \ \ z \in \CS
+%\end{equation}
+%及
+\begin{equation}
+\label{fun:NM_r(z)} r(z,\lambda) := 1 - \lambda z^{-p}, \ \ \ z \in
+\CS\backslash\{0\}.
+\end{equation}
+
+\begin{lemma}
+\label{lem:NM_r(N(z))_r(z)}
+设~$r(z,\lambda)$~由~$(\ref{fun:NM_r(z)})$~ 定义. 对于某个复数~$z
+\in \CS\backslash\{0\}$, 若~$r(z,\lambda) \in
+\MCD^{\textup{N}}_1\backslash\{1\}$,
+其中~$\MCD^{\textup{N}}_1$~由~$(\ref{set:NM_D1})$~给出,
+则由~$(\ref{it:NM_fun})$~的标量形式定义的~$N(z)$~存在且~$N(z)\neq0$~并满足
+\begin{equation}
+\label{eq:NM_r(N(z))_1} r(N(z),\lambda) =
+\phi_{\textup{N}}(r(z,\lambda)),
+\end{equation}
+其中~$\phi_{\textup{N}}(z)$~由~$(\ref{fun:NM_phi(z)})$~定义. 此外,
+有如下的估计: 当~$r(z,\lambda) \in
+\overline{\MCD}\backslash\{0,1\}$~时,
+\begin{equation}
+\label{ineq:NM_abs_r(N(z))_1} |r(N(z),\lambda)| < |r(z,\lambda)|^2.
+\end{equation}
+当~$r(z,\lambda) \in \MCD^{\textup{N}}_1\backslash\{1\}$~时,
+\begin{equation}
+\label{ineq:NM_abs_r(N(z))_2} |r(N(z),\lambda)| \leq \sup_{m \geq
+2}\left\{\left|\frac{S^{\textup{N}}_m(u)}{u^2}\right|\right\}\cdot
+\frac{|u| + |r(z,\lambda)|}{|u| - |r(z,\lambda)|} \cdot
+|r(z,\lambda)|^2,
+\end{equation}
+其中~$\overline{\MCD}$~为~$\MCD$~的闭包,
+而~$\MCD$~由~$(\ref{set:D})$~定义,
+$S^{\textup{N}}_m(u)$~由~$(\ref{ser:NM_Sm(z)})$~定义且对于每一个~$u
+\in \MCD^{\textup{N}}_1$~均满足~$|u| > |r(z,\lambda)|$, $m \geq 2$.
+\end{lemma}
+
+%\begin{lemma}
+%\label{lem:NM_r(N(z))_r(z)} Let $r(z,\lambda)$ be defined in
+%$(\ref{fun:NM_r(z)})$. If $r(z,\lambda) \in \mathcal
+%{D}_{0,1}\backslash\{1\}$ for some $z \in \CS\backslash\{0\}$, where
+%$\MCD^{\textup{N}}_1$ is defined in $(\ref{set:NM_D1})$, then $N(z)$
+%generated by the scalar case of $(\ref{it:NM_fun})$ for $f(z)$
+%defined in $(\ref{fun:NM_f(z)})$ exists and
+%\begin{equation}
+%\label{eq:NM_r(N(z))_1} r(N(z),\lambda) = \phi_{\textup{N}}(r(z,\lambda)),
+%\end{equation}
+%where $\phi_{\textup{N}}(z)$ is defined by $(\ref{fun:NM_phi(z)})$. Moreover,
+%we have
+%\begin{numcases}{}
+%|r(N(z),\lambda)| < |r(z,\lambda)|^2, &
+%if \ $r(z,\lambda) \in \overline{\MCD}\backslash\{0,1\}$,\ \ \  \label{ineq:NM_abs_r(N(z))_1}\\
+%|r(N(z),\lambda)| \leq \sup_{m \geq
+%2}\left\{\left|\frac{S^{\textup{N}}_m(u)}{u^2}\right|\right\}\cdot \frac{|u|
+%+ |r(z,\lambda)|}{|u| - |r(z,\lambda)|} \cdot |r(z,\lambda)|^2,  &
+%if \  $r(z,\lambda) \in \MCD^{\textup{N}}_1\backslash\{1\}$,
+%\label{ineq:NM_abs_r(N(z))_2}
+%\end{numcases}
+%where $\overline{\MCD}$ is the closure of $\MCD$ defined in
+%$(\ref{set:D})$, and $S^{\textup{N}}_m(u)$ is given in
+%$(\ref{ser:NM_Sm(z)})$ for each $u \in \MCD^{\textup{N}}_1$ satisfying $|u| >
+%|r(z,\lambda)|$, $m \geq 2$.
+%\end{lemma}
+
+
+\begin{proof}
+
+%For any $z \in \CS\backslash\{0\}$, $N(z)$ exists by
+%(\ref{it:NM_fun}). Note that
+
+对于任意的复数~$z \in \CS\backslash\{0\}$,
+由~(\ref{it:NM_fun})~知~$N(z)$~是存在的. 由于
+
+\begin{equation}
+\label{eq:N(z)} N(z) = \frac{1}{p}z\left[(p-1)+\lambda z^{-p}\right]
+= z\left[1+\frac{1}{p}r(z,\lambda)\right] \neq 0,
+\end{equation}
+%It follows that
+故
+\begin{align}
+r(N(z),\lambda) & = 1 - \lambda [N(z)]^{-p} \nonumber\\
+& = 1 - \lambda z^{-p}\left[1+\frac{1}{p}r(z,\lambda)\right]^{-p} \nonumber\\
+& = 1-\left[1+\frac{1}{p}r(z,\lambda)\right]^{-p}(1-r(z,\lambda)) \nonumber\\
+& = \phi_{\textup{N}}(r(z,\lambda)),\label{eq:NM_r(N(z))}
+\end{align}
+%which shows (\ref{eq:NM_r(N(z))_1}) holds.
+即得知~(\ref{eq:NM_r(N(z))_1})~是成立的.
+
+%If $r(z,\lambda) \in \overline{\MCD}\backslash\{0,1\} \subset
+%\MCD^{\textup{N}}_1$, then, by (\ref{fun:NM_phi1(z)_series}) and
+%(\ref{eq:NM_r(N(z))}), one has that
+
+若~$r(z,\lambda) \in \overline{\MCD}\backslash\{0,1\} \subset
+\MCD^{\textup{N}}_1$,
+则结合~(\ref{fun:NM_phi1(z)_series})~及~(\ref{eq:NM_r(N(z))}),
+并注意到对于任意的~$w \in \overline{\MCD}\backslash\{1\}$,
+不等式~$|c_3 + c_4 w| < c_3 + c_4$~都是成立的, 可得
+\begin{align*}
+|r(N(z),\lambda)|  & = |\phi(r(z,\lambda))| \nonumber\\
+& = |r(z,\lambda)|^2 \left| \sum_{j =
+2}^\infty c^{\textup{N}}_j r^{j-2}(z,\lambda) \right| \nonumber\\
+& \leq |r(z,\lambda)|^2 \left[|c_{1,3} + c_{1,4} r(z,\lambda)| +
+\sum_{j = 4}^\infty c^{\textup{N}}_j |r(z,\lambda)|^{j-2}
+\right] \nonumber\\
+& < |r(z,\lambda)|^2 \sum_{j = 2}^\infty c^{\textup{N}}_j \nonumber\\
+& = |r(z,\lambda)|^2. \label{ineq:NM_abs_r(N(z))}
+\end{align*}
+%from the fact that $|c_3 + c_4 w| < c_3 + c_4$ for all $w \in
+%\overline{\MCD}\backslash\{1\}$. Thus, (\ref{ineq:NM_abs_r(N(z))_1})
+%is proved.
+即~(\ref{ineq:NM_abs_r(N(z))_1})~是成立的.
+
+
+%If $r(z,\lambda) \in \mathcal {D}_0\backslash\{1\}$, based on
+%(\ref{fun:NM_phi1(z)_series}) and (\ref{eq:NM_r(N(z))}) again, we have
+
+若~$r(z,\lambda) \in \MCD^{\textup{N}}_1\backslash\{1\}$,
+则对于任意的 ~$u \in \CS\backslash\{0\}$,
+由~(\ref{fun:NM_phi1(z)_series})~及~(\ref{eq:NM_r(N(z))})~可知
+\begin{align*}
+r(N(z),\lambda) &  = \phi_{\textup{N}}(r(z,\lambda))\\
+& = \sum_{j=2}^\infty c^{\textup{N}}_j r^j(z,\lambda)\\
+& = \left[\sum_{j=2}^\infty c^{\textup{N}}_j u^{j-2}
+\left(\frac{r(z,\lambda)}{u}\right)^{j-2}\right] \cdot
+r^2(z,\lambda).
+\end{align*}
+%holds for any $u \in \CS\backslash\{0\}$. Since, for any $m \geq 2$,
+对于任意的~$m \geq 2$, 应用~Abel~变换可得
+\begin{align*}
+\sum_{j=2}^m c^{\textup{N}}_j u^{j-2}
+\left(\frac{r(z,\lambda)}{u}\right)^{j-2} & = \sum_{j=2}^{m-1}
+\left(\sum_{\ell=2}^j c_{1,\ell} u^{\ell-2}\right)\left(1 -
+\frac{r(z,\lambda)}{u}\right)\left(\frac{r(z,\lambda)}{u}\right)^{j-2}\\
+& \ \ \ + \left(\sum_{\ell = 2}^m c_{1,\ell} u^{\ell-2}\right)\cdot
+\left(\frac{r(z,\lambda)}{u}\right)^{m-2}.
+\end{align*}
+%by Abel transformation, we have
+于是对于~$m >2$~有
+\begin{align*}
+\left|\sum_{j=2}^m c^{\textup{N}}_j u^{j-2}
+\left(\frac{r(z,\lambda)}{u}\right)^{j-2}\right| & \leq \sup_{2\leq
+j \leq m-1} \left\{\left|\sum_{\ell=2}^j c_{1,\ell}
+u^{\ell-2}\right|\right\} \cdot \left|1 -
+\frac{r(z,\lambda)}{u}\right| \cdot \sum_{j=2}^{m-1}
+\left|\frac{r(z,\lambda)}{u}\right|^{j-2}\\
+& \ \ \ + \left|\frac{S^{\textup{N}}_m(u)}{u^2} \right|\cdot
+\left|\frac{r(z,\lambda)}{u}\right|^{m-2}.
+\end{align*}
+%Then, letting $m \to \infty$ in the above inequality, it follows
+%that
+在上述不等式中令~$m \to \infty$, 则对于任意的~$r(z,\lambda) \in
+\MCD^{\textup{N}}_1\backslash\{1\}$~及满足关系~$|u|
+> |r(z,\lambda)|$~的任意复数~$u
+\in \MCD^{\textup{N}}_1$, 有
+\begin{align*}
+|r(E(z),\lambda)|  & \leq \sup_{m \geq 2} \left\{\left|\sum_{j=2}^m
+c^{\textup{N}}_j u^{j-2}\right|\right\} \cdot \left|1 -
+\frac{r(z,\lambda)}{u}\right| \cdot
+\sum_{m=2}^\infty \left|\frac{r(z,\lambda)}{u}\right|^{m-2}\cdot |r(z,\lambda)|^2 \\
+& = \sup_{m \geq 2}
+\left\{\left|\frac{S^{\textup{N}}_m(u)}{u^2}\right|\right\} \cdot
+\frac{\left|1 - \frac{r(z,\lambda)}{u}\right|}{1 -
+\left|\frac{r(z,\lambda)}{u}\right|} \cdot |r(z,\lambda)|^2 \\
+& = \sup_{m \geq 2}
+\left\{\left|\frac{S^{\textup{N}}_m(u)}{u^2}\right|\right\} \cdot
+\frac{|u| + |r(z,\lambda)|}{|u| - \left|r(z,\lambda)\right|} \cdot
+|r(z,\lambda)|^2.
+\end{align*}
+%for any $r(z,\lambda) \in \mathcal {D}_0\backslash\{1\}$ and any $u
+%\in \mathcal {D}_0$ subject to $|u|
+%> |r(z,\lambda)|$, which verifies (\ref{ineq:NM_abs_r(N(z))_2}). The
+%proof is completed.
+从而~(\ref{ineq:NM_abs_r(N(z))_2})~得证. 证完.
+\end{proof}
+
+
+
+\begin{lemma}
+\label{lem:NM_r(z)_convergence1} %Let $r(z,\lambda)$ be defined in
+%$(\ref{fun:NM_r(z)})$. If $r(z_0,\lambda) \in
+%\overline{\MCD}\backslash\{0,1\}$ for some $z_0 \in
+%\CS\backslash\{0\}$, then the sequence $\{z_k\}$ starting from $z_0$
+%generated by the scalar case of $(\ref{it:NM})$ for solving
+%$(\ref{fun:NM_f(z)})$ exists,
+
+设~$r(z,\lambda)$~由~$(\ref{fun:NM_r(z)})$~定义. 对于某个复数~$z_0
+\in \CS\backslash\{0\}$, 若~$r(z_0,\lambda) \in
+\overline{\MCD}\backslash\{0,1\}$,
+则由标量~Newton~法~$(\ref{it:NM})$~以~$z_0$~为初始点进行迭代产生的序列~$\{z_k\}$~
+是有定义的, 且有估计式:
+\begin{equation}
+\label{ineq:NM_abs_r(zk)_1} |r(z_k,\lambda)| \leq
+q_1^{2^{k-1}}(z_0), \quad k = 1, 2, \ldots,
+\end{equation}
+%where
+其中
+\begin{equation}
+\label{cons:NM_q1(z0)} q_1(z_0) = q_1(z_0,\lambda) :=
+\left|\sum_{j=2}^\infty c^{\textup{N}}_j r^{j-1}(z_0,\lambda)\right|
+< 1.
+\end{equation}
+%and so $|r(z_k,\lambda)| \to 0$ with order $2$ as $k \to \infty$.
+由此可知, 当~$k \to \infty$~时~$|r(z_k,\lambda)|$~收敛于~$0$,
+且是~R~二阶收敛的.
+\end{lemma}
+
+\begin{proof}
+%For $z_0$ chosen, $q_1(z_0) < 1$ follows from the same arguments
+%used in (\ref{ineq:NM_abs_r(N(z))}). By (\ref{ineq:NM_abs_r(N(z))_1}) in
+%Lemma \ref{lem:NM_r(N(z))_r(z)}, $z_1 = E(z_0)$ exists and
+
+对于给定的~$z_0\in \CS\backslash\{0\}$,
+显然由引理~\ref{lem:NM_r(N(z))_r(z)}~知~$z_1 =
+N(z_0)$~是存在的且不为零. 因~$r(z_0,\lambda) \in
+\overline{\MCD}\backslash\{0,1\}$, 故~$|r(z_0,\lambda)|\leq 1$.
+于是由~(\ref{eq:NM_r(N(z))_1})~知
+$$
+r(z_1,\lambda) = |\phi_{\text{N}}(r(z_0,\lambda))| =
+\left|\sum_{j=2}^\infty c^{\textup{N}}_j r^{j}(z_0,\lambda)\right|,
+$$
+而由~(\ref{ineq:NM_abs_r(N(z))_1})~知
+$$
+|r(z_1,\lambda)| < |r(z_0,\lambda)|^2.
+$$
+则
+\begin{align*}
+q_1(z_0)  = \left|\sum_{j=2}^\infty c^{\textup{N}}_j
+r^{j-1}(z_0,\lambda)\right|
+ = \frac{|r(z_1,\lambda)|}{|r(z_0,\lambda)|}
+< |r(z_0,\lambda)|  \leq 1,
+\end{align*}
+进而有
+$$
+|r(z_1,\lambda)| = q_1(z_0)|r(z_0,\lambda)| \leq q_1(z_0) < 1,
+$$
+即~(\ref{ineq:NM_abs_r(zk)_1})~当~$k=1$~时成立.
+
+%Suppose that $z_k$ exists and (\ref{ineq:NM_abs_r(zk)_1}) holds for
+%some $k \geq 1$, then by Lemma \ref{lem:NM_r(N(z))_r(z)} again,
+%$z_{k+1} = E(z_k)$ exists and
+对于某一~$k \geq 1$, 假设~$z_k \neq
+0$~且~(\ref{ineq:NM_abs_r(zk)_1})~是成立的,
+则由引理~\ref{lem:NM_r(N(z))_r(z)}~可知~$z_{k+1} = N(z_k) \neq
+0$~并且有
+\begin{equation*}
+|r(z_{k+1},\lambda)| < |r(z_{k},\lambda)|^2  \leq
+\left[q_1^{2^{k-1}}(z_0)\right]^2 = q_1^{2^{k}}(z_0).
+\end{equation*}
+%Thus, (\ref{ineq:NM_abs_r(zk)_1}) holds for $k+1$. By induction,
+%$\{z_k\}$ exists and (\ref{ineq:NM_abs_r(zk)_1}) holds. Furthermore,
+%$r(z_k,\lambda) \to 0$ with order 2 as $k \to \infty$, which
+%completes the proof.
+由此知, (\ref{ineq:NM_abs_r(zk)_1})~对于~$k+1$~的情形仍然成立.
+于是由归纳法知,
+序列~$\{z_k\}$~是存在的且~(\ref{ineq:NM_abs_r(zk)_1})~恒成立. 证完.
+\end{proof}
+
+
+
+%The following lemma says that, besides in $
+%\overline{\MCD}\backslash\{0,1\}$, it also guarantees
+%$r(z_k,\lambda)$ converges quadratically to 0 as $k \to \infty$ when
+%$r(z_0,\lambda) \in \MCD^{\textup{N}}_2 \bigcap \MCD^{\textup{N}}_1\backslash\{1\}$
+%for some $z_0 \in \CS\backslash\{0\}$.
+
+对于某个复数~$z_0 \in \CS\backslash\{0\}$,
+引理~\ref{lem:NM_r(z)_convergence1}~ 说明当~$r(z_0,\lambda) \in
+\overline{\MCD}\backslash\{0,1\}$~时可保证~$r(z_k,\lambda)$~是~R~二阶收敛于~0,
+下面的引理表明, 除此之外, 当~$r(z_0,\lambda) \in \MCD^{\textup{N}}_2
+\bigcap \MCD^{\textup{N}}_1\backslash\{1\}$~时,
+仍然可以保证~$r(z_k,\lambda)$~是~R~二阶收敛于~0.
+
+\begin{lemma}
+\label{lem:NM_r(z)_convergence2}  %For any $z_0 \in
+%\CS\backslash\{0\}$ satisfying $r(z_0,\lambda) \in \MCD^{\textup{N}}_2
+%\bigcap \MCD^{\textup{N}}_1\backslash\{1\}$ and
+
+设~$r(z,\lambda)$~由~$(\ref{fun:NM_r(z)})$~定义. 对于某一复数~$z_0
+\in \CS\backslash\{0\}$, 若~$r(z_0,\lambda) \in \MCD^{\textup{N}}_2
+\bigcap \MCD^{\textup{N}}_1\backslash\{1\}$~且
+\begin{equation}
+\label{cons:NM_q2(z0)} q_2(z_0) = q_2(z_0,\lambda) := \sup_{m \geq
+2}
+\left\{\frac{|S^{\textup{N}}_m(r(z_0,\lambda))|}{|r(z_0,\lambda)|}\right\}
+\cdot \frac{|r(z_0,\lambda)|
++|\phi_{\textup{N}}(r(z_0,\lambda))|}{|r(z_0,\lambda)| -
+|\phi_{\textup{N}}(r(z_0,\lambda))|} < 1,
+\end{equation}
+%where $\MCD^{\textup{N}}_2$ is defined in $(\ref{set:NM_D2})$, the sequence
+%$\{z_k\}$ generated by the scalar form of $(\ref{it:NM})$ starting
+%from $z_0$ for solving $(\ref{fun:NM_f(z)})$ exists,
+其中~$\MCD^{\textup{N}}_1$~和~$\MCD^{\textup{N}}_2$~分别由~$(\ref{set:NM_D1})$~和~$(\ref{set:NM_D2})$~定义,
+则由标量~Newton~法~$(\ref{it:NM})$~以~$z_0$~为初始点进行迭代产生的序列~$\{z_k\}$~是有意义的,
+且有如下估计:
+\begin{equation}
+\label{ineq:NM_abs_r(zk)_2} |r(z_k,\lambda)| \leq q_2^{2^k-1}(z_0)
+\cdot |r(z_0,\lambda)|, \quad k = 0, 1, \ldots.
+\end{equation}
+%and so $|r(z_k,\lambda)| \to 0$ with order $2$ as $k \to \infty$.
+由此可知, 当~$k \to \infty$~时~$|r(z_k,\lambda)|$~收敛于~$0$,
+且收敛速度是~R~二阶的.
+\end{lemma}
+
+\begin{proof}
+%For $z_0$ chosen, we have $r(z_0,\lambda) \in \mathcal
+%{D}_{0,1}\backslash\{1\}$. So, $z_1 = N(z_0)$ exists and $z_1 \neq
+%0$ by (\ref{eq:N(z)}). Recall that $S^{\textup{N}}_m(r(z_0,\lambda)) \to
+%\phi_{\textup{N}}(r(z_0,\lambda))$ as $k\to\infty$ implies
+因~$\MCD^{\textup{N}}_2 \bigcap \MCD^{\textup{N}}_1 \subset
+\MCD^{\textup{N}}_1$, 故~$r(z_0,\lambda) \in
+\MCD^{\textup{N}}_1\backslash\{1\}$.
+于是由引理~\ref{lem:NM_r(N(z))_r(z)}~知~$z_1 = N(z_0)$~存在且~$z_1
+\neq0$. 注意到, 当~$k\to\infty$~时~$S^{\textup{N}}_m(r(z_0,\lambda))
+\to \phi_{\textup{N}}(r(z_0,\lambda))$,
+故由~(\ref{cons:NM_q2(z0)})~可得
+$$
+\left|\frac{\phi_{\textup{N}}(r(z_0,\lambda))}{r(z_0,\lambda)}\right|
+\leq \sup_{m\geq2}
+\left\{\left|\frac{S^{\textup{N}}_m(r(z_0,\lambda))}{r(z_0,\lambda)}\right|\right\}
+< q_2^2(z_0)<1,
+$$
+%by (\ref{cons:NM_q2(z0)}), we have
+于是有
+$$
+|r(z_1,\lambda)| = |\phi_{\textup{N}}(r(z_0,\lambda))| =
+\left|\frac{\phi_{\textup{N}}(r(z_0,\lambda))}{r(z_0,\lambda)}r(z_0,\lambda)\right|
+< q_2^2(z_0)\cdot|r(z_0,\lambda)|,
+$$
+%and (\ref{ineq:NM_abs_r(zk)_2}) holds for $k=1$.  Assume $z_0, z_1,
+%\ldots, z_k$ exist and satisfy (\ref{ineq:NM_abs_r(zk)_2}). Then
+即当~$k=1$~时~(\ref{ineq:NM_abs_r(zk)_2})~是成立的. 现假设~$z_0,
+z_1, \ldots,
+z_k$~都是存在的且均不为零并满足~(\ref{ineq:NM_abs_r(zk)_2}), 则
+$$
+|r(z_k,\lambda)| \leq q_2^2(z_0)|r(z_0,\lambda)|< |r(z_0,\lambda)| <
+p.
+$$
+%So, by Lemma \ref{lem:NM_r(N(z))_r(z)} with $u = r(z_0,\lambda)$,
+%$z_{k+1} = N(z_k)$ exists, $z_{k+1} \neq 0$ and
+由引理~\ref{lem:NM_r(N(z))_r(z)}~ (取~$u =
+r(z_0,\lambda)$)~可知~$z_{k+1} = N(z_k)$~是存在的且~$z_{k+1} \neq
+0$. 进一步有
+\begin{align*}
+\lefteqn{|r(z_{k+1},\lambda)| = |\phi(r(z_k,\lambda))|} \\
+& \leq \sup_{m \geq 2}
+\left\{\frac{|S^{\textup{N}}_m(r(z_0,\lambda))|}{|r(z_0,\lambda)|^2}\right\}\cdot
+\frac{|r(z_0,\lambda)|
++|\phi_{\textup{N}}(r(z_0,\lambda))|}{\Big||r(z_0,\lambda)| -
+|\phi(r(z_0,\lambda))|\Big|} \cdot |r(z_k,\lambda)|^2 \\
+& \leq \sup_{m \geq 2}
+\left\{\frac{|S^{\textup{N}}_m(r(z_0,\lambda))|}{|r(z_0,\lambda)|^2}\right\}\cdot
+\frac{|r(z_0,\lambda)|
++|\phi_{\textup{N}}(r(z_0,\lambda))|}{\Big||r(z_0,\lambda)| -
+|\phi_{\textup{N}}(r(z_0,\lambda))|\Big|}
+\left[q_2^{2^k-1}(z_0)\right]^2\cdot|r(z_0,\lambda)|^2 \\
+& = \sup_{m \geq 2}
+\left\{\frac{|S^{\textup{N}}_m(r(z_0,\lambda))|}{|r(z_0,\lambda)|}\right\}\cdot
+\frac{|r(z_0,\lambda)|
++|\phi_{\textup{N}}(r(z_0,\lambda))|}{\Big||r(z_0,\lambda)| -
+|\phi_{\textup{N}}(r(z_0,\lambda))|\Big|} \cdot
+[q_2(z_0)]^{2^{k+1}-2} \cdot
+|r(z_0,\lambda)| \\
+& = [q_2(z_0)]^{2^{k+1}-1} \cdot |r(z_0)|,
+\end{align*}
+%which shows (\ref{ineq:NM_abs_r(zk)_2}) by induction. The proof is
+%completed.
+由此, 根据归纳法知~(\ref{ineq:NM_abs_r(zk)_2})~得证. 证完.
+\end{proof}
+
+
+
+%Now, based on the above lemmas, we can obtain the following
+%convergence results for scalar Newton's method (\ref{it:NM}). Define
+
+基于上述几个引理,
+可以得到如下的关于~(标量形式的)~Newton~法~(\ref{it:NM})~的收敛性结果.
+为此, 定义
+\begin{equation}
+\label{set:NM_R11} \MCR^{\textup{N}}_1 := \big\{\lambda \in \CS:
+r(z_0,\lambda) \in \overline{\MCD} \text{ for some } z_0 \in
+\CS\backslash\{0\}\big\},
+\end{equation}
+及
+\begin{equation}
+\label{set:NM_R12} \MCR^{\textup{N}}_2 := \left\{\lambda \in \CS:
+r(z_0,\lambda) \in \MCD^{\textup{N}}_1 \bigcap \MCD^{\textup{N}}_2
+\text{ for some } z_0 \in \CS\backslash\{0\}\right\},
+\end{equation}
+%where $\overline{\MCD}$ is the closure of $\MCD$ defined in
+%(\ref{set:D}), $\MCD^{\textup{N}}_1$ and $\MCD^{\textup{N}}_2$ are
+%defined in (\ref{set:NM_D1}) and (\ref{set:NM_D2}), respectively.
+其中~$\overline{\MCD}$~为~$\MCD$~的闭包,
+而~$\MCD$~由~(\ref{set:D})~定义,
+$\MCD^{\textup{N}}_1$~和~$\MCD^{\textup{N}}_2$~分别由~(\ref{set:NM_D1})~
+和 ~(\ref{set:NM_D2})~定义.
+
+
+\begin{lemma}
+\label{lem:ScalarNMCon1} %For any $\lambda \in \MCR^{\textup{N}}_1 \bigcup
+%\MCR^{\textup{N}}_2$, where $\MCR^{\textup{N}}_1$ and $\MCR^{\textup{N}}_2$ are defined by
+%$(\ref{set:NM_R11})$ and $(\ref{set:NM_R12})$, respectively, the sequence
+%$\{z_k(\lambda)\}$ generated by scalar Newton iteration
+%$(\ref{it:NM})$ with some $z_0 \in \CS\backslash\{0\}$ for solving
+%$(\ref{fun:NM_f(z)})$ converges to the principal $p$th root
+%$\lambda^{1/p}$. Moreover, if $\lambda \neq 0$, then the convergence
+%order is $2$.
+对于任意的~$\lambda \in \MCR^{\textup{N}}_1 \bigcup
+\MCR^{\textup{N}}_2$,
+其中~$\MCR^{\textup{N}}_1$~和~$\MCR^{\textup{N}}_2$~分别由
+~$(\ref{set:NM_R11})$~和~$(\ref{set:NM_R12})$~定义, 以~$z_0 \in
+\CS\backslash\{0\}$~为初始点的标量~Newton~法~$(\ref{it:NM})$~迭代所产生的序列
+~$\{z_k(\lambda)\}$~收敛于~$\lambda$~的主~$p$~次根~$\lambda^{1/p}$.
+此外, 若~$\lambda \neq 0$, 则收敛速度是~R~二阶的.
+\end{lemma}
+
+
+
+%We prove this lemma by four steps as follows.
+
+我们将分成如下四个部分来证明该引理.
+
+\begin{itemize}
+\item[(i)]
+首先证明序列~$\{z_k(\lambda)\}$~一致收敛于
+~$\MCR^{\textup{N}}_1$~或~$\MCR^{\textup{N}}_2$~中任一闭区域的任一复数~$\lambda$~
+的一个~$p$~次根~$z(\lambda)$.
+\item[(ii)]
+然后证明~$z(\lambda)$~在~$\MCR^{\textup{N}}_1$~的内部~$\Int(\MCR^{\textup{N}}_1)$~及~$\MCR^{\textup{N}}_2$~上是
+解析的,
+从而得到~$z(\lambda)$~落在~$\Int(\MCR^{\textup{N}}_1)$~和~$\MCR^{\textup{N}}_2$~上的根函数的单值分支上.
+\item[(iii)]
+再者证明对于~$\lambda_0 \in
+\partial\MCR^{\textup{N}}_1$~且~$\lambda_0 \neq 0$, 当~$\lambda \to
+\lambda_0$~(~从~$\MCR^{\textup{N}}_1$~的内部逼近)~时有~$z(\lambda)
+\to z(\lambda_0)$.
+\item[(iv)]
+最后证明~$z(\lambda)$~为~$\lambda \in \MCR^{\textup{N}}_1 \bigcup
+\MCR^{\textup{N}}_2$~的主~$p$~次根.
+\end{itemize}
+
+\begin{proof}
+
+%Step 1. Suppose $\MCR_c$ is any closed domain in $\MCR^{\textup{N}}_1$ or
+%$\MCR^{\textup{N}}_2$ and that $0 \not\in \MCR_c$. We will prove in this step
+%$\{z_k(\lambda)\}$ converges uniformly to $z(\lambda)$, a $p$th root
+%of each $\lambda \in \MCR_c$, and that $z(\lambda)$ exists for each
+%$\lambda \in \MCR^{\textup{N}}_1\bigcup\MCR^{\textup{N}}_2$.
+
+(i)
+假设~$\MCR_c$~为属于~$\MCR^{\textup{N}}_1$~或~$\MCR^{\textup{N}}_2$~的任一闭区域且~$0
+\not\in \MCR_c$. 任取~$\lambda \in \MCR_c$,
+设~$z(\lambda)$~为其一个~$p$~次根, 并简记
+$$
+r(z_k,\lambda) \triangleq r(z_k(\lambda),\lambda).
+$$
+对于任意的~$\lambda \in
+\MCR^{\textup{N}}_1\bigcup\MCR^{\textup{N}}_2$, 由于级数
+$$
+\sum\limits_{j=2}^\infty c^{\textup{N}}_j r^j(z_0,\lambda)
+$$
+是解析的, 且~$\MCR_c \subset
+\MCR^{\textup{N}}_1\bigcup\MCR^{\textup{N}}_2$~是有界的,
+故根据解析函数的最大模定理知, 存在~$\widehat{\lambda} \in
+\partial\MCR_c$~使得
+\begin{equation}
+\label{eq:NM_max_mod_1} \left|\sum_{j=2}^\infty c^{\textup{N}}_j
+r^j(z_0,\widehat{\lambda})\right| = \max_{\lambda \in
+\MCR_c}\left|\sum_{j=2}^\infty c^{\textup{N}}_j
+r^j(z_0,\lambda)\right|.
+\end{equation}
+%by the theorem of maximum modulus of analytic function. Let
+令
+$$
+q(z_0) := \left\{
+\begin{array}{ll}
+\displaystyle \max_{\lambda \in \MCR_c}q_1(z_0,\lambda), & \mbox{if
+$\MCR_c
+\subset \MCR^{\textup{N}}_1$,} \\
+\displaystyle \max_{\lambda \in \MCR_c}q_2(z_0,\lambda), & \mbox{if
+$\MCR_c \subset \MCR^{\textup{N}}_2$},
+\end{array}
+\right.
+$$
+%where $q_1(z_0,\lambda)$ and $q_2(z_0,\lambda)$ are defined in
+%(\ref{cons:NM_q1(z0)}) and (\ref{cons:NM_q2(z0)}), respectively.
+%Then
+其中~$q_1(z_0,\lambda)$~和~$q_2(z_0,\lambda)$~分别由~(\ref{cons:NM_q1(z0)})~
+和~(\ref{cons:NM_q2(z0)})~定义. 则由~(\ref{eq:NM_max_mod_1}),
+引理~\ref{lem:NM_r(z)_convergence1}~和
+~\ref{lem:NM_r(z)_convergence2}~可得
+$$
+q(z_0) = \left\{
+\begin{array}{ll}
+q_1(z_0,\widehat{\lambda}) < 1, & \mbox{if $\MCR_c
+\subset \MCR^{\textup{N}}_1$,} \\
+q_2(z_0,\widehat{\lambda}) < 1, & \mbox{if $\MCR_c \subset
+\MCR^{\textup{N}}_2$},
+\end{array}
+\right.
+$$
+%and
+及
+\begin{equation}
+\label{ineq:abs_r(zk)} |r(z_k, \lambda)| \leq \left\{
+\begin{array}{ll}
+q^{2^{k-1}}(z_0), & \mbox{if $\MCR_c
+\subset \MCR^{\textup{N}}_1$,} \\
+q^{2^k-1}(z_0) \cdot r_*, & \mbox{if $\MCR_c \subset
+\MCR^{\textup{N}}_2$},
+\end{array} \quad k = 1,2,\ldots, \lambda \in \MCR_c
+\right.
+\end{equation}
+%by (\ref{eq:NM_max_mod_1}), Lemmas \ref{lem:NM_r(z)_convergence1} and
+%\ref{lem:NM_r(z)_convergence2}, where $r_* := \max\limits_{\lambda
+%\in \MCR_c}|r(z_0,\lambda)|$ is a positive real independent on
+%$\lambda \in \MCR_c$. It follows $\{r(z_k, \lambda)\}$ converges
+%uniformly to 0 with order 2 as $k \to \infty$ for all $\lambda \in
+%\MCR_c$ and that identities
+其中~$r_* := \max\limits_{\lambda \in
+\MCR_c}|r(z_0,\lambda)|$~为不依赖于~$\lambda \in \MCR_c$~的正实数.
+于是, 对于任意的~$\lambda \in \MCR_c$, 当~$k \to
+\infty$~时序列~$\{r(z_k, \lambda)\}$~一致收敛于~0,
+且收敛速度是~R~二阶的. 此外, 由关系
+\begin{equation}
+\label{eq:NM_zkp} z_k^p(\lambda) = \frac{\lambda}{1 -
+r(z_k,\lambda)}, \ \ \ \lambda \in \MCR_c, \ k = 0, 1, \ldots
+\end{equation}
+%give the sequence $\{z_k(\lambda)\}$ is bounded uniformly for all
+%$\lambda \in \MCR_c$. Thus, there is a $M > 0$, independent on $k$
+%and $\lambda \in \MCR_c$, such that
+可知, 对任意的~$\lambda \in \MCR_c$,
+序列~$\{z_k(\lambda)\}$~是一致有界的. 因而,
+存在一个不依赖于~$k$~的常数~$M > 0$~及~$\lambda \in \MCR_c$~使得
+\begin{equation}
+\label{ineq:NM_abs_bounded_M} \frac{1}{p} |z_k(\lambda)|  \leq M, \
+\ k \geq 0, \lambda \in \MCR_c.
+\end{equation}
+%By (\ref{it:NM_fun}) and (\ref{ineq:NM_abs_bounded_M}),
+由~(\ref{it:NM_fun})~及~(\ref{ineq:NM_abs_bounded_M})~可得
+\begin{align*}
+|z_{k + 1}(\lambda) - z_k(\lambda)| = \frac{1}{p} |z_k(\lambda)|
+|r(z_k, \lambda)| \leq M |r(z_k, \lambda)|, \quad\lambda \in \MCR_c,
+\ k =0, 1, \ldots,
+\end{align*}
+%which and (\ref{ineq:abs_r(zk)}) conclude that $\{z_{k + 1}(\lambda)
+%- z_k(\lambda)\}$ is majoriant by a geometrical sequence which
+%converges to zero and independent on $\lambda \in \MCR_c$. So,
+%$\{z_k(\lambda)\}$ is a Cauchy sequence for each $\lambda \in
+%\MCR_c$ and there is $z(\lambda)$ defined on $\MCR_c$ such that
+%$z_k(\lambda)$ converges uniformly to $z(\lambda)$ for all $\lambda
+%\in \MCR_c$. Let $k \to \infty$ in (\ref{eq:NM_zkp}), we have
+结合~(\ref{ineq:abs_r(zk)})~可得知序列~$\{z_{k + 1}(\lambda) -
+z_k(\lambda)\}$~收敛于~0. 故对于任意的~$\lambda \in \MCR_c$,
+$\{z_k(\lambda)\}$~是~Cauchy~列.
+于是存在定义于~$\MCR_c$~的~$z(\lambda)$~使得对于任意的~$\lambda \in
+\MCR_c$, 序列~$z_k(\lambda)$~一致收敛于~$z(\lambda)$.
+在~(\ref{eq:NM_zkp})~中令 ~$k \to \infty$~ 即可得
+$$
+z^p(\lambda) = \lambda, \quad\lambda \in \MCR_c.
+$$
+%That is, $z(\lambda)$ is a $p$th root of $\lambda \in \MCR_c$.
+因此, $z(\lambda)$~是~$\lambda \in \MCR_c$~的一个~$p$~次根.
+
+%Step 2. Since for any $\lambda \in \MCR^{\textup{N}}_1 \bigcup \MCR^{\textup{N}}_2$,
+%there is a closed domain of $\MCR^{\textup{N}}_1$ or $\MCR^{\textup{N}}_2$ such that
+%$\lambda$ belongs to it. By Step 1, $z(\lambda)$ exists for each
+%$\lambda \in \MCR^{\textup{N}}_1\bigcup \MCR^{\textup{N}}_2$. In this step, we will
+%show $z(\lambda)$ obtained in Step 1 is analytic in
+%$\Int(\MCR^{\textup{N}}_1)$, the interior of $\MCR^{\textup{N}}_1$, and $\MCR^{\textup{N}}_2$.
+%Therefore, $z(\lambda)$ located in a single-valued branch of root
+%function in $\Int(\MCR^{\textup{N}}_1)$ and $\MCR^{\textup{N}}_2$.
+
+(ii) 由于~$z(\lambda)$~关于~$\lambda$~在~$\MCR^{\textup{N}}_1$~
+的内部~$\Int(\MCR^{\textup{N}}_1)$~或~$\MCR^{\textup{N}}_2$~都是解析的,
+而由~(i)~知序列~$\{z_k(\lambda)\}$~一致收敛于~$z(\lambda)$,
+故由~Weierstrass~定理知~$z_k(\lambda)$~在~$\Int(\MCR^{\textup{N}}_1)$~
+和~$\MCR^{\textup{N}}_2$~都是解析的.
+因~$z(\lambda)$~是~$\lambda$~的~$p$~次根, 其中~$\lambda$~属于
+$\Int(\MCR^{\textup{N}}_1)$~ 或 ~$\MCR^{\textup{N}}_2$.
+因此,$z(\lambda)$~落在~$\Int(\MCR^{\textup{N}}_1)$~和~$\MCR^{\textup{N}}_2$~上的根函数的单值分支上.
+
+
+
+
+
+
+%It is clear that $|r(z_0, \lambda_0)| < 1$ for any $\lambda_0 \in
+%\partial\MCR^{\textup{N}}_1$ and $\lambda_0 \neq 0$. Then, there is $\delta_0 >
+%0$ such that closed domain $\overline{O}(\lambda_0, \delta_0)
+%\bigcap \MCR^{\textup{N}}_1$ does not contains 0 and 1, where
+%$\overline{O}(\lambda_0, \delta_0) := \{\lambda \in \CS: |\lambda -
+%\lambda_0| \leq \delta_0\}$. By Step 1, $\{z_k(\lambda)\}$ converges
+%uniformly to $z(\lambda)$ for any $\lambda$ in
+%$\overline{O}(\lambda_0, \delta_0) \bigcap \MCR^{\textup{N}}_1$. So, for any
+%$\varepsilon > 0$, there exists $K > 0$ such that for all $k \geq K$
+%and $\lambda \in \overline{O}(\lambda_0, \delta_0) \bigcap
+%\MCR^{\textup{N}}_1$,
+
+(iii) 显然, 对于任意的~$\lambda_0 \in
+\partial\MCR^{\textup{N}}_1$~且 ~$\lambda_0 \neq 0$, 有~$|r(z_0, \lambda_0)| <
+1$. 故存在~$\delta_0 > 0$~使得闭区域~$\overline{O}(\lambda_0,
+\delta_0) \bigcap \MCR^{\textup{N}}_1$~不包含~0~和~1, 其中
+$$
+\overline{O}(\lambda_0, \delta_0) := \{\lambda \in \CS: |\lambda -
+\lambda_0| \leq \delta_0\}.
+$$
+由~(i)~知, $\{z_k(\lambda)\}$~一致收敛于~$z(\lambda)$, $\lambda \in
+\overline{O}(\lambda_0, \delta_0) \bigcap \MCR^{\textup{N}}_1$.
+故对任意的~$\varepsilon > 0$, 存在整数~$K > 0$~使得对任意的~$k \geq
+K$~及~$\lambda \in \overline{O}(\lambda_0, \delta_0) \bigcap
+\MCR^{\textup{N}}_1$~都有
+\begin{equation}
+\label{ineq:NM_abs_zk-z_1} |z_k(\lambda) - z(\lambda)| <
+\frac{\varepsilon}{3}.
+\end{equation}
+%Since $z_k(\lambda)$ is analytic in $\MCR^{\textup{N}}_1$ derives
+%$z_k(\lambda)$ is continuous in $\overline{O}(\lambda_0, \delta_0)
+%\bigcap \MCR^{\textup{N}}_1$, there exists $0 < \delta_1 < \delta_0$ such
+%that $\overline{O}(\lambda_0, \delta_1) \subset
+%\overline{O}(\lambda_0, \delta_0)$ and
+因~$z_k(\lambda)$~在~$\MCR^{\textup{N}}_1$~上是解析的,
+故~$z_k(\lambda)$~在~$\overline{O}(\lambda_0, \delta_0) \bigcap
+\MCR^{\textup{N}}_1$~是连续的. 于是, 存在~$0 < \delta_1 <
+\delta_0$~使得~$\overline{O}(\lambda_0, \delta_1) \subset
+\overline{O}(\lambda_0, \delta_0)$~且
+\begin{equation}
+\label{ineq:NM_abs_zk-z_2} |z_k(\lambda) - z_k(\lambda_0)| <
+\frac{\varepsilon}{3}, \quad\forall \ \lambda \in
+\overline{O}(\lambda_0, \delta_1)\bigcap \MCR^{\textup{N}}_1.
+\end{equation}
+%Thus, for all $\lambda$ in $\overline{O}(\lambda_0, \delta_1)\bigcap
+%\MCR^{\textup{N}}_1$, we have
+因而, 对任意的~$\lambda \in \overline{O}(\lambda_0, \delta_1)\bigcap
+\MCR^{\textup{N}}_1$,
+由~(\ref{ineq:NM_abs_zk-z_1})~及~(\ref{ineq:NM_abs_zk-z_2})~可得
+\begin{align*}
+|z(\lambda) - z(\lambda_0)| & \leq |z(\lambda) - z_k(\lambda)| +
+|z_k(\lambda) - z_k(\lambda_0)| + |z_k(\lambda_0) - z(\lambda_0)|\\
+& < \frac{\varepsilon}{3} + \frac{\varepsilon}{3} +
+\frac{\varepsilon}{3} = \varepsilon
+\end{align*}
+%by (\ref{ineq:NM_abs_zk-z_1}) and (\ref{ineq:NM_abs_zk-z_2}). That is,
+%$z(\lambda)$ is continuous at $\lambda = \lambda_0$. The
+%arbitrariness of $\lambda_0$ completes the proof of Step 3.
+即~$z(\lambda)$~在~$\lambda = \lambda_0$~是连续的.
+由~$\lambda_0$~的任意性即得证.
+
+
+%Step 4. This is the last step of the proof.
+
+
+
+%By Step 2, $z(\lambda)$ is analytic in $\Int(\MCR^{\textup{N}}_1)$ and it is
+%located in a single-valued branch of $p$th root function. Since
+%$z_k(1) \equiv 1$ for all $k$ implies $z(1) = 1$, we have that
+%$z(\lambda)$ located in the single-valued branch containing 1. That
+%is, $z(\lambda)$ is the principal $p$th root of each $\lambda$ in
+%$\Int(\MCR^{\textup{N}}_1)$. Since $z(\lambda) \to z(\lambda_0)$ as $\lambda
+%\to \lambda_0 \ (\lambda \in \Int(\MCR^{\textup{N}}_1))$ for each $\lambda_0
+%\in
+%\partial\MCR^{\textup{N}}_1$ by Step 3, we get $z(\lambda_0)$ is also the principal $p$th
+%root of $\lambda_0 \in \partial\MCR^{\textup{N}}_1$.
+
+
+(iv)
+因为~$z(\lambda)$~在~$\Int(\MCR^{\textup{N}}_1)$~是解析的且落在~$\lambda$~的~$p$~次根的单值分支上,
+又因为对任意的整数~$k\geq0$~都有~$z_k(1) \equiv 1$, 所以~$z(1) =
+1$~且~$z(\lambda)$~落在包含~1~的单值分支中, 即对任意~$\lambda \in
+\Int(\MCR^{\textup{N}}_1)$, $z(\lambda)$~都是其主~$p$~次根. 注意到,
+由~(iii)~知, 对任意的~$\lambda_0 \in
+\partial\MCR^{\textup{N}}_1$, 当~$\lambda
+\to \lambda_0 \ (\lambda \in
+\Int(\MCR^{\textup{N}}_1))$~时~$z(\lambda) \to z(\lambda_0)$,
+因而可知~$z(\lambda_0)$~亦是~$\lambda_0 \in
+\partial\MCR^{\textup{N}}_1$~的主~$p$~次根.
+
+
+%By now, we have proved that $z(\lambda)$ is the principal $p$th root
+%of each $\lambda \in \MCR^{\textup{N}}_1$ except $\lambda = 0$. When $\lambda
+%= 0$, we have by (\ref{it:NM}) that
+
+此时, 我们已经证明当~$\lambda \in \MCR^{\textup{N}}_1$~且~$\lambda
+\neq 0$~时~$z(\lambda)$~是其主~$p$~次根. 现在考虑当~$\lambda =
+0$~时的情形. 由~(\ref{it:NM})~可得
+$$
+z_k(0) = \frac{p-1}{p} z_{k-1}(0) = \left(\frac{p-1}{p}\right)^k
+z_0, \ \ k = 0, 1, 2, \ldots.
+$$
+%So, $\{z_k(0)\}$ converges to 0, the principal $p$th root of 0,
+%linearly. Therefore, $z(\lambda)$ is the principal $p$th root of
+%each $\lambda \in \MCR^{\textup{N}}_1$.
+故 ~$\{z_k(0)\}$~线性收敛到~0~(亦即其自身的主~$p$~次根). 因此,
+对任意的~$\lambda \in \MCR^{\textup{N}}_1$,
+$z(\lambda)$~都是其主~$p$~次根.
+
+%By Step 2 again, $z(\lambda)$ is analytic and locates in a
+%single-valued branch of $p$th root function for each $\lambda \in
+%\MCR^{\textup{N}}_2$. Now, we can see that, if we can show $\MCR^{\textup{N}}_2$
+%contains some part of $\partial\MCR^{\textup{N}}_1$, then the single-valued
+%branch of $z(\lambda)$ for $\lambda \in \MCR^{\textup{N}}_2$ is the same
+%branch of $z(\lambda)$ for $\lambda \in \MCR^{\textup{N}}_1$, which deduces
+%that $z(\lambda)$ is the principle $p$th root of $\lambda \in
+%\MCR^{\textup{N}}_1 \bigcup\MCR^{\textup{N}}_2$. So, what we need to do is to prove
+%$\MCR^{\textup{N}}_2$ contains some part of $\partial\MCR^{\textup{N}}_1$.
+
+同样由~(ii)~知, 对任意的~$\lambda \in \MCR^{\textup{N}}_2$,
+$z(\lambda)$~是解析的且落在~$p$~次根函数的单值分支中. 于是,
+若我们能证明~$\MCR^{\textup{N}}_2$~包含~$\partial\MCR^{\textup{N}}_1$~某一部分,
+那么可知, 当~$\lambda \in
+\MCR^{\textup{N}}_2$~时~$z(\lambda)$~的单值分支与当~$\lambda \in
+\MCR^{\textup{N}}_1$~时~$z(\lambda)$~的单值分支是一样的. 从而可得,
+对任意~$\lambda \in \MCR^{\textup{N}}_1 \bigcup\MCR^{\textup{N}}_2$,
+有~$z(\lambda)$~为其主~$p$~次根. 因此,
+我们只须证明~$\MCR^{\textup{N}}_2$~包含了~$\partial\MCR^{\textup{N}}_1$~的某一部分即可.
+
+%Set $\lambda_0 = z_0^p$ and define
+
+设~$m \geq 2$, 并记~$\lambda_0 = z_0^p$. 对于任意的~$\lambda \in
+\partial\MCR^{\textup{N}}_1$, 定义
+\begin{align*}
+S^{\textup{N}}_m(z_0,\lambda) & := \sum\limits_{j=2}^m
+c^{\text{N}}_jr^{j-1}(z_0,\lambda), \\
+S_\infty^{\textup{N}}(z_0,\lambda) & := \sum\limits_{j=2}^\infty
+c^{\text{N}}_jr^{j-1}(z_0,\lambda).
+\end{align*}
+%Clearly, $S_\infty(z_0,\lambda)$ is continuous with respect to
+%$\lambda$ on $\partial\MCR^{\textup{N}}_1$ and
+显然, $S_\infty^{\textup{N}}(z_0,\lambda)$~关于~$\lambda$~是连续的且
+\begin{equation}
+\label{ineq:NM_S(z0,lambda0)} 0 =
+\left|S_\infty^{\textup{N}}(z_0,\lambda_0)\right| = \min_{\lambda
+\in
+\partial\MCR^{\textup{N}}_1}\left|S_\infty^{\textup{N}}(z_0,\lambda)\right| \leq
+\left|S_\infty^{\textup{N}}(z_0,\lambda)\right| \leq 1, \quad\forall
+\ \lambda \in
+\partial\MCR^{\textup{N}}_1.
+\end{equation}
+%Since $|S^{\textup{N}}_m(z_0,\lambda)|<1$ holds for all $\lambda \in
+%\MCR^{\textup{N}}_1\bigcup\MCR^{\textup{N}}_2$, we can choose $M < 1$ be a real
+%satisfying
+由于对任意的~$\lambda \in
+\MCR^{\textup{N}}_1\bigcup\MCR^{\textup{N}}_2$~都有~$|S^{\textup{N}}_m(z_0,\lambda)|<1$,
+故可取实数~$M < 1$~满足不等式
+$$
+\sup_{m\geq2}\left|S^{\textup{N}}_m(z_0,\lambda)\right| < M, \ \ \
+\lambda \in
+\partial\MCR^{\textup{N}}_1.
+$$
+%By (\ref{ineq:NM_S(z0,lambda0)}), there is $\delta > 0$ such that once
+%$|\lambda - \lambda_0| < \delta$, then
+由~(\ref{ineq:NM_S(z0,lambda0)})~知, 存在~$\delta >
+0$~使得一旦~$|\lambda - \lambda_0| < \delta$~便有
+$$
+\left|S_\infty^{\textup{N}}(z_0,\lambda)\right| <
+\frac{\displaystyle\frac{1}{M}-1}{\displaystyle\frac{1}{M} + 1},
+$$
+%or equivalently,
+或其等价情形
+$$
+q_2(z_0,\lambda) = \sup_{m\geq
+2}|S^{\textup{N}}_m(z_0,\lambda)|\cdot
+\frac{1+|S_\infty(z_0,\lambda)|}{1-|S_\infty(z_0,\lambda)|} < M
+\cdot \frac{1}{M} = 1.
+$$
+%Therefore, $\MCR^{\textup{N}}_2$ contains some part of $\partial\MCR^{\textup{N}}_1$.
+%The proof is completed.
+因此,
+$\MCR^{\textup{N}}_2$~包含了~$\partial\MCR^{\textup{N}}_1$~的某一部分.
+证完.
+\end{proof}
+
+
+%
+%Choosing $z_0 \equiv 1$ in $\MCR^{\textup{N}}_1$ and $\MCR^{\textup{N}}_2$ given by
+%(\ref{set:NM_R11}) and (\ref{set:NM_R12}), respectively, one has that
+%$\MCR = \MCR^{\textup{N}}_1 \bigcup \MCR^{\textup{N}}_2$. So, we obtain from Lemma
+%\ref{lem:ScalarNMCon1} the following corollary:
+
+
+对于分别由~(\ref{set:NM_R11})~和~(\ref{set:NM_R12})~定义的~$\MCR^{\textup{N}}_1$~和
+~$\MCR^{\textup{N}}_2$, 若取~$z_0 \equiv 1$, 则有~$\MCR_{\textup{N}}
+= \MCR^{\textup{N}}_1 \bigcup \MCR^{\textup{N}}_2$. 于是,
+由引理~\ref{lem:ScalarNMCon1}~可立即得到如下推论:
+
+
+\begin{corollary}
+\label{cor:NM_zk_convergence1} %For any $\lambda \in \MCR_{\textup{N}}$ defined
+%in $(\ref{set:NM_R})$, the sequence $\{z_k(\lambda)\}$ generated by
+%scalar Newton iteration $(\ref{it:NM})$ with $z_0 = 1$ for solving
+%$(\ref{fun:NM_f(z)})$ converges to the principal $p$th root
+%$\lambda^{1/p}$. Moreover, if $\lambda \neq 0$, then the convergence
+%order is $2$.
+%
+对于任意的~$\lambda \in \MCR_{\textup{N}}$,
+其中~$\MCR_{\textup{N}}$~由~$(\ref{set:NM_R})$~定义, 由标量
+~Newton~法~$(\ref{it:NM})$~以~$z_0 =
+1$~为初始点进行迭代产生的序列~$\{z_k(\lambda)\}$~
+收敛于~$\lambda$~的主~$p$~次根~$\lambda^{1/p}$. 进一步, 若~$\lambda
+\neq 0$, 则其收敛速度是~R~二阶的.
+\end{corollary}
+
+
+
+
+
+%Next, we consider the case of matrix form. For the matrix $A \in
+%\CS^{n \times n}$ defined in (\ref{eq:f(X)=0}), let
+
+下面我们考虑矩阵的情形. 对于由~(\ref{eq:f(X)=0})~给定的矩阵~$A \in
+\CS^{n \times n}$, 令
+\begin{equation}
+\label{fun:NM_R(X)} R(X) := \I - A X^{-p}, \quad p \geq 2,
+\end{equation}
+%for any nonsingular matrix $ X \in \CS^{n \times n}$.
+其中~$ X \in \CS^{n \times n}$~是非奇异的.
+
+\begin{lemma}
+\label{lem:NM_R(N(X))_R(X)} %Let $X \in \CS^{n\times n}$ be a
+%nonsingular matrix commuting with $A$ and $R(X)$ be defined in
+%$(\ref{fun:NM_R(X)})$. If the spectrum $\sigma(R(X)) \subset
+%\MCD^{\textup{N}}_1$ for some nonsingular matrix $X \in \CS^{n \times n}$,
+%where $\MCD^{\textup{N}}_1$ is defined in $(\ref{set:NM_D1})$, then $N(X)$
+%generated by $(\ref{it:NM_fun})$ is nonsingular, commutes with $A$
+%and
+%
+设矩阵~$X \in \CS^{n\times n}$~是非奇异的且与~$A$~是可交换的,
+$R(X)$~由~$(\ref{fun:NM_R(X)})$~定义.
+如果~$R(X)$~的谱满足~$\sigma(R(X)) \subset \MCD^{\textup{N}}_1$,
+其中~$\MCD^{\textup{N}}_1$~由~$(\ref{set:NM_D1})$~定义,
+那么由~$(\ref{it:NM_fun})$~定义的~$N(X)$~是非奇异的,
+与~$A$~是可交换的且满足
+\begin{equation}
+\label{eq:NM_R(N(X))} R(N(X)) = \I - \left[\I - \frac{1}{p}
+R(X)\right]^{-p}\cdot(\I - R(X)) = \phi_{\textup{N}}(R(X)),
+\end{equation}
+%where $\phi_{\textup{N}}$ is defined in $(\ref{fun:NM_phi(z)})$.
+%
+其中~$\phi_{\textup{N}}$~由~$(\ref{fun:NM_phi(z)})$~定义.
+\end{lemma}
+
+\begin{proof}
+%Clearly, $N(X)$ given by (\ref{it:NM_fun}) exists for any
+%nonsingular matrix $X \in \CS^{n \times n}$. Since $\sigma(R(X))
+%\subset \MCD^{\textup{N}}_1\backslash\{0\}$, we get $ \I - \frac{1}{p} R(X)$
+%is nonsingular by Neumann Lemma. It follows that
+
+显然, 若~$X \in \CS^{n \times n}$~是非奇异矩阵,
+则由~(\ref{it:NM_fun})~定义的~$N(X)$~是存在的. 由于~$\sigma(R(X))
+\subset \MCD^{\textup{N}}_1\backslash\{0\}$,
+根据~Neumann~引理可知矩阵
+$$
+\I - \frac{1}{p} R(X)
+$$
+是非奇异的. 于是由等式
+\begin{align*}
+N(X) = \frac{1}{p} X \left[(p - 1)\I + AX^{-p}\right]
+ = X \left[\I - \frac{1}{p}R(X)\right]
+\end{align*}
+%is also nonsingular and commutes with $A$, and
+%
+知矩阵~$N(X)$~是非奇异的且与~$A$~是可交换的. 进一步,
+由于~$A$~与~$X$~的交换性知~$X$~与~$R(X)$~亦是可交换的, 故
+\begin{align*}
+R(N(X)) & = \I - A \left[X\left(\I -
+\frac{1}{p}R(X)\right)\right]^{-p} \\
+& = \I - \left[\I - \frac{1}{p} R(X)\right]^{-p}AX^{-p}\\
+& = \I - \left[\I - \frac{1}{p} R(X)\right]^{-p}\cdot(\I - R(X))\\
+& = \phi_{\textup{N}}(R(X)),
+\end{align*}
+%by the assumption of $X$ commutes with $A$. This completes the
+%proof.
+%
+即~(\ref{eq:NM_R(N(X))})~得证. 证完.
+\end{proof}
+
+
+
+%Thanks to Lemma \ref{lem:NM_R(N(X))_R(X)}, we have
+
+根据引理~\ref{lem:NM_R(N(X))_R(X)}~可直接得到如下推论:
+
+\begin{corollary}
+\label{cor:NM_N(Xk)} %If $X_0 \in \CS^{n \times n}$ commutes with $A$
+%and the spectrum $\sigma(R(X_0)) \subset \MCD^{\textup{N}}_1$, where
+%$\MCD^{\textup{N}}_1$ is defined in $(\ref{set:NM_D1})$, then the sequence
+%$\{X_k\}$ starting from $X_0$ generated by Newton's method
+%$(\ref{it:NM})$ for solving $(\ref{eq:f(X)=0})$ exists.
+%
+如果矩阵~$X_0 \in \CS^{n \times
+n}$~与~$A$~是可交换的且~$R(X_0)$~的谱满足~$\sigma(R(X_0)) \subset
+\MCD^{\textup{N}}_1$,
+其中~$\MCD^{\textup{N}}_1$~由~$(\ref{set:NM_D1})$~定义,
+那么由~Newton~法~$(\ref{it:NM})$~以~$X_0$~为
+初始点进行迭代产生的矩阵序列~$\{X_k\}$~是有定义的.
+\end{corollary}
+
+
+
+\begin{lemma}
+\label{lem:NM_norm_R(N(X))_R(X)} %If the spectrum $\sigma(R(X)) \subset
+%\MCD\backslash\{0\}$ for some nonsingular matrix $X \in \CS^{n
+%\times n}$, where $R(X)$  be defined in $(\ref{fun:NM_R(X)})$ and
+%$\MCD$ is defined in $(\ref{set:D})$, then, there is a
+%sub-multiplicative matrix norm $\|\cdot\|$ such that $\|R(X)\| \leq
+%1$ and
+%
+设~$R(X)$~由~$(\ref{fun:NM_R(X)})$~定义, $X \in \CS^{n \times
+n}$~是非奇异的. 如果~$R(X)$~的谱满足~$\sigma(R(X)) \subset \MCD$,
+其中~$\MCD$~由~$(\ref{set:D})$~定义,
+那么存在一个次乘性矩阵范数~$\|\cdot\|$~使得~$\|R(X)\| \leq 1$~且
+\begin{equation}
+\label{ineq:NM_norm_R(E(X))_1} \|R(N(X))\| \leq
+\frac{\phi_{\textup{N}}(\|R(X)\|)}{\|R(X)\|^2} \cdot \|R(X)\|^2 <
+\|R(X)\|^2,
+\end{equation}
+%where $\phi_{\textup{N}}$ is defined by $(\ref{fun:NM_phi(z)})$.
+%
+其中~$\phi_{\textup{N}}$~由~$(\ref{fun:NM_phi(z)})$~定义.
+\end{lemma}
+
+\begin{proof}
+%It follows from Lemma \ref{lem:NM_R(N(X))_R(X)} that $R(N(X))$ exists.
+%Since the spectrum $\sigma(R(X)) \subset \MCD$, the spectral
+%radius of $R(X)$ is less than 1. So, there is a sub-multiplicative
+%matrix norm $\|\cdot\|$ such that $\|R(X)\| < 1$. Note that, for any
+%$u \in (0,1)$,  It follows from that
+%
+由引理~\ref{lem:NM_R(N(X))_R(X)}~易知~$R(N(X))$~是存在的.
+因~$\sigma(R(X)) \subset \MCD$, 故~$R(X)$~的谱半径小于~1.
+从而存在一个次乘性矩阵范数~$\|\cdot\|$~使得~$\|R(X)\| < 1$. 注意到,
+对于任意的~$u \in (0,1)$~都有
+$$
+\frac{\phi(u)}{u^2} = \sum_{j=2}^\infty c^{\textup{N}}_j u^{j-2} <
+\sum_{j=2}^\infty c^{\textup{N}}_j = 1.
+$$
+%Thus, this together with (\ref{eq:NM_R(N(X))}) gives that
+%
+于是, 结合~(\ref{eq:NM_R(N(X))})~可得
+\begin{align*}
+\|R(N(X))\| = \|\phi_{\textup{N}}(R(X))\| & \leq \phi_{\textup{N}}(\|R(X)\|) \\
+& = \frac{\phi_{\textup{N}}(\|R(X)\|)}{\|R(X)\|^2}\|R(X)\|^2 \\
+& < \|R(X)\|^2,
+\end{align*}
+%which shows (\ref{ineq:NM_norm_R(E(X))_1}). The proof is completed.
+%
+因此~(\ref{ineq:NM_norm_R(E(X))_1})~是成立的. 证完.
+\end{proof}
+
+
+
+\begin{lemma}
+\label{lem:NM_R(X)_convergence1} %Let $R(X)$  be defined in
+%$(\ref{fun:NM_R(X)})$. Suppose the spectrum $\sigma(R(X_0)) \subset
+%\MCD\backslash\{0\}$ for some nonsingular matrix $X_0 \in
+%\CS^{n \times n}$ and that $\|R(X_0)\| < 1$ for a sub-multiplicative
+%matrix norm $\|\cdot\|$, where $\MCD$ is defined in
+%$(\ref{set:D})$. Let $\{X_k\}$ be the sequence starting from
+%$X_0$ generated by Newton's method $(\ref{it:NM})$ for solving
+%$(\ref{eq:f(X)=0})$. Then we have
+%
+设~$R(X)$~由~$(\ref{fun:NM_R(X)})$~定义, 矩阵~$X_0 \in \CS^{n \times
+n}$~是非奇异的. 设~$R(X_0)$~的谱满足~$\sigma(R(X_0)) \subset
+\MCD$~且存在一个次乘性矩阵范数~$\|\cdot\|$~使得~$\|R(X_0)\| < 1$,
+其中~$\MCD$~由~$(\ref{set:D})$~定义.
+令~$\{X_k\}$~是由~Newton~法~$(\ref{it:NM})$~以~$X_0$~为初始点进行迭代产生的矩阵序列.
+则有
+\begin{equation}
+\label{ineq:NM_norm_R(Xk)_1} \|R(X_k)\| \leq q^{2^k-1}(X_0) \cdot
+\|R(X_0)\|, \quad k = 1, 2, \ldots,
+\end{equation}
+%where
+其中
+\begin{equation*}
+%\label{cons:NM_q(X0)}
+q(X_0) := \frac{\phi(\|R(X_0)\|)}{\|R(X_0)\|}
+< 1,
+\end{equation*}
+%and $\phi_{\textup{N}}$ is defined by $(\ref{fun:NM_phi(z)})$.
+%
+而~$\phi_{\textup{N}}$~由~$(\ref{fun:NM_phi(z)})$~定义.
+\end{lemma}
+
+\begin{proof}
+%For $X_0$ chosen, by (\ref{ineq:NM_norm_R(E(X))_1}) in Lemma
+%\ref{lem:NM_norm_R(N(X))_R(X)}, we have
+
+对于取定的矩阵~$X_0$, 由~(\ref{ineq:NM_norm_R(E(X))_1})~可得
+$$
+\|R(X_1)\| \leq \frac{\phi_{\textup{N}}(\|R(X_0)\|)}{\|R(X_0)\|^2}
+\|R(X_0)\|^2 = q(X_0) \cdot \|R(X_0)\|.
+$$
+%If (\ref{ineq:NM_norm_R(Xk)_1}) holds for some $k \geq 1$, then by
+%Lemma \ref{lem:NM_norm_R(N(X))_R(X)} again, one has that
+%
+如果对于某个整数~$k \geq 1$, (\ref{ineq:NM_norm_R(Xk)_1})~是成立的,
+那么由引理~\ref{lem:NM_norm_R(N(X))_R(X)}~有
+\begin{align*}
+\|R(X_{k+1})\| & \leq
+\frac{\phi_{\textup{N}}(\|R(X_k)\|)}{\|R(X_k)\|^2}\|R(X_k)\|^2\\
+& \leq \frac{\phi_{\textup{N}}(\|R(X_0)\|)}{\|R(X_0)\|^2}
+\left[q^{2^k-1}(X_0)\right]^2 \cdot \|R(X_0)\|^2\\
+& = [q(X_0)]^{2^{k+1}-1}\cdot\|R(X_0)\|.
+\end{align*}
+%Thus, by induction, (\ref{ineq:NM_norm_R(Xk)_1}) holds for all $k
+%\geq 1$. This completes the proof.
+%
+因而, 由归纳法知, 对于任意的~$k \geq 1$,
+(\ref{ineq:NM_norm_R(Xk)_1})~都是成立的. 证完.
+\end{proof}
+
+
+
+\begin{lemma}
+\label{lem:NM_R(X)_convergence2} %Let $R(X)$  be defined in
+%$(\ref{fun:NM_R(X)})$. If the spectrum $\sigma(R(X_0)) \subset
+%\MCD^{\textup{N}}_2 \bigcap \MCD^{\textup{N}}_1\backslash\{0\}$ for some nonsingular
+%matrix $X_0 \in \CS^{n \times n}$, where $\MCD^{\textup{N}}_1$ and
+%$\MCD^{\textup{N}}_2$ are defined in $(\ref{set:NM_D1})$ and
+%$(\ref{set:NM_D2})$, respectively. Let $\{X_k\}$ be the sequence
+%starting from $X_0$ generated by Newton's method $(\ref{it:NM})$ for
+%solving $(\ref{eq:f(X)=0})$. Then, there exists $\widehat{N} > 0$
+%such that
+%
+设~$R(X)$~由~$(\ref{fun:NM_R(X)})$~定义, 矩阵~$X_0 \in \CS^{n \times
+n}$~是非奇异的. 如果~$R(X_0)$~的谱满足~$\sigma(R(X_0)) \subset
+\MCD^{\textup{N}}_2 \bigcap \MCD^{\textup{N}}_1\backslash\{0\}$,
+其中~$\MCD^{\textup{N}}_1$~和
+~$\MCD^{\textup{N}}_2$~分别由~$(\ref{set:NM_D1})$~和~$(\ref{set:NM_D2})$~定义.
+设~$\{X_k\}$~是由~Newton~法~$(\ref{it:NM})$~以~$X_0$~为初始点进行迭代产生的矩阵序列.
+则存在整数~$\widehat{N} > 0$~使得
+\begin{equation}
+\label{ineq:NM_norm_R(Xk)_2} \|R(X_k)\| \leq
+[q(X_{\widehat{N}})]^{2^{k-\widehat{N}}-1} \cdot
+\|R(X_{\widehat{N}})\|, \quad \forall \ k
+> \widehat{N},
+\end{equation}
+%where $q(X_{\widehat{N}})$ is defined as $q(X_0)$ in
+%$(\ref{cons:NM_q(X0)})$ by substituting $X_{\widehat{N}}$ for $X_0$.
+%
+其中
+\begin{equation*}
+q(X_{\widehat{N}}) :=
+\frac{\phi(\|R(X_{\widehat{N}})\|)}{\|R(X_{\widehat{N}})\|} < 1,
+\end{equation*}
+而~$\phi_{\textup{N}}$~由~$(\ref{fun:NM_phi(z)})$~定义.
+\end{lemma}
+
+\begin{proof}
+%For any $r(z_0) \in \sigma(R(X_0))$, let $\{z_k\}$ be the sequence
+% generated by the scalar form of (\ref{it:NM}) starting from $z_0$. It
+%follows from Lemma \ref{lem:NM_r(z)_convergence2} that there exists
+%$N
+%> 0$ such that $|r(z_N)| < 1$. Then, we can get from Lemma
+%\ref{lem:NM_r(z)_convergence1} that
+
+对于任意的~$r(z_0) \in \sigma(R(X_0))$,
+设~$\{z_k\}$~是由标量~Newton~法~(\ref{it:NM})~以~$z_0$~为初始点进行迭代产生的序列.
+则由引理~\ref{lem:NM_r(z)_convergence2}~知, 存在整数~$N
+> 0$~使得~$|r(z_N)| < 1$. 于是,
+由引理~\ref{lem:NM_r(z)_convergence1}~可得
+\begin{equation*}
+\label{ineq:abs_r(zk)_3} |r(z_k)| < |r(z_N)|^{2^{k-N}}, \quad
+\forall \ k > N.
+\end{equation*}
+%Define
+定义
+$$
+\widehat{N} := \max_{r(z_0) \in \sigma(R(X_0))} \{N: \text{choose a
+}N
+> 0 \text{ such that } |r(z_N)| < 1\}.
+$$
+%Then, there exists a sub-multiplicative matrix norm $\|\cdot\|$ such
+%that $\|X_{\widehat{N}}\| < 1$. Thus, (\ref{ineq:NM_norm_R(Xk)_2})
+%follows from Lemma \ref{lem:NM_R(X)_convergence1}. This completes
+%the proof.
+%
+则存在一个次乘性矩阵范数~$\|\cdot\|$~使得~$\|X_{\widehat{N}}\| < 1$.
+于是,
+由引理~\ref{lem:NM_R(X)_convergence1}~可知~(\ref{ineq:NM_norm_R(Xk)_2})~是成立的.
+证完.
+\end{proof}
+
+
+
+\section{定理~\ref{th:MatrixNMCon}~的证明}
+
+
+%The following lemma is taken from \cite[Theorem 4.15]{Higham2008},
+%which allows us to deduce convergence of the matrix iteration
+%sequence generated by Newton's method (\ref{it:NM}).
+
+下面的引理来自~\cite[定理~4.15]{Higham2008}.
+根据该引理并结合上节中的引理即可证明我们的收敛定理.
+
+\begin{lemma}[{\cite[定理~4.15]{Higham2008}}]
+\label{lem:MatIteConLem} %Suppose that $g(x,t)$ is a rational
+%function with respect to its two variables and that $x^* =
+%f(\lambda)$ is an attracting fixed point of the iteration $x_{k + 1}
+%= g(x_k, \lambda), x_0 = \phi_0(\lambda)$, where $\phi_0$ is a
+%rational function and $\lambda \in \CS$. Then, the matrix sequence
+%generated by $X_{k + 1} = g(X_k, J(\lambda)), X_0 =
+%\phi_0(J(\lambda))$, converges to a matrix $X^*$ with $(X^*)_{ii}
+%\equiv f(\lambda)$, $i = 1, 2, \ldots, m$, where $J(\lambda) \in
+%\CS^{m \times m}$ is a Jordan block.
+
+设~$g(x,t)$~是一个双变量的有理函数, $x^* =
+f(\lambda)$~是如下迭代格式的一个吸引固定点:
+$$
+x_{k + 1} = g(x_k, \lambda), \quad x_0 = \phi_0(\lambda),
+$$
+其中 ~$\phi_0$~是一个有理函数而~$\lambda \in \CS$. 则由迭代格式
+$$
+X_{k + 1} = g(X_k, J(\lambda)), \quad X_0 = \phi_0(J(\lambda))
+$$
+迭代产生的矩阵序列~$\{X_k\}$~收敛于满足如下关系的矩阵~$X^*$:
+$$
+(X^*)_{ii} \equiv f(\lambda), \quad i = 1, 2, \ldots, m,
+$$
+其中 ~$J(\lambda) \in \CS^{m \times m}$~为~Jordan~块.
+\end{lemma}
+
+
+
+
+%Now, we can prove Theorem \ref{th:MatrixNMCon} by applying the above
+%lemmas.
+
+下面应用引理~\ref{lem:MatIteConLem}~来证明~Newton~法~(\ref{it:NM})~的收敛性定理~\ref{th:MatrixNMCon}.
+
+\begin{proof}[\textup{\heiti{定理~$\ref{th:MatrixNMCon}$~证明}}]
+%By Corollary \ref{cor:NM_N(Xk)}, the matrix sequence $\{X_k\}$
+%generated by Newton's method (\ref{it:NM}) starting from $X_0 = \I$
+%is well defined when the eigenvalues of $A$ are in $\MCR_{\textup{N}} \subset
+%\MCD^{\textup{N}}_1$. Thanks to Lemma \ref{lem:MatIteConLem}, $\{X_k\}$
+%converges to the principal $p$th root of $A$ follows from Corollary
+%\ref{cor:NM_zk_convergence1}. The first part of theorem is
+%completed.
+
+首先由推论~\ref{cor:NM_N(Xk)}~知,
+当矩阵~$A$~的谱~$\sigma(A)$~满足~$\sigma(A)\subset \MCR_{\textup{N}}
+\subset \MCD^{\textup{N}}_1$~时, 由~Newton~法~(\ref{it:NM})~以~$X_0
+= \I$~为初始点进行迭代产生的矩阵序列~$\{X_k\}$~是有定义的.
+再由推论~\ref{cor:NM_zk_convergence1}~及引理~\ref{lem:MatIteConLem}~可知,
+矩阵序列~$\{X_k\}$~收敛于矩阵~$A$~的主~$p$~次根~$A^{1/p}$.
+
+%For the second part, let $X_* = A^{1/p}$ and $E_k = X_k - X_*$ for
+%$k \geq 0$. Due to the commutativity of $X_k$ and $X_*$, we have
+
+下面考虑收敛速度. 对于~$k \geq 0$, 令~$X_* := A^{1/p}$~及~$E_k :=
+X_k - X_*$. 由于~$X_k$~与~$X_*$~是可交换的, 故对任意的~$\ k \geq
+0$~有
+\begin{align}
+R(X_k) & = \I - AX_k^{-p} \nonumber\\
+& = (X_k^p - X_*^p)X_k^{-p} \nonumber\\
+& = (X_k - X_*)\left(X_k^{p - 1} + X_k^{p - 2}X_* + \cdots +
+X_k X_*^{p - 2} + X_*^{p - 1}\right)X_k^{-p} \nonumber\\
+& = E_k \left(X_k^{p - 1} + X_k^{p - 2}X_* + \cdots + X_k X_*^{p -
+2} + X_*^{p - 1}\right) X_k^{-p}, \label{eq:NM_R(Xk)}
+\end{align}
+%Set
+记
+$$
+Y_k := \sum_{i = 1}^p X_k^{p - i} X_*^{i - 1} = X_k^{p - 1} + X_k^{p
+- 2}X_* + \cdots + X_k X_*^{p - 2} + X_*^{p - 1}.
+$$
+%Since $X_k$ converges to $A^{1/p}$ and all the eigenvalues of
+%$A^{1/p}$ are not in $\RS^-$, there exists nonnegative integer $N >
+%0$ such that the eigenvalues $X_k$ are not in $\RS^-$ for all $k
+%\geq N$. Thus, the eigenvalues of $Y_k$ are also not in $\RS^-$ and
+%so $Y_k$ is nonsingular for $k \geq N$. Then, it follows from
+%(\ref{eq:NM_R(Xk)}) that
+%
+因~$X_k$~收敛于~$A^{1/p}$~且~$A^{1/p}$~的所有特征值均不属于~$\RS^-
+:= (-\infty, 0]$, 故存在非负整数~$N > 0$~使得对于任意的~$k \geq N$,
+$X_k$~的特征值均不属于~$\RS^-$. 进而知~$Y_k$~的特征值亦不在~$\RS^-$,
+从而对任意的~$k \geq N$~矩阵~$Y_k$~都是非奇异的.
+于是由~(\ref{eq:NM_R(Xk)})~可得
+\begin{equation}
+\label{eq:NM_Ek+1} E_{k + 1} = R(X_{k + 1}) X_{k + 1}^p Y_{k +
+1}^{-1}, \ \ k \geq N.
+\end{equation}
+%Thanks to (\ref{ineq:NM_norm_R(Xk)_1}) and
+%(\ref{ineq:NM_norm_R(Xk)_2}) in Lemmas
+%\ref{lem:NM_R(X)_convergence1} and \ref{lem:NM_R(X)_convergence2},
+%respectively, there exists  $K_0 > 0$ such that $\|R(X_{k + 1})\| <
+%\|R(X_{k})\|^2$ for any $k \geq K_0$. It follows from
+%(\ref{eq:NM_R(Xk)}) and (\ref{eq:NM_Ek+1}) that
+%
+由~(\ref{ineq:NM_norm_R(Xk)_1})~和~(\ref{ineq:NM_norm_R(Xk)_2})~知,
+存在~$K_0 > 0$~使得对于所有的~$k \geq K_0$~都有
+$$
+\|R(X_{k + 1})\| < \|R(X_{k})\|^2.
+$$
+所以, 对任意的~$k \geq K_0$,
+应用~(\ref{eq:NM_R(Xk)})~和~(\ref{eq:NM_Ek+1})~可得
+\begin{align}
+\|E_{k + 1}\| & \leq \|R(X_{k + 1})\| \|X_{k + 1}\|^p \|Y_{k + 1}^{-1}\| \nonumber\\
+& <  \|R(X_k)\|^2 \|X_{k + 1}\|^p \|Y_{k + 1}^{-1}\| \nonumber\\
+& \leq \left(\|X_k^{-1}\|^p\|X_{k + 1}\|^p \|Y_k\|\|Y_{k +
+1}^{-1}\|\right) \|E_k\|^2. \label{ineq:NM_norm_Ek+1}
+\end{align}
+%Thus $\{X_k\}$ is convergent guarantees that $\|X_k^{-1}\|^p\|X_{k +
+%1}\|^p \|Y_k\|\|Y_{k + 1}^{-1}\|$ is bounded for all $k \geq K_0$.
+%(\ref{ineq:NM_norm_Ek+1}) concludes that the local convergence order is
+%2. This completes the proof.
+%
+注意到因为~$\{X_k\}$~是收敛的, 所以对于所有的~$k \geq K_0$,
+$$\|X_k^{-1}\|^p\|X_{k + 1}\|^p \|Y_k\|\|Y_{k + 1}^{-1}\|
+$$
+是有界的.
+因此, 由~(\ref{ineq:NM_norm_Ek+1})~知收敛速度是~Q~二阶的. 证完.
+\end{proof}
+
+
+
+
+
+
+\section{一个注记}
+
+
+设~$\{z_k\}$~是标量~Newton~法~(\ref{it:NM})~以~$z_0 =
+1$~为初始点迭代产生的序列,
+而~$\{X_k\}$~为~Newton~法~(\ref{it:NM})~以~$X =
+\I$~为初始点迭代产生的矩阵序列. 根据引理~\ref{lem:MatIteConLem}~知,
+$\{z_k\}$~的收敛性可保证~$\{X_k\}$~的收敛性,
+而标量~Newton~法~(\ref{it:NM})~实质上是应用~Newton~法~(\ref{it:NM_BanachSpace})~于标量方程
+\begin{equation*}
+f(z) = z^p - \lambda = 0, \quad z \in \CS
+\end{equation*}
+而得到的迭代格式, 所以一个自然地选择即是~Smale~点估计理.
+根据~Smale~点估计理论,
+如果~$z\in\CS$~是~$f$~关于某一零点~$\zeta$~的逼近零点~(即满足式~(\ref{ApproximateZero})),
+那么可以保证由~Newton~法~(\ref{it:NM_BanachSpace})~以~$z$~
+为初始点进行迭代产生的序列可快速地~(局部二阶)~收敛到该零点.
+
+易知, 对于任意的~$\lambda \in \MCR_{\textup{N}}$,
+其中~$\MCR_{\textup{N}}$~由~(\ref{set:NM_R})~定义,
+不能保证~$z=1$~是~$\lambda^{1/p}$~($\lambda$~的主~$p$~次根)~的逼近零点.
+例如, 考虑复数~$\lambda = 0.22+0.62\mi \in
+\MCR_{\textup{N}}$~并取~$p=11$, 我们使用~Newton~法~(以~$z
+=1$~为初始点)~来计算~$\lambda$~的主~11~次根~$\lambda^{1/11}$,
+结果如表~\ref{tab:example1}~所示,
+根据逼近零点的定义并结合该表的结果可知,
+$z=1$~不是~$f$~关于零点~$(0.22+0.62\mi)^{1/11}$~的逼近零点.
+
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{@{\hspace{0.5cm}}l@{\hspace{2cm}}l@{\hspace{0.5cm}}}
+\hline
+$k$ & $|z_k - \zeta|$ \\
+\hline
+0 & $1.15852 \times 10^{-01}$ \\
+1 & $5.79975 \times 10^{-02}$ \\
+2 & $1.98926 \times 10^{-02}$ \\
+3 & $2.14749 \times 10^{-03}$ \\
+4 & $2.40551 \times 10^{-05}$ \\
+5 & $3.00566 \times 10^{-09}$ \\
+6 & $2.77556 \times 10^{-17}$ \\
+\hline
+\end{tabular}
+\end{center}
+\caption{%Results for $|z_k - \zeta|$ by using Newton's method with
+%starting point $z=1$.
+使用~Newton~法~(以~$z =1$~为初始点)~来计算~$\lambda^{1/11}$~的结果.}
+\label{tab:example1}
+\end{table}
+
+根据~(\ref{cons:smale1986}), 有
+\begin{align*}
+\gamma(f,z) & =
+\sup_{k\geq2}\left|\frac{f'(z)^{-1}f^{(k)}(z)}{k!}\right|^{\frac{1}{k-1}}\\
+& = \sup_{k\geq2}
+\left|\frac{p(p-1)\cdots(p-k+1)z^{p-k}}{pz^{p-1}k!}\right|^{\frac{1}{k-1}}\\
+& = \sup_{k\geq2}
+\left|\frac{(p-1)\cdots(p-k+1)}{k!}\right|^{\frac{1}{k-1}}\cdot
+|z^{-1}|\\
+& = \frac{p-1}{2|z|}.
+\end{align*}
+
+由~$\gamma-$定理~(即定理~\ref{th:SmaleGammaTh})~可立即得到如下结果:
+
+\begin{theorem}
+\label{th:ConvResult_GammaTh} 给定复数~$\lambda \in \CS$, 设~$f(z) =
+z^p - \lambda, z \in \CS$. 如果
+\begin{equation}
+\label{set:G1} \lambda \in \MCG_1 := \left\{\lambda \in \CS:
+|1-\lambda^{1/p}| < \frac{3-\sqrt{7}}{p-1}|\lambda^{1/p}|, p \geq
+2\right\},
+\end{equation}
+那么~$z = 1$~是~$f$~关于相关零点~$\zeta :=
+\lambda^{1/p}$~的逼近零点.
+\end{theorem}
+
+图~\ref{fig:reg_gamma_AZ}~显示了
+由~(\ref{set:G1})~定义的收敛域~$\MCG_1$~在不同~$p$~值下的图形~(蓝色部分),
+而红色部分为收敛域~$\widehat{\MCD}:= \{z \in \CS: 1-z \in
+\overline{\MCD}\}$, 其中~$\overline{\MCD}$~为~$\MCD$~的闭包,
+而~$\MCD$~由~(\ref{set:D})~定义. 由该图可知, 当~$p = 20, 80, 200,
+300$~时, 收敛域~$\MCG_1$~几乎相同. 然而, 需要指出的是, 定理
+~\ref{th:ConvResult_GammaTh}~所得的结果在实际计算中并不好,
+这是因为收敛域~$\MCG_1$~不够大. 例如, 考虑取~$\lambda = 1.6 +
+0.3\mi$, 并计算其主~20~次根~$\lambda^{1/20}$. 显然, $\lambda \not\in
+\MCD_1$, 但容易验证~$z = 1$~是~$f(z) := z^{20}-(1.6 +
+0.3\mi)$~关于相关零点~$\zeta := \lambda^{1/20} \approx 1.02462 +
+0.00949583\mi$~的逼近零点.
+
+
+
+\begin{figure}[h!]
+\centering
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_gamma_th_p=3.eps}}
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_gamma_th_p=5.eps}}
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_gamma_th_p=7.eps}}
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_gamma_th_p=9.eps}}\\
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_gamma_th_p=20.eps}}
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_gamma_th_p=80.eps}}
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_gamma_th_p=200.eps}}
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_gamma_th_p=300.eps}}\\
+\caption{由~(\ref{set:G1})~定义的收敛域~$\MCG_1$~(蓝色部分)~在不同~$p$~值下的图形,
+红色区域为圆盘~$\{z\in\CS: |1-z|\leq 1\}$. }\label{fig:reg_gamma_AZ}
+\end{figure}
+
+
+
+为了扩大收敛域, 我们考虑一个精细的~$\gamma-$定理~(一维情形).
+对于一个给定的正常数~$c>0$, 定义
+\begin{equation}
+\label{gamma_ref} \widetilde{\gamma}(f,z) :=
+\sup_{k\geq2}\left|\frac{f'(z)^{-1}f^{(k)}(z)}{ck!}\right|^{\frac{1}{k-1}}.
+\end{equation}
+下面的结果取自~\cite[定理~7.2]{Wang2000a}~的一维情形:
+
+
+\begin{theorem}[{\cite[定理~7.2]{Wang2000a}}]
+\label{th:GammaTh_ref} 假设~$f: \CS \to \CS$~是解析的, $\zeta \in
+\CS$~是~$f$~的一个零点, 即~$f(\zeta) = 0$, 并满足
+~$f'(\zeta)^{-1}$~是存在的. 如果
+\begin{equation}
+\label{radius:gamma_AZ_ref} \widetilde{\gamma}(f,\zeta) |z-\zeta| <
+\frac{2c+1 - \sqrt{c(4c+3)}}{c+1},
+\end{equation}
+那么~$z$~是~$f$~关于相关零点~$\zeta$~的一个逼近零点.
+\end{theorem}
+
+
+
+根据~(\ref{gamma_ref}), 若~$f(z) = z^p - \lambda, z \in \CS$, 则
+$$
+\widetilde{\gamma}(f,\zeta) = \frac{p-1}{2c|\zeta|}.
+$$
+于是由定理~\ref{th:GammaTh_ref}~可得如下的结果:
+
+\begin{figure}[t]
+\centering
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_ref_gamma_th_p=3.eps}}
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_ref_gamma_th_p=5.eps}}
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_ref_gamma_th_p=7.eps}}
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_ref_gamma_th_p=9.eps}}\\
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_ref_gamma_th_p=20.eps}}
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_ref_gamma_th_p=80.eps}}
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_ref_gamma_th_p=200.eps}}
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_ref_gamma_th_p=300.eps}}\\
+\caption{由~(\ref{set:G2})~定义的收敛域~$\MCG_2$~(蓝色部分)~在不同~$p$~值下的图形,
+红色区域为圆盘~$\{z\in\CS: |1-z|\leq 1\}$.
+}\label{fig:reg_gamma_AZ_ref}
+\end{figure}
+
+\begin{theorem}
+\label{th:ConvResult_GammaTh_ref} 对于给定的复数~$z\in \CS$, 如果
+\begin{equation}
+\label{set:G2} \lambda \in \MCG_2 := \left\{\lambda \in \CS:
+|z-\lambda^{1/p}| < \frac{1}{2(p-1)}|\lambda^{1/p}|, p \geq
+2\right\},
+\end{equation}
+那么~$z$~是~$f$~关于相关零点~$\zeta :=
+\lambda^{1/p}$~的一个逼近零点.
+\end{theorem}
+
+\begin{proof}
+注意到, 对于任意的~$c > 0$~有
+\begin{align*}
+|z-\zeta| & < \frac{2c+1 -
+\sqrt{c(4c+3)}}{(c+1)\widetilde{\gamma}(f,\zeta)}  =  \frac{2c+1 -
+\sqrt{c(4c+3)}}{c+1}\frac{2c|\zeta|}{p-1}  < \frac{|\zeta|}{2(p-1)}.
+\end{align*}
+于是由定理~\ref{th:GammaTh_ref}~即得证.
+\end{proof}
+
+
+
+图~\ref{fig:reg_gamma_AZ_ref}~给出了在不同~$p$~值下
+保证~$z=1$~为~$f$~关于相关零点~$\lambda^{1/p}$~的一个逼近零点的~$\lambda
+\in \CS$~的区域. 对比图~\ref{fig:reg_gamma_AZ}~可知,
+由~(\ref{set:G2})~定义的收敛域~$\MCG_2$~比由~(\ref{set:G1})~定义的~$\MCG_1$~更大.
+
+
+
+
+
+但需要指出的是, 我们目前仍无法确定~$z=1$~时的最大收敛域. 然而,
+当考虑对~$z=1$~作一小扰动时, 相应地收敛域发生了一些较大的变化. 例如,
+当~$p$~取固定值~100~时,
+图~\ref{fig:reg_gamma_AZ_ref_pert}~给出了不同的小扰动值~$\epsilon$~下保证~$z
+= 1 +
+\epsilon$~为~$f$~关于相关零点~$\lambda^{1/p}$~的一个逼近零点的~$\lambda
+\in \CS$~的区域. 从子图~(e)-(h)~可知, 当~$\epsilon$~取区间~$[0.006,
+0.012]$~上的值时可得到较大的收敛域,
+这或许将为未来设计更好的算法提供一个观察.
+
+
+\begin{figure}[h!]
+\centering
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_ref_gamma_th_p=100_z=099.eps}}
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_ref_gamma_th_p=100_z=0996.eps}}
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_ref_gamma_th_p=100_z=1002.eps}}
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_ref_gamma_th_p=100_z=1004.eps}}\\
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_ref_gamma_th_p=100_z=1006.eps}}
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_ref_gamma_th_p=100_z=1008.eps}}
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_ref_gamma_th_p=100_z=101.eps}}
+\subfigure[]{\includegraphics[width=0.23\textwidth]{region_ref_gamma_th_p=100_z=1012.eps}}\\
+\caption{固定~$p=100$, 不同的小扰动值~$\epsilon$, 保证~$z = 1 +
+\epsilon$~为~$f$~关于相关零点~$\lambda^{1/p}$~的一个逼近零点的~$\lambda
+\in \CS$~的区域~(蓝色部分), 红色区域为圆盘~$\{z\in\CS: |1-z|\leq
+1\}$.}\label{fig:reg_gamma_AZ_ref_pert}
+\end{figure}

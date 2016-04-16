@@ -1,0 +1,21 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=latex 2016.4.7)  7 APR 2016 13:51
+entering extended mode
+**chapter3.tex
+(H:\论文正文\chapters\chapter3.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, dumylang, nohyphenation, ge
+rman, ngerman, german-x-2009-06-19, ngerman-x-2009-06-19, french, loaded.
+! Undefined control sequence.
+l.6 \chapter
+            {基于~4P1-P1 元求解~Navier-Stokes 方程的移动网格方法}
+? X
+ 
+Here is how much of TeX's memory you used:
+ 8 strings out of 495286
+ 211 string characters out of 3181611
+ 45037 words of memory out of 3000000
+ 3307 multiletter control sequences out of 15000+200000
+ 3640 words of font info for 14 fonts, out of 3000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 5i,0n,1p,182b,8s stack positions out of 5000i,500n,10000p,200000b,50000s
+No pages of output.

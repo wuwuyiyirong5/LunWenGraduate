@@ -1,0 +1,359 @@
+\begin{thebibliography}{10}
+
+\bibitem{wang2004book}
+王烈衡 and 许学军, 有限元方法的数学基础, 科学出版社, 2004.
+
+\bibitem{bai2006structured}
+Bai Z.Z., Structured preconditioners for nonsingular matrices of block
+  two-by-two structures, Mathematics of Computation, 2006, 75(254): 791--815.
+
+\bibitem{bai2005inexact}
+Bai Z.Z. and Ng M.K., On inexact preconditioners for nonsymmetric matrices,
+  SIAM Journal on Scientific Computing, 2005, 26(5): 1710--1724.
+
+\bibitem{baines1994moving}
+Baines M.J., Moving finite elements, Oxford University Press, Inc., 1994.
+
+\bibitem{benzi2005numerical}
+Benzi M., Golub G.H. and Liesen J., Numerical solution of saddle point
+  problems, Acta numerica, 2005, 14: 1--137.
+
+\bibitem{benzi2011relaxed}
+Benzi M., Ng M., Niu Q. and Wang Z., A relaxed dimensional factorization
+  preconditioner for the incompressible navier--stokes equations, Journal of
+  Computational Physics, 2011, 230(16): 6185--6202.
+
+\bibitem{benzi2006augmented}
+Benzi M. and Olshanskii M.A., An augmented lagrangian-based approach to the
+  oseen problem, SIAM Journal on Scientific Computing, 2006, 28(6): 2095--2113.
+
+\bibitem{benzi2003robust}
+Benzi M. and T{\"u}ma M., A robust incomplete factorization preconditioner for
+  positive definite matrices, Numerical Linear Algebra with Applications, 2003,
+  10(5-6): 385--400.
+
+\bibitem{bercovier1979error}
+Bercovier M. and Pironneau O., Error estimates for finite element method
+  solution of the stokes problem in the primitive variables, Numerische
+  Mathematik, 1979, 33(2): 211--224.
+
+\bibitem{berrone2009space}
+Berrone S. and Marro M., Space--time adaptive simulations for unsteady
+  navier--stokes problems, Computers \& Fluids, 2009, 38(6): 1132--1144.
+
+\bibitem{bochev2006stabilization}
+Bochev P.B., Dohrmann C.R. and Gunzburger M.D., Stabilization of low-order
+  mixed finite elements for the stokes equations, SIAM Journal on Numerical
+  Analysis, 2006, 44(1): 82--101.
+
+\bibitem{boyle2007hsl}
+Boyle J., Mihajlovic M. and Scott J., Hsl mi20: an efficient amg
+  preconditioner, Tech. rep., Citeseer, 2007.
+
+\bibitem{boyle2010hsl_mi20}
+Boyle J., Mihajlovi{\'c} M. and Scott J., Hsl\_mi20: an efficient amg
+  preconditioner for finite element problems in 3d, International journal for
+  numerical methods in engineering, 2010, 82(1): 64--98.
+
+\bibitem{brackbill1993adaptive}
+Brackbill J.U., {An adaptive grid with directional control}, Journal of
+  Computational Physics, 1993, 108(1): 38--50.
+
+\bibitem{braess1983new}
+Braess D. and Hackbusch W., A new convergence proof for the multigrid method
+  including the v-cycle, SIAM Journal on Numerical Analysis, 1983, 20(5):
+  967--975.
+
+\bibitem{brenner2007mathematical}
+Brenner S. and Scott R., The mathematical theory of finite element methods,
+  vol.~15, Springer Science \& Business Media, 2007.
+
+\bibitem{brezina2005adaptive}
+Brezina M., Falgout R., MacLachlan S., Manteuffel T., McCormick S. and Ruge J.,
+  Adaptive smoothed aggregation ($\alpha$ sa) multigrid, SIAM review, 2005,
+  47(2): 317--346.
+
+\bibitem{brezzi2012mixed}
+Brezzi F. and Fortin M., Mixed and hybrid finite element methods, vol.~15,
+  Springer Science \& Business Media, 2012.
+
+\bibitem{budd2009adaptivity}
+Budd C.J., Huang W. and Russell R.D., {Adaptivity with moving grids}, Acta
+  Numerica, 2009, 18: 111--241.
+
+\bibitem{cai2009numerical}
+Cai M., Mu M. and Xu J., Numerical solution to a mixed navier-stokes/darcy
+  model by the two-grid approach, SIAM Journal on Numerical Analysis, 2009,
+  47(5): 3325--3338.
+
+\bibitem{cao1999anr}
+Cao W., Huang W. and Russell R.D., Anr-adaptive finite element method based
+  upon moving mesh pdes, Journal of Computational Physics, 1999, 149(2):
+  221--244.
+
+\bibitem{cheng1997analysis}
+Cheng X.l., Han W. and Huang H.c., Analysis of some mixed elements for the
+  stokes problem, Journal of computational and applied mathematics, 1997,
+  85(1): 19--35.
+
+\bibitem{cuvelier1986finite}
+Cuvelier C., Segal A. and Van~Steenhoven A.A., Finite element methods and
+  Navier-Stokes equations, vol.~22, Springer Science \& Business Media, 1986.
+
+\bibitem{danaila2014newton}
+Danaila I., Moglan R., Hecht F. and Le~Masson S., A newton method with adaptive
+  finite elements for solving phase-change problems with natural convection,
+  Journal of Computational Physics, 2014, 274: 826--840.
+
+\bibitem{boor1974goodII}
+de~Boor C., {Good approximation by splines with variable knots. II}, in:
+  Conference on the Numerical Solution of Differential Equations, Lecture Notes
+  in Mathematics, vol. 363 of Lecture Notes in Mathematics, Berlin:
+  Springer-Verlag, 1974 pp. 12--20.
+
+\bibitem{dean1993some}
+Dean E.J. and Glowinski R., On some finite element methods for the numerical
+  simulation of incompressible viscous flow, Incompressible computational fluid
+  dynamics- Trends and advances, Cambridge, United Kingdom and New York,
+  Cambridge University Press, 1993,, 1993, pp. 17--65.
+
+\bibitem{di2008general}
+Di Y., Li R. and Tang T., A general moving mesh framework in 3d and its
+  application for simulating the mixture of multi-phase flows, Commun. Comput.
+  Phys, 2008, 3(3): 582--602.
+
+\bibitem{di2005moving}
+Di Y., Li R., Tang T. and Zhang P., Moving mesh finite element methods for the
+  incompressible navier--stokes equations, SIAM Journal on Scientific
+  Computing, 2005, 26(3): 1036--1056.
+
+\bibitem{di2005}
+Di Y., Li R., Tang T. and Zhang P., {Moving mesh finite element methods for the
+  incompressible Navier-Stokes equations}, SIAM Journal on Scientific
+  Computing, 2005, 26(3): 1036--1056.
+
+\bibitem{di2007level}
+Di Y., Li R., Tang T. and Zhang P., {Level set calculations for incompressible
+  two-phase flows on a dynamically adaptive grid}, Journal of Scientific
+  Computing, 2007, 31(1): 75--98.
+
+\bibitem{dvinsky1991adaptive}
+Dvinsky A.S., {Adaptive grid generation from harmonic maps on Riemannian
+  manifolds}, Journal of Computational Physics, 1991, 95(2): 450--476.
+
+\bibitem{milton1982album}
+Dyke M.V., An album of fluid motion, 1982.
+
+\bibitem{ebeida2009unsteady}
+Ebeida M.S., Davis R.L. and Freund R.W., Unsteady incompressible flow
+  simulation using galerkin finite elements with spatial/temporal adaptation,
+  in: 47th AIAA Aerospace Sciences Meeting, Orlando, FL, 2009 .
+
+\bibitem{elman2007least}
+Elman H., Howle V.E., Shadid J., Silvester D. and Tuminaro R., Least squares
+  preconditioners for stabilized discretizations of the navier-stokes
+  equations, SIAM Journal on Scientific Computing, 2007, 30(1): 290--311.
+
+\bibitem{elman2011fast}
+Elman H., Mihajlovi{\'c} M. and Silvester D., Fast iterative solvers for
+  buoyancy driven flow problems, Journal of Computational Physics, 2011,
+  230(10): 3900--3914.
+
+\bibitem{elman1996fast}
+Elman H. and Silvester D., Fast nonsymmetric iterations and preconditioning for
+  navier-stokes equations, SIAM Journal on Scientific Computing, 1996, 17(1):
+  33--46.
+
+\bibitem{elman2005finite}
+Elman H.C., Silvester D.J. and Wathen A.J., Finite Elements and Fast Iterative
+  Solvers: with Applications in Incompressible Fluid Dynamics: with
+  Applications in Incompressible Fluid Dynamics, Oxford University Press, 2005.
+
+\bibitem{elman2014finite}
+Elman H.C., Silvester D.J. and Wathen A.J., Finite elements and fast iterative
+  solvers: with applications in incompressible fluid dynamics, Oxford
+  University Press (UK), 2014.
+
+\bibitem{elman2009boundary}
+Elman H.C. and Tuminaro R.S., Boundary conditions in approximate commutator
+  preconditioners for the navier-stokes equations, Electronic Transactions on
+  Numerical Analysis, 2009, 35: 257--280.
+
+\bibitem{fischer1998minimum}
+Fischer B., Ramage A., Silvester D.J. and Wathen A.J., Minimum residual methods
+  for augmented systems, BIT Numerical Mathematics, 1998, 38(3): 527--543.
+
+\bibitem{girault2012finite}
+Girault V. and Raviart P.A., Finite element methods for Navier-Stokes
+  equations: theory and algorithms, vol.~5, Springer Science \& Business Media,
+  2012.
+
+\bibitem{gresho1998incompressible}
+Gresho P. and Sani R., Incompressible flow and the finite element method.
+  volume 2: Incompressible flow and finite element, 1998.
+
+\bibitem{gunzburger2012finite}
+Gunzburger M.D., Finite element methods for viscous incompressible flows: a
+  guide to theory, practice, and algorithms, Elsevier, 2012.
+
+\bibitem{hamilton2006harmonic}
+Hamilton R.S., Harmonic maps of manifolds with boundary, vol. 471, Springer,
+  2006.
+
+\bibitem{harlow1965numerical}
+Harlow F.H., Welch J.E. et~al., Numerical calculation of time-dependent viscous
+  incompressible flow of fluid with free surface, Physics of fluids, 1965,
+  8(12): 2182.
+
+\bibitem{he2003two}
+He Y., Two-level method based on finite element and crank-nicolson
+  extrapolation for the time-dependent navier-stokes equations, SIAM Journal on
+  Numerical Analysis, 2003, 41(4): 1263--1285.
+
+\bibitem{hirt1974arbitrary}
+Hirt C., Amsden A.A. and Cook J., An arbitrary lagrangian-eulerian computing
+  method for all flow speeds, Journal of Computational Physics, 1974, 14(3):
+  227--253.
+
+\bibitem{huang1994moving}
+Huang W., Ren Y. and Russell R.D., {Moving mesh methods based on moving mesh
+  partial differential equations}, Journal of Computational Physics, 1994,
+  113(2): 279--290.
+
+\bibitem{huang1994MMPDE}
+Huang W., Ren Y. and Russell R.D., {Moving mesh partial differential equations
+  (MMPDES) based on the equidistribution principle}, SIAM Journal on Numerical
+  Analysis, 1994, 31(3): 709--730.
+
+\bibitem{kay2002preconditioner}
+Kay D., Loghin D. and Wathen A., A preconditioner for the steady-state
+  navier--stokes equations, SIAM Journal on Scientific Computing, 2002, 24(1):
+  237--256.
+
+\bibitem{klawonn1999block}
+Klawonn A. and Starke G., Block triangular preconditioners for nonsymmetric
+  saddle point problems: field-of-values analysis, Numerische Mathematik, 1999,
+  81(4): 577--594.
+
+\bibitem{li2009performance}
+Li J., He Y. and Chen Z., Performance of several stabilized finite element
+  methods for the stokes equations based on the lowest equal-order pairs,
+  Computing, 2009, 86(1): 37--51.
+
+\bibitem{li2005multi}
+Li R., On multi-mesh h-adaptive methods, Journal of Scientific Computing, 2005,
+  24(3): 321--341.
+
+\bibitem{AFEPack}
+Li R. and Liu W., {AFEPack}, {\url{http://circus.math.pku.edu.cn/AFEPack}}.
+
+\bibitem{li2001mesh}
+Li R., Liu W., Tang T. and Zhang P., Moving mesh finite element methods based
+  on harmonic maps, 2001.
+
+\bibitem{li2001moving}
+Li R., Tang T. and Zhang P., {Moving mesh methods in multiple dimensions based
+  on harmonic maps}, Journal of Computational Physics, 2001, 170(2): 562--588.
+
+\bibitem{li2002moving}
+Li R., Tang T. and Zhang P., {A moving mesh finite element algorithm for
+  singular problems in two and three space dimensions}, Journal of
+  Computational Physics, 2002, 177(2): 365--393.
+
+\bibitem{mu2007two}
+Mu M. and Xu J., A two-grid method of a mixed stokes-darcy model for coupling
+  fluid flow with porous media flow, SIAM journal on numerical analysis, 2007,
+  45(5): 1801--1813.
+
+\bibitem{peaceman1955numerical}
+Peaceman D.W. and Rachford Jr H.H., The numerical solution of parabolic and
+  elliptic differential equations, Journal of the Society for industrial and
+  Applied Mathematics, 1955, 3(1): 28--41.
+
+\bibitem{ruge1987algebraic}
+Ruge J. and St{\"u}ben K., Algebraic multigrid, Multigrid methods, 1987, 3(13):
+  73--130.
+
+\bibitem{saad2003iterative}
+Saad Y., Iterative methods for sparse linear systems, Siam, 2003.
+
+\bibitem{saad1986gmres}
+Saad Y. and Schultz M.H., Gmres: A generalized minimal residual algorithm for
+  solving nonsymmetric linear systems, SIAM Journal on scientific and
+  statistical computing, 1986, 7(3): 856--869.
+
+\bibitem{schoen1978univalent}
+Schoen R. and Yau S.T., On univalent harmonic maps between surfaces,
+  Inventiones Mathematicae, 1978, 44: 265--278.
+
+\bibitem{shen1999schur}
+Shen L. and Xu J., On a schur complement operator arisen from navier-stokes
+  equations and its preconditioning, LECTURE NOTES IN PURE AND APPLIED
+  MATHEMATICS, 1999, pp. 481--490.
+
+\bibitem{silvester1996fast}
+Silvester D.J. and Wathen A.J., Fast \& robust solvers for time-discretised
+  incompressible navier-stokes equations, PITMAN RESEARCH NOTES IN MATHEMATICS
+  SERIES, 1996, pp. 154--168.
+
+\bibitem{simo1994unconditional}
+Simo J. and Armero F., Unconditional stability and long-term behavior of
+  transient algorithms for the incompressible navier-stokes and euler
+  equations, Computer Methods in Applied Mechanics and Engineering, 1994,
+  111(1): 111--154.
+
+\bibitem{smith1997implicit}
+Smith A. and Silvester D., Implicit algorithms and their linearization for the
+  transient incompressible navier-stokes equations, IMA journal of numerical
+  analysis, 1997, 17(4): 527--545.
+
+\bibitem{tang2007book}
+Tang T. and Xu J., Adaptive Computations: Theory and Algorithms, Science Press,
+  2007.
+
+\bibitem{van2003iterative}
+Van~der Vorst H.A., Iterative Krylov methods for large linear systems, vol.~13,
+  Cambridge University Press, 2003.
+
+\bibitem{wabro2004coupled}
+Wabro M., Coupled algebraic multigrid methods for the oseen problem, Computing
+  and Visualization in Science, 2004, 7(3-4): 141--151.
+
+\bibitem{wang2004three}
+Wang D. and Wang X.P., A three-dimensional adaptive method based on the
+  iterative grid redistribution, Journal of Computational Physics, 2004, 199:
+  423--436.
+
+\bibitem{Wang2008}
+Wang H., Li R. and Tang T., Efficient computation of dendritic growth with
+  r-adaptive finite element methods, Journal of Computational Physics, 2008,
+  227(12): 5984--6000.
+
+\bibitem{huang2010book}
+Weizhang H. and Russell R.D., Adaptive moving mesh methods, vol. 174, Springer
+  Science \& Business Media, 2010.
+
+\bibitem{Winslow1966NUMERICAL}
+Winslow A.M., Numerical solution of the quasilinear poisson equation in a
+  nonuniform triangle mesh., Journal of Computational Physics, 1966, 135(2):
+  128--138.
+
+\bibitem{cheng2006analysis}
+Xiao-liang C. and Shaikh A.W., Analysis of the iterative penalty method for the
+  stokes equations, Applied mathematics letters, 2006, 19(10): 1024--1028.
+
+\bibitem{xu1992iterative}
+Xu J., Iterative methods by space decomposition and subspace correction, SIAM
+  Review, 1992, 34(4): 581--613.
+
+\bibitem{zheng2010adaptive}
+Zheng H., Hou Y. and Shi F., Adaptive variational multiscale methods for
+  incompressible flow based on two local gauss integrations, Journal of
+  Computational Physics, 2010, 229(19): 7030--7041.
+
+\bibitem{zheng2010posteriori}
+Zheng H., Hou Y. and Shi F., A posteriori error estimates of stabilization of
+  low-order mixed finite elements for incompressible flow, SIAM Journal on
+  Scientific Computing, 2010, 32(3): 1346--1360.
+
+\end{thebibliography}

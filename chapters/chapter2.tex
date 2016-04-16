@@ -1,0 +1,817 @@
+%%---------------------------------------------------------------------------%%
+%%------------ 第二章：矩阵根的~Newton~法 -----------------------------------%%
+%%---------------------------------------------------------------------------%%
+
+
+\chapter{预备知识}
+\label{chapter::prepare}
+
+        我们把后文中用到的混合有限元方法，构建混合元所用的几何遗传树结构，移动网格方法，以及
+    预处理方法，在本章中做简要描述和历史回顾。
+\section{混合有限元}
+    混合有限元方法的专著可以参考~F.Brezzi \cite{brezzi2012mixed}、\cite{wang2004book}。二阶
+    椭圆性问题的混合有限元方法就是基于~Hellinger-Reissner 变分原理的有限元方法。在
+    流体中混合元方法是把速度和压力耦合在一起求解，因而精度得到提高，体现出相对于
+    分开求解速度和压力有限元方法的优势。另外，对于不可压流体中的 ~Galenkin 逼近，只能
+    采取混合有限元。在这一节中，我们以~Stokes 方程为例，来介绍混合元方法。Stokes 方
+    程可以看做是~Navier-stokes 的简化，去掉了非线性项。Stokes 方程有两个需要求解的函数速
+    度~$\vec{u}$ 和压力~$p$ 是耦合的，并且速度要满足质量守恒的条件($\nabla \cdot \vec{u} = 0$)。
+    因此，需要我们用混合有限元方法来求解方程。为确保方程的解存在唯一，速度
+    和压力所在的有限元空间必须满足~inf-sup 条件。如果有限元不满足~inf-sup(LBB)
+    条件，例如在四边形单元中的~$Q_1-Q_1$、$Q_1-P_0$，三角形单元中的~$P_1-P_1$、$P_1-P_0$ 元,
+    还需要在压力空间上做稳定化。
+
+    我们考虑Stokes方程
+    \begin{eqnarray}
+        -\nabla^2 \vec{u} + \nabla p &= \vec{0},& \\
+        \nabla \cdot \vec{u} &= 0,&
+    \end{eqnarray}
+    在~$\partial \Omega = \partial \Omega_D \cup \partial \Omega_N$ 上的边界条件是
+    \begin{equation}
+        \vec{u} = \vec{w} \mbox{在 } \partial \Omega_D \mbox{ 上}, \quad \frac{\partial \vec{u}}
+        {\partial n} - \vec{n}p = \vec{s} \mbox{在 } \partial \Omega_N \mbox{ 上}.
+    \end{equation}
+    它的弱形式为：找到 ~$(\vec{u}, p) \in (H_0^1(\Omega))^2 \times L_0^2(\Omega)$ 使得
+    \begin{equation}
+        \int_{\Omega} \nabla \vec{u} : \nabla \vec{v} - \int_{\Omega}p \nabla \cdot \vec{v}
+        = \int_{\partial \Omega_N} \vec{s} \cdot \vec{v}, \quad \mbox{对所有的} \vec{v} \in X,
+        \label{eq::weak_form_stokes_momentum_continue}
+    \end{equation}
+    \begin{equation}
+        \int_{\Omega} q \nabla \cdot \vec{u}  = 0 \quad \mbox{对所有的} q \in P,
+        \label{eq::weak_form_stokes_mass_continue}
+    \end{equation}
+    其中~$ X \in (H_0^1(\Omega))^2, P \in L_0^2(\Omega)$, $L_0^2 = \{q \in L^2(\Omega)| \int_{\omega}q dx = 0$\}。
+%    为简便起见，我们这里只考虑二维情形。对~\eqref{eq::stokes} 利用格林公式，可以得到混合变分
+%    形式：寻找~$(\vec{u}, p) \in (H_0^1(\Omega))^2 \times L_0^2(\Omega)$ 使得
+%    \begin{equation}
+%        \begin{aligned}
+%            a(\vec{u}, \vec{v}) + b(\vec{v}, p) &=& (f,v), \\
+%            b(\vec{u},q) &=& 0.
+%        \end{aligned}
+%        \label{eq::weak_form_stokes}
+%    \end{equation}
+    令
+    \begin{eqnarray}
+        a(\vec{u},\vec{v}) = \int_{\Omega} \nabla \vec{u} \cdot \nabla \vec{v}, \\
+        b(\vec{u}, q) = -\int_{\Omega} \nabla \cdot \vec{u} q.
+    \end{eqnarray}
+    有限元空间~$X,P$ 要满足~inf-sup 条件或者~LBB 条件，即
+    \begin{equation}
+        \gamma ||q||_{P} \leq \sup\limits_{\vec{v} \in X}\frac{b(v, q)}{||\vec{v}||_X},
+        \quad \forall q \in P.
+        \label{eq::LBB_cond}
+    \end{equation}
+    这个条件的验证由很多专著中给出，例如(\cite{brezzi2012mixed}、\cite{brenner2007mathematical}、
+    \cite{cuvelier1986finite} 等)。我们不加证明地给出如下定理：
+    \begin{theorem}
+        问题~\eqref{eq::weak_form_stokes_momentum_continue} 和 ~\eqref{eq::weak_form_stokes_mass_continue} 的解存在唯一。
+    \end{theorem}
+    在研究用混合元去离散~Stokes 问题时，我们构造的有限维子空间~$(X_h, P_h) \subset (X, P)$ 要满足离散的
+    ~inf-sup 条件:
+    \begin{equation}
+        \gamma_0||q_h||_{P_h} \leq \sup\limits_{\vec{v}_h \in X_h}\frac{b(\vec{v}_h, q_h)}{||\vec{v}_h||_{X_h}},
+        \quad \forall q_h \in P_h,
+        \label{eq::discretized_LBB_cond}
+    \end{equation}
+    其中~$\beta_0$ 是一个跟网格尺度无关的常量。Mini 元，RT 元以及~Taylor-Hood 元都是满足离散的~LBB 条件的。
+    我们得到~\eqref{eq::weak_form_stokes_momentum_continue} 和 ~\eqref{eq::weak_form_stokes_mass_continue} 对应的离散形式：寻找~$(\vec{u}_h, p_h) \in X_h \times P_h$ 使得
+    \begin{equation}
+        \int_{\Omega} \nabla \vec{u}_h : \nabla \vec{v}_h - \int_{\Omega}p_h \nabla \cdot \vec{v}_h
+        = \int_{\partial \Omega_N} \vec{s} \cdot \vec{v}_h \quad \mbox{对所有的} \vec{v}_h \in X_0^h,
+        \label{eq::weak_form_stokes_momentum}
+    \end{equation}
+    \begin{equation}
+        \int_{\Omega} q_h \nabla \cdot \vec{u}_h  = 0 \quad \mbox{d对所有的} q_h \in P^h.
+        \label{eq::weak_form_stokes_mass}
+    \end{equation}
+
+    求解~\eqref{eq::weak_form_stokes_momentum} 和 ~\eqref{eq::weak_form_stokes_mass}，
+    得到的离散数值解~$(\vec{u}_h, p_h)$，如果~$(\vec{u}, p)$
+    是弱形式~\eqref{eq::weak_form_stokes_momentum_continue} 和 ~\eqref{eq::weak_form_stokes_mass_continue} 的解，则我们可以得到对应的误差估计：
+    \begin{equation}
+        ||\vec{u} - \vec{u}_h||_1 + ||p - p_h||_0 \leq C\{\inf\limits_{\vec{v}_h \in X_h} ||\vec{u} - \vec{v}_h||_1
+        + \inf\limits_{q_h \in P_h} ||p - q_h||_0\}.
+    \end{equation}
+
+    我们倾向于使用满足~LBB 条件的混合元~Taylor-Hood 元，如~$P_2-P_1$、$Q_2-Q_1$ 元，即速度
+    是二次元，压力是线性元。在实际的工程计算中，因为线性元简单，所以比较受欢迎。因此
+    我们设想，如果把稳定的~Taylor-Hood 元中的速度二次元换成线性元，同时又要保证速度和
+    压力满足~inf-sup 条件,这就是~$P_1isoP_2P_1$ 的想法。如图~\ref{fig::p-v-chap2} 所示，因为压力
+    是线性元，因此在一个三角形单元上有三个自由度，分布在三角形的三个顶点上。同样地，
+    速度是二次元，在这个三角形单元个有 ~$6$ 个自由度，分布在三角形的三个顶点和三边的中点
+    上。如果这个三角形单元加密一次，即连接三边中点，因此得到四个小三角形。这样在每个
+    小三角形上有分布着三个自由度。在~\cite{bercovier1979error} 中证明了~$P_1isoP_2P_1$ 是
+    满足~inf-sup 条件的。令~$X_h = X_{h/2}^1, P_h = P_h^1$，则
+    \begin{theorem}
+        如果~$\Omega$ 是一个多边形，并且对所有~$h$ 都有~$\Omega_h = \Omega$，如果~$\Omega_h$ 中所有的三角形都至少有一个顶点
+        不在~$\Omega$ 的边界~$\Gamma$ 上，$X_h, P_h$ 是满足~LBB 条件的，那么问题~\eqref{eq::weak_form_stokes_momentum}、~\eqref{eq::weak_form_stokes_mass}
+        是有唯一解~$(\vec{u}_h, p_h) \in X_h \times (P_h/R)$($p_h$ 除了一个常数外是确定的)。
+    \end{theorem}
+    定理的过程我们不再给出，\cite{bercovier1979error} 中还给出了~$P_1isoP_2P_1$ 元的误差估计:
+    \begin{eqnarray}
+        {|\nabla (\vec{u} - \vec{u}_h)|}_0 \leq h K( ||\vec{u}||_{(H^2(\Omega))^2} + ||p||_{H^1(\Omega)/R}), \\
+        {|\nabla (p - p_h)|}_0 \leq K (||\vec{u}||_{(H^2(\Omega))^2} + ||p||_{H^1(\Omega)/R} ,
+    \end{eqnarray}
+    其中 ~$K$ 是与 ~$h$ 无关的常数。
+    但是需要注意到图~\ref{fig::p-v-chap2} 中，每个小三角形上的三个自由度，其实是大的三角形~$6$ 个自由
+    度中的其中~$3$ 个。因此，在做速度单元和压力单元拼装的时候，需要先找到速度单元基函数所在的大单
+    元，然后用大单元的基函数中正好位于当前速度单元上的基函数与压力单元上的基函数进行拼装。
+    这会带来一些技术上的困难。如果图~\ref{fig::p-v-chap2} 右中每个小三角形上的自由度都是局部在一个单元
+    上，这时跟~$P_1isoP_2P_1$ 拥有同样的网格结构，也满足~inf-sup 条件，但速度单元全部是
+    线性元，因此称作~$4P_1-P_1$ 元。在这种情况下，只要建立速度单元和压力单元之间的索引，
+    速度单元与压力单元间的拼装变得容易很多。
+
+    \begin{figure}
+      \centering
+      \begin{tikzpicture}
+        % 三角形
+        \draw (2, 1) -- (4, 1) -- (3, 3) -- cycle;
+        % 三个顶点
+        \draw (2, 1) circle(0.05cm);
+        \draw (4, 1) circle(0.05cm);
+        \draw (3, 3) circle(0.05cm);
+        % 四个三角形
+        \draw (5, 1) -- (6, 3) -- (7, 1) -- cycle;
+        \draw (5.5, 2) -- (6.5, 2) -- (6, 1) -- cycle;
+        % 六个顶点
+        \draw [fill = black] (5, 1) circle(0.05cm);
+        \draw [fill = black] (6, 3) circle(0.05cm);
+        \draw [fill = black] (7, 1) circle(0.05cm);
+        \draw [fill = black] (5.5, 2) circle(0.05cm);
+        \draw [fill = black] (6.5, 2) circle(0.05cm);
+        \draw [fill = black] (6, 1) circle(0.05cm);
+      \end{tikzpicture}
+      \caption{左: 压力 ~$p$ 单元, $\circ$ 为~$p$ 单元上的自由度;
+               右: 4个速度~$v$ 单元, $\bullet$ 表示~$v$ 单元上的自由度.}
+      \label{fig::p-v-chap2}
+    \end{figure}
+
+\section{几何遗传树结构}
+    在上一节中，我们提到速度单元和压力单元之间的索引，而这个索引的建立利用了~\cite{li2005multi}
+    中的几何遗传树结构。这种树结构是用来做~$h-$ 自适应，下面我们就介绍一下这种树结构。
+
+    在~$h-$ 自适应中，两个耦合在一起的物理量(如上一节提到的速度~$\vec{u}$ 和压力~$p$)，有可能在不同的地方出现奇异，
+    因此需要分别在两套网格上离散数值解。在拼装~$\int_{\Omega} \nabla \cdot \vec{u} p$ 这一项时，因为~$\vec{u}$
+    和~$p$ 在不同的网格上，因此需要构建两套网格之间的联系。如果函数在相对于计算区域来说，很小的区域内有奇异，
+    好的网格需要在这个奇异出现的地方网格非常集中。特别地，如果最小的网格单元和最大的网格单元面积相差上百倍，
+    这时候建立两个网格之间对应的代价是非常昂贵的。为了创建高效的多网格自适应策略，\cite{li2005multi} 中选取
+    了几何遗传树，具有遗传性的网格结构可以描述为点、线、面、体。并且针对无结构网格，加密也是通过按层次来加密的。
+    这种分层的数据结构可以提供简单的编程方法和快速的网格加密算法，以及多重网格求解器。
+
+    我们以二维区域~$\Omega$ 上的一个三角剖分~$\mathcal{T}_0$ 为例，来介绍一下几何遗传树结构。为与有限元空间的单元
+    区分开，称三角剖分中的单元为几何单元。$\tau$ 为~$\mathcal{T}_0$ 的几何单元。三角剖分中所有几何性质都有属于的
+    关系，即如果一条边是一个三角形三边中的一条，则称这条边属于这个三角形。同样的，如果一个点是一条边两个顶点
+    中的一个，则称这个点属于这条边。三角剖分中的一个三角形可以被加密成四个小的三角形。在三角形加密的过程中，三
+    条边分别被分成了两部分。当三角剖分中所有的三角形都加密一次，我们可以得到一个更密的三角剖分~$\mathcal{T}_1$，
+    这就是~$\mathcal{T}_0$ 的一次全局加密。经过逐次加密，我们可以得到一系列的三角剖分~$\{ \mathcal{T}_n\}$。 如果
+    ~$\mathcal{T}_n$ 中的一个三角形~$\tau_1$ 位于~$\mathcal{T}_{n-1}$ 中的三角形~$\tau_0$ 中，则~$\tau_1$ 被称作是~$\tau_0$
+    的一个孩子。我们给~$\mathcal{T}_0$ 中的所有三角形一个虚拟的父亲，与所有从~$\mathcal{T}_0$ 的三角形中派生出的所有
+    四叉树组成了一个树的数据结构，如图~\ref{fig::hgeometrytree_chap2} 所示。这颗树也被称为几何遗传树。
+    \begin{figure}[h]
+        \begin{minipage}[t]{0.4\textwidth}
+          \centering
+          \begin{tikzpicture}
+            % 三角形
+            \draw (2, 1) -- (4, 1) -- (3, 3) -- cycle;
+            \draw (5, 1) -- (6, 3) -- (7, 1) -- cycle;
+            \draw (5.5, 2) -- (6.5, 2) -- (6, 1) -- cycle;
+          \end{tikzpicture}
+          \caption{全局加密一次的网格}
+        \end{minipage}
+        \begin{minipage}[t]{0.6\textwidth}
+          \centering
+          \begin{tikzpicture}
+            %五个小三角形
+            \draw (1.0, 0.0) -- (1.2, 0.4) -- (1.4, 0.0) -- cycle;
+            \draw (2.0, 0.0) -- (2.2, 0.4) -- (2.4, 0.0) -- cycle;
+            \draw (3.0, 0.0) -- (3.2, 0.4) -- (3.4, 0.0) -- cycle;
+            \draw (4.0, 0.0) -- (4.2, 0.4) -- (4.4, 0.0) -- cycle;
+            \draw (2.6, 2.4) -- (2.2, 1.8) -- (3.0, 1.8) -- cycle;
+            \draw (2.4, 2.1) -- (2.6, 1.8) -- (2.8, 2.1) -- cycle;
+            %四条线
+            \draw (2.6, 2.0) -- (1.2, 0.2);
+            \draw (2.6, 2.0) -- (2.2, 0.2);
+            \draw (2.6, 2.0) -- (3.2, 0.2);
+            \draw (2.6, 2.0) -- (4.2, 0.2);
+          \end{tikzpicture}
+          \caption{它的几何遗传树}
+        \end{minipage}
+      \caption{几何遗传树结构}
+      \label{fig::hgeometrytree_chap2}
+    \end{figure}
+    用几何遗传树结构来构建h-自适应的内容就不再详细介绍了。
+
+\section{移动网格方法}
+    移动网格方法常常用在数值计算中，寻找好的网格(跟具体问题有关)，并在
+    网格上进行数值求解，使得在不增加自由度的前提下，尽可能的提高计算精
+    度。移动网格方法包括网格的移动策略，以及在方程在网格上的数值求解算
+    法。在~\cite{budd2009adaptivity}、\cite{huang2010book}、\cite{tang2007book}
+    中系统地给出了移动网格方法的介绍。移动网格的策略是基于等分布原则
+    (Equi-distribute Principle)，这是~de Boor 在~$1974$ 年~\cite{boor1974goodII}
+    提出的。等分布原则是根据一个能反映局部网格计算质量的指标，比如误差，
+    移动网格节点使得这个指标在网格上均匀分布。如果在计算结果误差比较大的
+    地方网格集中，尽量使得误差分布的比较均匀，从而提高计算精度。
+
+    我们不加证明地给出一维情形下的等分布原理，如下：
+    \begin{theorem}
+        在一维空间中，对任意一个函数 ~$M = M(x) > 0, x \in [a, b]$，给定一个正整数
+        ~$N > 0$，将区间 ~$[a, b]$ 剖分成 ~$N$ 份 ~$[x_0, x_1], \cdots [x_{N-1}, x_N]$，
+        使得在这些区间上
+        \begin{equation}
+            \int_{x_0}^{x_1}M(x)dx = \int_{x_1}^{x_2}M(x)dx = \cdots = \int_{x_{N-1}}^{x_{N}}M(x)dx,
+        \end{equation}
+        成立，那么这组剖分是存在唯一的。
+    \end{theorem}
+    如果 函数 ~$M(x)$ 取成误差函数，或者是跟误差同阶的量，那么这组剖分使得误差在每个区间上
+    都相等。通常我们称 ~$M$ 为网格的控制函数。假设~$\Omega, \Omega_c$ 分别为物理区域和计算区域，
+    那么 ~$\Omega$ 与 ~$\Omega_c$ 之间的坐标变换可以用调和映射来构造。Dvinsky ~\cite{dvinsky1991adaptive} 和 ~\cite{brackbill1993adaptive}
+    指出调和映射可以应用到自适应网格的生成中。调和映射的存在唯一性在 ~\cite{hamilton2006harmonic} 和 ~\cite{schoen1978univalent} 中给出，
+    如果 ~$\Omega_c$ 满足曲率是非正的，并且 ~$\partial \Omega_c$ 在 ~$\Omega_c$ 下的度量是凸的，那么从 ~$\Omega$ 到 ~$\Omega_c$
+    的调和映射是唯一的。如果把 ~$\Omega_c$ 选为凸区域，并且在 ~$\Omega_c$ 上用欧式度量，则上述两个条件都可以满足。
+    通过求解方程
+    \begin{equation}
+        \frac{\partial }{\partial x_i}\left( G^{ij}\frac{\partial \vec{\xi}}{\partial x_j}\right) = 0,
+    \end{equation}
+    可以得到从 ~$\Omega$ 到 ~$\Omega_c$ 的调和映射。其中 ~$\vec{\xi}$ 是逻辑区域的坐标，~$x_i$ 是物理区域的坐标 ~$\vec{x}$ 的分量。
+    而 ~$M = 1/G^{ij}$ 称为控制函数。
+
+    Li 在~\cite{li2001moving} 中提出一种移动有限元方法，它是基于调和映射理论的。主要想法是先选取一个初始的逻辑
+    区域，进而获得初始物理区域到初始逻辑区域之间的调和映射，在问题发展中，使得物理网格的对应的逻辑网格逐渐接
+    近于调和映射。通过求解一个~Possion 方程
+    \begin{equation}
+        \begin{aligned}
+            \Delta \vec{\xi}  & = 0,& \\
+            \vec{\xi}|_{\partial \Omega} &= \vec{\xi}_b,&
+        \end{aligned}
+        \label{eq::harmonic_map_eq}
+    \end{equation}
+    来获得一个初始的逻辑网格 ~$\vec{\xi}^0$，相当于控制函数全部取 ~$1$。这个初始逻辑网格获得之后，在后面的计算中保持不变。
+   \begin{algorithm}
+     \caption{网格重新分布}
+     \begin{algorithmic}[1]
+        \State 给出物理网格 ~$\vec{x}^{(n)}$ 上的数值解~$\vec{u}^{(n)}$
+               并通过求解 ~\eqref{eq::harmonic_map_eq}，获得~$\vec{\xi}^*$. \label{state::monitor_chap2}
+        \State 判断~$\parallel \vec{\xi}^* - \vec{\xi}^{(0)} \parallel_{L^2}$ 是否小于容忍量
+               ~$\epsilon$， 如果是迭代结束，否则，继续做
+               ~\ref{state::start_chap2} - \ref{state::end_chap2}。
+        \State 用~$\vec{\xi}^* - \vec{\xi}^{(0)}$ 两者之差来计算
+               物理网格的移动量~$\delta \vec{x}$。
+               \label{state::start_chap2}
+        \State 利用~\ref{state::start_chap2}中~$\delta \vec{x}$, 在网格
+               ~$\vec{x}^{(n)}$ 上将 ~$\vec{u}^{(n)}$ 更新到新网格上
+        \State 更新网格 ~$\vec{x}^{(n)} \gets \vec{x}^{(n)} + \eta \delta \vec{x}$
+        \State 回到~\ref{state::monitor_chap2}. \label{state::end_chap2}
+        \State 输出新网格 ~$\vec{x}^{(n + 1)} = \vec{x}^{(n)}$， 以及网格上的数值解 ~$\vec{u}^{(n)}$
+     \end{algorithmic}
+     \label{alg::solve_mesh}
+   \end{algorithm}
+   在将旧网格上的数值解插值到新网格上的过程中，Li \cite{li2001mesh} 提出了一种保持数值解 ~$L_2$ 范数的同伦方法。
+   Di \cite{di2008general} 和 Wang \cite{Wang2008} 应用代数多重网格方法加速 ~\eqref{eq::harmonic_map_eq} 的求解
+   。需要指出的是这种移动有限元方法将网格的移动和物理方程的求解分别开来，从而使得程序写起来非常方便。针对不同
+   的物理问题，只要提供合适的控制函数，以及新网格更新数值解的部分程序即可。上面的算法 ~\ref{alg::solve_mesh} 已
+   经在写在了自适应有限元软件包~AFEPack(\cite{AFEPack}) 中。
+ \section{预处理方法}
+    我们将分别对~Stokes 方程和~Navier-Stokes 方程，介绍预处理的方法。首先我们先给出求解预处理的~MINRES 方法，
+    ~MINRES 方法是~Krylov 子空间方法中求解对称不定系统的。我们考虑用求解
+    \begin{equation}
+        M^{-1} K \vec{x} = M^{-1} \vec{b},
+    \end{equation}
+    来代替 ~$K \vec{x} = \vec{b}$，其中 ~$K$ 是对称不定矩阵，~$M$ 作为 ~$K$ 的预处理矩阵，为了保持矩阵对称性质，
+    ~$M$ 是对称正定矩阵。通常 ~$M$ 的选取要保证两点，一是是能很好地近似矩阵 ~$A$，一是要求解 ~$M^{-1}$ 要容易。
+    初始残差 ~$\vec{r}^{(0)} = \vec{b} - K\vec{x}^{(0)}$，$k$ 次迭代 ~$\vec{x}^{(k)}$ 是在
+    矩阵 ~$M^{-1}K$ 和 ~$M^{-1}\vec{r}^{(0)}$ 张成的Krylov子空间
+    \begin{equation}
+        \vec{x}^{(0)} + \mathcal{K}_k(M^{-1}, M^{-1}\vec{r}^{(0)}),
+    \end{equation}
+    中。第 ~$k$ 个残差向量满足
+    \begin{equation}
+        \vec{z}^{(k)} \in M^{-1}\vec{r}^{(0)} + \mathcal{K}_k(M^{-1}K, M^{-1}\vec{r}^{(0)}),
+    \end{equation}
+    其中
+    \begin{equation}
+        \mathcal{K}_k(A, \vec{x}) := \mbox{span}\{\vec{x}, A\vec{x}, A^2\vec{x}, \cdots, A^{k - 1}\vec{x}\}.
+    \end{equation}
+    我们给出预处理的~MINRES 迭代算法：
+    \begin{algorithm}
+%        \floatname{algorithm}
+        \caption{预处理的~MINRES 方法}
+        \begin{algorithmic}[1]
+        \State $\vec{v}^{(0)} = \vec{0}, \vec{w}^{(0)} = \vec{0}, \vec{w}^{(1)} = \vec{0}, \gamma = 0$
+        \State 选取 ~$\vec{u}^{(0)}$，计算 ~$\vec{(1)} = \vec{b} - K\vec{x}$
+        \State 求解 ~$M\vec{z}^{(1)} = \vec{v}^{(1)}$，令 ~$\gamma_1= \sqrt{<\vec{z}^{(1), \vec{z}^{(1)}}>}$
+        \State 令 ~$\eta = \gamma_1, s_0 = s_1 = 0, c_0 = c_1 = 1$
+        \For {$j = 1 \to$ 残差小于容忍量}
+            \State $\vec{z}^{(j)} = \vec{z}^{(j)} / \gamma_j$
+            \State $\delta_j = <K\vec{z}^{(j)}, \vec{z}^{(j)}>$
+            \State $\vec{v}^{(j + 1)} = K \vec{z}^{(j)} - (\delta_j/\gamma_j)\vec{v}^{(j)} - (\gamma_j/\gamma_{j - 1})\vec{v}^{(j - 1)}$
+            \State 求解 ~$M\vec{z}^{(j + 1)} = \vec{v}^{(j + 1)}$
+            \State $\gamma_{j + 1} = \sqrt{<\vec{z}^{(j + 1)}, \vec{z}^{(j + 1)}>}$
+            \State $\alpha_0 = c_j\delta_j - c_{j - 1}s_j\gamma_j$
+            \State $\alpha_1 = \sqrt{\alpha_0^2 + s\gamma_{j + 1}^2}$
+            \State $\alpha_2 = s_j\delta_j + c_{j - 1}c_j\gamma_j$
+            \State $\alpha_3 = s_{j - 1} \gamma_j$
+            \State $c_{j + 1} = \alpha_0/\alpha_1; s_{j + 1} = \gamma_{j + 1}/\alpha_1$
+            \State $\vec{w}^{(j + 1)} = (\vec{z}^{(j)} - \alpha_3 \vec{w}^{(j)})/\alpha_1$
+            \State $\vec{u}^{(j)} = \vec{u}^{(j - 1)} + c_{j + 1}\eta\vec{w}^{j + 1}$
+            \State $\eta = -s_{j + 1}\eta$
+            \State 计算残差
+       \EndFor
+    \end{algorithmic}
+    \label{alg::precond_minres}
+    \end{algorithm}
+    在算法 ~\ref{alg::precond_minres} 中，预处理的部分在于求解 ~$M \vec{z}^{(j + 1)} = \vec{v}^{(j + 1)}$。
+    在我们的实际计算中，我们主要通过实现 ~$M^{-1}$ 的求解来达到预处理的过程。更多的关于~Krylov 子空间的知识
+    可以参考 ~\cite{saad2003iterative}、\cite{van2003iterative}等。同样地，在求解非对称的不定矩阵的时候，如
+    ~Navier-Stokes 方程离散出的~Ossen 问题，这时候我们要用~GMRES(general minimal residual) 来求解，我们关注的是
+    预处理部分，所以算法不再给出，详见 ~\cite{saad1986gmres}。
+
+    \subsection{针对Stokes方程}
+        我们通过选取有限元空间基函数对~\eqref{eq::weak_form_stokes_momentum} 和 ~\eqref{eq::weak_form_stokes_mass}
+        进行离散，可以得到一个线性方程租，我们定义这个线性方程组的
+        系数矩阵为：
+        \begin{equation}
+            K = \left[
+                \begin{array}{ll}
+                 \vec{A} & B^T\\
+                 B & -C
+                \end{array}
+                \right],
+            \label{eq::coffient_stokes}
+        \end{equation}
+        其中如果用满足~LBB 条件的混合元做近似，则 ~$C = 0$。因为本文中我们选取的是满足~LBB 条件的~$4P_1-P_1$ 元，所以我们下面均考虑 ~$C = 0$ 的情形。令 ~$\vec{v}_h \in X_h$ 和 ~$q_h \in P_h$，$X_h$ 和 ~$P_h$
+        是在第一节中提到的有限元空间。我们先来定义 ~$\vec{v}_h, q_h$ 的范数：
+        \begin{align}
+            ||\nabla \vec{v}_h|| := <\vec{A}\vec{v}, \vec{v}>^{1/2}, \\
+            ||q_h|| := <Qq, q>^{1/2},
+            \label{eq::norm}
+        \end{align}
+        其中~$\vec{v}$ 和 ~$\vec{q}$ 是速度和压力变量在基函数~$\{\vec{\phi}_j \}_{j = 1}^{n_u}$ 和 ~$\{\vec{\psi}_k \}_{k = 1}^{n_p}$ 下的系数。这里的 ~$\vec{A}$ 是离散的向量形式的刚度矩阵：
+        \begin{eqnarray}
+            \vec{A} = [a_{ij}], \quad a_ij = \int_\Omega \nabla \vec{\phi}_i : \nabla \vec{\phi}_j, \qquad i,j = 1, \cdots, n_u,
+        \end{eqnarray}
+        并且 ~$Q$ 是压力质量矩阵：
+        \begin{equation}
+            Q = [q_{kl}],\quad q_{kl} = \int_\Omega \psi_k \psi_l, \qquad k,l = 1, \cdots, n_p.
+        \end{equation}
+        我们用标准的分量形式的向量基函数，在二维问题情形中
+        \begin{equation}
+            <\vec{A}\vec{v}, \vec{v}> \equiv <A\vec{v}_x, \vec{v}_x> + <A\vec{v}_y, \vec{v}_y>,
+        \end{equation}
+        其中 ~$A$ 是 ~$n \times n$ 的拉普拉斯矩阵。
+        我们 ~$B \vec{A}^{-1} B^T$ 为压力~Schur 补矩阵。我们考虑~$Q^{-1}B\vec{A}^{-1}B^T$ 的特征值的范围。我们先考虑边界全部是~Dirichlet 边界的流体问题，我们先给出一些定义。
+        \begin{definition}
+            \label{def::min_angle_cond}对于一系列的三角网格~$\{\mathcal{T}_h\}$，如果存在一个最小的角度
+            ~$\theta_* > 0$，使得~$\mathcal{T}_h$中的所有单元满足~$\theta_{T} > \theta_*$，那么~$\mathcal{T}_h$ 称作是形正则的。
+        \end{definition}
+        \begin{proposition}
+            \label{pro::bound_mass} 对于~$\mathbb{R}^2$ 空间中的具有形正则性质的一个剖分，$\vec{P}_1$ 是建立在这个剖分上的一个近似，那么质量矩阵~$Q$ 以如下的形式近似
+            数量单位矩阵:
+            \begin{equation}
+                c\uline{h}^2 \leq \frac{<Q\vec{v}, \vec{v}>}{<\vec{v}, \vec{v}>} \leq Ch^2,
+                \label{eq::bound_mass}
+            \end{equation}
+            对所有的~$\vec{v} \in \mathbb{R}^n$。这里~$\uline{h} = \min_{\bigtriangleup_k \in \mathcal{T}_h} h_k$
+            并且 ~$h = \max_{\bigtriangleup_k \in \mathcal{T}_h} h_k$。常数~$c$ 和 ~$C$ 都是跟~$\uline{h}$ 和 ~$h$ 无关的。
+        \end{proposition}
+
+        \begin{definition}[拟一致剖分]
+            \label{theo_quasi_uni_subd}对于一系列的三角网格~$\{\mathcal{T}_h\}$，如果存在着一个常数~$\rho > 0$ 使得对于
+            ~$\{\mathcal{T}_h\}$ 中的每一个网格，都有 ~$\uline{h} \geq \rho h$，那么我们就称 ~$\{\mathcal{T}_h\}$  是拟一致的。
+        \end{definition}
+
+        对于~$\mathcal{R}^2$ 空间的一个拟一致剖分，并且它的单元都是形正则的，那么界限 ~\eqref{eq::bound_mass} 可以简化为:
+        \begin{equation}
+            c h^2 \leq \frac{<Q \vec{v}, \vec{v}>}{<\vec{v}, \vec{v}>} \leq C h^2, \quad \mbox{对所有的} \vec{v} \in \mathbb{R}^n.
+            \label{eq::bound_mass_simpify}
+        \end{equation}
+        \eqref{eq::bound_mass_simpify} 是跟空间的维数有关的。对于 ~$\mathbb{R}^3$ 中的一个区域，进行拟一致剖分，则这个剖分上
+        的所有四面体单元，对应有界：
+        \begin{equation}
+            c h^3 \leq \frac{<Q \vec{v}, \vec{v}>}{<\vec{v}, \vec{v}>} \leq C h^3, \quad \mbox{对所有的} \vec{v} \in \mathbb{R}^n.
+            \label{eq::bound_mass_R3}
+        \end{equation}
+
+        \begin{remark}
+            如果剖分是拟一致的，那么对于任意近似~$\vec{P}_m, m \geq 2$，有界性 ~\eqref{eq::bound_mass_simpify} 都成立，
+            但是 ~$c$ 和 ~$C$ 都跟 ~$m$ 有关。
+        \end{remark}
+
+        \begin{theorem}
+            \label{theo::mass_spectrual_eq} 对于 ~$\partial \Omega = \partial \Omega_D$ 的流体问题，用满足 LBB 条件的混合元近
+            似并且 ~$\mathbb{R}^2$ 上的拟一致剖分是形正则的，则
+            压力Schur补矩阵~$B \vec{A}^{-1} B^T$ 谱等价于压力质量矩阵~$Q$:
+            \begin{equation}
+                \gamma^2 \leq \frac{<B \vec{A}^{-1} B^T \vec{q}, \vec{q}>}{<Q\vec{q},\vec{q}>} \leq 1 \quad \mbox{对所有的}
+                \vec{q} \in \mathbb{R}^{n_p} \mbox{使得} \vec{q} \neq \vec{1}.
+                \label{eq::lower_uper_bound}
+            \end{equation}
+            inf-sup 常量~$\gamma$ 非 ~$0$，并且跟网格尺度~$h$ 无关。并且压力 ~Schur 补矩阵的条件数满足
+            \begin{equation}
+                \kappa(B\vec{A}^{-1}B^T) \leq C/(c\gamma^2),
+            \end{equation}
+            其中~$c$ 和 ~$C$ 是~\eqref{eq::bound_mass_simpify} 中的常数。
+        \end{theorem}
+
+        \begin{proof}
+            我们先来证明下界。离散~inf-sup 稳定性条件的代数表示：
+            \begin{equation}
+                \gamma \leq \min_{q_h \neq \mbox{constant}} \max_{\vec{v}_h \neq \vec{0}} \frac{|(q_h, \nabla \cdot \vec{v}_h)|}{||\nabla \vec{v}_h|| ||q_h||}.
+            \end{equation}
+            特别的，运用~\eqref{eq::norm} 中的矩阵范数，并且有~$|(q_h, \nabla \cdot \vec{v}_h)| = (\vec{q}, B\vec{v})$, 我们有：
+            \begin{align}
+                \gamma & \leq \min_{\vec{q} \neq \vec{1}} \max_{\vec{v} \neq \vec{0}} \frac{|<\vec{q}, B\vec{v}>|}{<\vec{A}\vec{v}, \vec{v}>^{1/2} <Q\vec{q}, \vec{q}>^{1/2}} &\\ \notag
+                & = \min_{\vec{q} \neq \vec{1}} \frac{1}{<Q\vec{q}, \vec{q}>^{1/2}} \max_{\vec{w} = \vec{A}^{1/2}\vec{v} \neq \vec{0}} \frac{|<\vec{q}, B \vec{A}^{-1/2} \vec{w}>|}{<\vec{w}, \vec{w}>^{1/2}} &\\ \notag
+                & = \min_{\vec{q} \neq \vec{1}} \frac{1}{<Q\vec{q}, \vec{q}>^{1/2}} \max_{\vec{w} \neq \vec{0}} \frac{|<\vec{A}^{-1/2}B^Tq, \vec{w}>|}{<\vec{w}, \vec{w}>^{1/2}} &\\ \notag
+                & = \min_{\vec{q} \neq \vec{1}} \frac{<\vec{A}^{-1/2}B^Tq, \vec{A}^{-1/2}B^Tq>^{1/2}}{<Q\vec{q}, \vec{q}>^{1/2}} &\\ \notag
+                & = \min_{\vec{q} \neq \vec{1}} \frac{<B \vec{A}^{-1}B^T\vec{q}, \vec{q}>^{1/2}}{<Q\vec{q}, \vec{q}>^{1/2}}.& \notag
+            \end{align}
+            因为它的极大值在~$\vec{w} = \pm \vec{A}^{-1/2}B^T \vec{q}$ 时取到。因此，我们可以看到
+            \begin{equation}
+                \gamma^2 = \min_{\vec{q} \neq \vec{1}} \frac{<B\vec{A}^{-1}B^T \vec{q}, \vec{q}>}{<Q\vec{q}, \vec{q}>},
+                \label{eq::lower_bound}
+            \end{equation}
+            则下界得证。
+            现在我们来证明上界，上界是由微分算子的性质得到的。首先，应用~Cauchy-Schwarz 不等式，我们有
+            \begin{equation}
+                |(q_h, \nabla \cdot \vec{v}_h)| \leq ||q_h|| ||\nabla \cdot \vec{v}_h||.
+                \label{eq::cauchy_schwarz_inequality}
+            \end{equation}
+            第二，注意到 ~$\vec{v}_h \in \mathcal{H}_0^1$(因为~$\partial \Omega = \partial \Omega_D$)，将 ~$\vec{v}_h$ 带入到下列等式中：
+            \begin{equation}
+                \int_{\Omega} \nabla \vec{w} : \vec{v} \equiv \int_{\Omega} (\nabla \cdot \vec{w})(\nabla \cdot \vec{v}) + \int_{\Omega} (\nabla \times \vec{w}) : (\nabla \times \vec{v}),
+            \end{equation}
+            其中这个等式是对任意属于~Soblev 空间
+            \begin{equation}
+                \mathcal{H}_0^1 = \{ \vec{u} \in \mathcal{H}^1(\Omega) | \vec{u} = \vec{0} \mbox{在} \partial \Omega \mbox{上} \},
+            \end{equation}
+            中的任意函数~$\vec{w}, \vec{v}$ 都成立的，因此我们有
+            \begin{equation}
+                ||\nabla \vec{v}_h||^2 = ||\nabla \cdot \vec{v}_h||^2 + ||\nabla \times \vec{v}_h||^2 \geq ||\nabla \cdot \vec{v}_h||^2.
+                \label{eq::identiy_v_h}
+            \end{equation}
+            最后，结合 ~\eqref{eq::cauchy_schwarz_inequality} 和 ~\eqref{eq::identiy_v_h}，我们得到
+            \begin{equation}
+                \frac{|(q_h, \nabla \cdot \vec{v}_h)|}{||\nabla \vec{v}_h|| ||q_h||} \leq 1.
+            \end{equation}
+            将上式展开成矩阵形式，如推导 ~\eqref{eq::lower_bound} 中类似，可以得到 ~\eqref{eq::lower_uper_bound} 中的上界。
+            运用 ~\eqref{eq::bound_mass_simpify} 中的质量矩阵条件数的有界性，我们可以得到 ~Schur 补矩阵的条件数有界
+            \begin{equation}
+                \gamma^2 \frac{<Q\vec{q}, \vec{q}>}{<\vec{q}, \vec{q}>} \leq \frac{<B \vec{A}^{-1}B^T \vec{q}, \vec{q}>}
+                {<\vec{q}, \vec{q}>} \leq \frac{<Q \vec{q}, \vec{q}>}{<\vec{q}, \vec{q}>}.
+            \end{equation}
+        \end{proof}
+
+        \begin{remark}
+            在 ~$\mathbb{R}^3$ 中的拟一致剖分上的四面体单元，如果是稳定的混合元近似，那么~Schur
+            补矩阵的有界性同样成立。质量矩阵的有界性由 ~\eqref{eq::bound_mass_R3} 中给出。
+        \end{remark}
+
+        同样地，对于边界中包含 ~Neumann 条件的流体问题，特征值的界在命题 ~\ref{pro::schur_bound_neumann} 中给出。
+
+        \begin{proposition}
+            \label{pro::schur_bound_neumann}对任意 ~$\int_{\partial \Omega_N} ds \neq 0$ 的流体问题，用一个一致稳定的混合元近似去离散，
+            并且这个混合元近似是建立在 ~$\mathbb{R}^d$ 上的一个形正则、拟一致的剖分上，那么压力~Schur 补矩阵满足
+            \begin{equation}
+                \gamma_N^2 \leq \frac{<B\vec{A}^{-1}B^T \vec{q}, \vec{q}>}{<Q\vec{q}, \vec{q}>} \leq \Gamma^2, \quad \mbox{对所有的 } \vec{q} \in \mathbb{R}^{n_p}.
+                \label{eq::schur_bound_neumann}
+            \end{equation}
+            其中常数 ~$\gamma_N$ 是不为~$0$ 的有界常数，并且跟网格尺度 ~$h$ 无关，$\Gamma < \sqrt{d}$ $d$ 是空间维数。
+        \end{proposition}
+        对于 ~$P_2-P_1, Q_2-Q_1$ 混合元近似，是满足~inf-sup 条件的，即存在一个不为 ~$0$ 的~inf-sup 常量 ~$\delta$，使得
+        \begin{equation}
+            \delta \leq \min_{q_h \neq \mbox{constant}} \max_{\vec{v}_h \neq \vec{0}} \frac{|(q_h, \nabla \cdot \vec{v}_h)|}{||\vec{v}_h|| ||\nabla q_h||}.
+            \label{eq::inf_sup_p2p1}
+        \end{equation}
+        我们是在 ~$L^2(\Omega)$ 空间中估计速度，在 ~$\mathcal{H}^1(\Omega)$ 中估计压力，这跟一般的~inf-sup 条件有些相反。我们先来定义速度质量矩阵 ~$\heiti{Q}$，
+        \begin{equation}
+            \heiti{Q} = [\heiti{q}_{ij}], \quad \heiti{q}_{ij} = \int_{\Omega} \vec{\phi}_i \cdot \vec{\phi}_j, \qquad i,j = 1, \cdots, n_u,
+        \end{equation}
+        和压力的刚度矩阵 ~$A_p$，
+        \begin{equation}
+            A_p = [a_{kl}], \quad a_{jl} = \int_{\Omega} \nabla \psi_k \cdot \psi_l, \qquad i,j = 1, \cdots, n_p.
+        \end{equation}
+        那么按照 ~\eqref{eq::lower_bound} 的推导，则 ~\eqref{eq::inf_sup_p2p1} 可以重新写为
+        \begin{equation}
+            \delta^2 = \min_{\vec{q} \neq \vec{1}} \frac{<B \heiti{Q}^{-1} B^T \vec{q}, \vec{q}>}{<A_p\vec {q}, \vec{q}>}.
+            \label{eq::spectral_equal_Ap_D}
+        \end{equation}
+        矩阵~$B \heiti{Q}^{-1} B^T$ 通常被叫做一致压力泊松矩阵，详见 ~\cite{gresho1998incompressible}。对于封闭流体的边界条件，这个矩阵是奇异的，其他情况下，是
+        不奇异的。计算 ~$P_2-P_1$ 近似的最大最小特征值，我们发现在均匀网格上，并且对封闭流体的边界条件，有
+        \begin{equation}
+            \frac{1}{2} < \frac{<B \heiti{Q}^{-1} B^T \vec{q}, \vec{q}>}{<A_p \vec{q}, \vec{q}>} \leq 1, \quad \mbox{对所有的 } \vec{q} \in \mathbb{R}^{n_p}, \vec{q} \neq \vec{1}.
+            \label{eq::spectral_equal_Ap_N}
+        \end{equation}
+
+        我们考虑 ~\eqref{eq::coffient_stokes} 的块对角预处理矩阵
+        \begin{equation}
+            M = \left[
+                \begin{array}{ll}
+                 \vec{P} & 0\\
+                 0 & T
+                \end{array}
+                \right],
+            \label{eq::coffient_stokes_precond}
+        \end{equation}
+        其中~$\vec{P} \in \mathbb{R}^{n_u \times n_u}$ 和 ~$T \in \mathbb{R}^{n_p \times n_p}$
+        都是对称正定矩阵。我们要到 ~$\eqref{eq::coffient_stokes}$ 的一个好的近似，意味着我们要找
+        到合适的 ~$\vec{P}$ 近似 ~$\vec{A}$ 并且近似~Schur 补 ~$B \vec{A}^{-1} B^T$ 的矩阵 ~$T$。从定理
+         ~\ref{theo::mass_spectrual_eq} 我们知道，压力的质量矩阵 ~$Q$ 在合适的边
+        界条件下是谱等价于~Schur 补矩阵的。因此我们可以选择 ~$T = Q$，并且先令 ~$\vec{P} = \vec{A}$。
+        我们考虑广义的特征值问题
+        \begin{equation}
+            \left[
+            \begin{array}{ll}
+                A & B^T \\
+                B & 0 \\
+            \end{array}
+            \right]
+            \left[
+            \begin{array}{l}
+                \vec{u} \\
+                \vec{p} \\
+            \end{array}
+            \right] = \lambda
+            \left[
+            \begin{array}{ll}
+                \vec{A} & 0 \\
+                0 & Q \\
+            \end{array}
+            \right]
+            \left[
+                \begin{array}{l}
+                    \vec{u} \\
+                    \vec{p} \\
+                \end{array}
+            \right],
+        \end{equation}
+        通过简单的计算可以知道特征值 ~$\lambda$ 位于
+        \begin{equation}
+            [ \frac{1 - \sqrt{1 + 4 \Gamma^2}}{2}, \frac{1 - \sqrt{1 + 4 \gamma^2}}{2} ] \cup \{1\} \cup [ \frac{1 + \sqrt{1 + 4 \gamma^2}}{2}, \frac{1 + \sqrt{1 + 4\Gamma^2}}{2}].
+        \end{equation}
+        其中 ~$\gamma$ 和 ~$\Gamma$ 是 ~\eqref{eq::lower_uper_bound} 和 ~\eqref{eq::schur_bound_neumann} 中的上下界，跟网格尺度 ~$h$ 无关的常量。
+        因此，我们可以知道，如果用预处理的~MINRES 来求解的话，会很快速收敛，并且与离散的网格尺度没有关系。
+
+        在 ~\cite{elman2014finite} 中指出，在不影响~MINRES 收敛的前提下，可以考虑用比 ~$T = \mbox{diag}(Q)$ 来作为~Schur 补矩阵的近似。
+        并给出了 ~$T = Q$ 和 ~$T = \mbox{diag}(Q)$ 的有界性
+        \begin{lemma}
+            如果在 ~$\mathbb{R}$ 上的一个剖分上，压力空间用 ~$P_1$ 元近似，选取 ~$T = \mbox{diag}(Q)$，那么
+            有
+            \begin{equation}
+                \theta^2 \leq \frac{<Q\vec{q}, \vec{q}>}{<T\vec{q}, \vec{q}>} \leq \Theta^2
+                \quad \mbox{对所有的 } \vec{q} \in \mathbb{R}^{n_p},
+            \end{equation}
+            成立，其中 ~$\theta = 1/\sqrt{2}$ 和 ~$\Theta = \sqrt{2}$，都与网格尺度 ~$h$ 无关。
+        \end{lemma}
+
+
+        下面考虑如何更好的近似 ~$\vec{A}$。我们首先考虑泊松问题变分问题：
+        找到 ~$u \in \mathcal{H}_E^1$，使得
+        \begin{equation}
+            a(u, v) = l(v) \mbox{对所有的} v \in \mathcal{H}_{E_0}^1.
+            \label{eq::var_possion}
+        \end{equation}
+        \begin{proposition}[$\mathcal{H}$ 正则性]
+            如果存在一个常数 ~$C_{\Omega}$ 使得对任意的 ~$f \in L_2(\Omega)$，都存在一个解
+            ~$u \in \mathcal{H}_E^1 \subset \mathcal{H}^2(\Omega)$，并且满足
+            \begin{equation}
+                ||u||_{\mathcal{H}^2} \leq C_{\Omega} ||f||,
+            \end{equation}
+            那么则称变分问题 ~\eqref{eq::var_possion} 是 ~$\mathcal{H}^2$ 正则的。
+        \end{proposition}
+
+        \begin{theorem}
+            给定一个 ~$\mathcal{H}^2$ 的问题和一个 ~$\mathcal{R}^2$ 或 ~$\mathcal{R}^3$ 上网格尺度
+            为 ~$h$ 的拟一致剖分，并且用一个 ~$l$ 层多重网格W循环来求解 ~$A\vec{u} = \vec{f}$。那么
+            存在一个最小的光滑步数 ~$k_*$，它与 ~$h$ 无关，并且存在一个有界的不为 ~$1$ 的压缩因子 ~$\eta_l$，
+            也是与 ~$h$ 无关的，那么我们有
+            \begin{equation}
+                ||\vec{u} - \vec{u}^{(i + 1)}||_A \leq \eta_l ||\vec{u} - \vec{u}^{(i)}||_A.
+            \end{equation}
+            其中 ~$\vec{u}^{(i)}$ 是 ~$l$ 层多重网格迭代经过 ~$i$ 次循环得到的。
+            \label{theo::multigrid_W}
+        \end{theorem}
+        定理 ~\ref{theo::multigrid_W} 的证明见 ~\cite{elman2014finite}。
+        \begin{theorem}
+            给定一个 ~$\mathcal{H}^2$ 正则的问题和一个 ~$\mathcal{R}^2$ 或 ~$\mathcal{R}^3$ 上网格尺度
+            为 ~$h$ 的拟一致剖分，并且用一个对称的 ~$l$ 层多重网格V循环来求解 ~$A\vec{u} = \vec{f}$。那么
+            这个 ~$l$ 层多重网格是用阻尼的雅克比光滑子，则存在一个压缩因子 ~$\eta_l < 1$ 使得
+            \begin{equation}
+                ||\vec{u} - \vec{u}^{(i + 1)}||_A \leq \rho_l ||\vec{u} - \vec{u}^{(i)}||_A, \quad \rho_l \leq \rho_{\infty} := C/(C + k),
+            \end{equation}
+            其中 ~$C$ 是一个与 ~$l$ 无关的常数，并且~$k = m$ 是光滑次数。
+            \label{theo::multigrid_V}
+        \end{theorem}
+        定理 ~\ref{theo::multigrid_V} 的证明可以参考(\cite{braess1983new}、\cite{brenner2007mathematical})。
+
+        \begin{lemma}
+            在求解线性系统 ~$\vec{A}\vec{u} = \vec{f}$ 中，不动点迭代
+            \begin{equation}
+                \vec{u}^{(i + 1)} = (\vec{I} - \vec{P}^{-1}\vec{A}) \vec{u}^{i} + \vec{P}^{-1} \vec{f}
+            \end{equation}
+            的迭代误差满足
+            \begin{equation}
+                ||\vec{u} - \vec{u}^{(i + 1)}||_A \leq \rho ||\vec{u} - \vec{u}^{(i)}||_A,
+                \label{eq::iteration_error}
+            \end{equation}
+            其中压缩比例 ~$\rho < 1$， 那么
+            \begin{equation}
+                1 - \rho \leq \frac{<\vec{A}\vec{v}, \vec{v}>}{<\vec{P}\vec{v}, \vec{v}>} \leq
+                1 + \rho \quad \mbox{对所有的 } \vec{v}.
+            \end{equation}
+            \label{lemma::bound_P_A}
+        \end{lemma}
+        \begin{proof}
+            因为精确解 ~$\vec{u}$ 满足
+            \begin{equation}
+                \vec{u} = (\vec{I} - \vec{P}^{-1}\vec{A})\vec{u} + \vec{P}^{-1} \vec{f}, \notag
+            \end{equation}
+            \eqref{eq::iteration_error} 可以表述为
+            \begin{equation*}
+                <\vec{A}(\vec{I} - \vec{P}^{-1}\vec{A})\vec{e}, (\vec{I} - \vec{P}^{-1}\vec{A})\vec{e}> \quad \leq \quad \rho^2 <\vec{A}\vec{e}, \vec{e}>,
+            \end{equation*}
+            对任意的 ~$\vec{e} = \vec{u} - \vec{u}^{(i)}$，令 ~$\vec{v} = \vec{A}^{1/2}\vec{e}$, 那么上式可以重新写成
+            \begin{equation*}
+                <(\vec{I} - \vec{A}^{1/2}\vec{P}^{-1} \vec{A}^{1/2})\vec{v}, (\vec{I} - \vec{A}^{1/2}\vec{P}^{-1} \vec{A}^{1/2})\vec{v}> \leq \rho^2 <\vec{v}, \vec{v}>,
+            \end{equation*}
+            对所有的 ~$\vec{v}$。因此
+            \begin{equation}
+                -\rho <\vec{v}, \vec{v}> \leq <(\vec{I} - \vec{A}^{1/2}\vec{P}^{-1} \vec{A}^{1/2})\vec{v}, \vec{v})> \leq \rho <\vec{v}, \vec{v}>, \notag
+            \end{equation}
+            则我们可以得到
+            \begin{equation}
+                1 - \rho \leq \frac{<\vec{A}\vec{v}, \vec{v}>}{<\vec{P}\vec{v}, \vec{v}>} \leq
+                1 + \rho,
+            \end{equation}
+            对所有的 ~$\vec{v}$。
+        \end{proof}
+        结合 定理 ~\ref{theo::multigrid_V}，定理 ~\ref{theo::multigrid_W} 和 引理~\ref{lemma::bound_P_A}，
+        可以选取合适的压缩比例因子，用一个多重网格循环来代替 ~$\vec{P}$。如果在预处理中我们选择 ~$\vec{P} = \vec{A}$，
+        并且用一次多重网格~$V$ 型或~$W$ 型循环代替~$P$，虽然~MINRES 迭代次数会额外增加一些，但是是与 ~$h$ 无关的。但是如果
+        用对角块直接做预处理矩阵，MINRES 的迭代步数会随着 ~$h$ 的减小而增加。
+
+    \subsection{针对Navier-Stokes方程}
+        用稳定的混合元近似~Navier-Stokes 方程，会得到与~Stokes 方程中类似的线性系统，我们考虑它的系数矩阵：
+        \begin{equation}
+            \left[
+            \begin{array}{ll}
+                \vec{F} & B^T \\
+                B & 0 \\
+            \end{array}
+            \right],
+        \end{equation}
+        其中 ~$F$ 包含对流项矩阵，不是对称的。我们可以用~Krylov 子空间方法中的~GMRES 来求解线性系统。在本文中，我们
+        仅考虑~Ossen 系统，即
+        \begin{equation}
+            \left[
+            \begin{array}{ll}
+                \nu \vec{A} + \vec{N} & B^T \\
+                B & 0 \\
+            \end{array}
+            \right]
+            \left[
+            \begin{array}{l}
+            \vec{u} \\
+            \vec{p} \\
+            \end{array}
+            \right] =
+            \left[
+            \begin{array}{l}
+            \vec{f} \\
+            \vec{0} \\
+            \end{array}
+            \right],
+            \label{eq::ossen_system}
+        \end{equation}
+        其中 ~$\vec{A}$ 是速度空间的向量形式的刚度矩阵，以及 ~$\vec{N}$ 是向量形式的对流矩阵，分别定义如下：
+        \begin{eqnarray}
+            \vec{A} = [\vec{a}_{ij}], \quad \vec{a}_{ij} = \int_{\Omega}\nabla \vec{\phi}_i \cdot \vec{\phi}_j, \\
+            \vec{N} = [\vec{n}_{ij}], \quad \vec{n}_{ij} = \int_{\Omega}(\vec{u}_h \cdot \vec{\phi}_i) \cdot \vec{\phi}_j.
+        \end{eqnarray}
+        Elman 在 ~\cite{elman2014finite} 中指出，在求解 ~\eqref{eq::ossen_system} 时，用 块三角矩阵做预处理比块对角矩阵做预处理，迭代次数会减半，详见(\cite{fischer1998minimum}、\cite{elman1996fast})。
+        我们选择用块三角矩阵
+        \begin{equation}
+            M = \left[
+                \begin{array}{ll}
+                    \vec{M}_{\vec{F}} & B^T \\
+                    0 & -M_S \\
+                \end{array}
+                \right],
+            \label{eq::block_triangular_precond}
+        \end{equation}
+        作为预处理矩阵，与对角块预处理矩阵相比，只增加了矩阵 ~$B^T$ 与向量乘积的运算量。
+        我们先假设 ~$\vec{M}_F = \vec{F}$，对于这一块矩阵的求解，可以用代数多重网格求解。
+        代数多重网格内容可以参考著作(\cite{brezina2005adaptive}、\cite{ruge1987algebraic})。
+        下面我们着重来找到 ~Schur 补预处理矩阵 ~$M_S$ 有效的选择。
+        \begin{remark}
+            我们可以类似~Stokes 方程，用压力的质量矩阵 ~$Q$ 作为~Schur 补预处理矩阵。在(\cite{elman1996fast}、\cite{klawonn1999block}) 中，
+            指出对雷诺数 ~$Re < 10$ 的情况，迭代收敛率是跟网格无关的，但是随着~Reynolds 的增大，
+            收敛率会恶化。
+        \end{remark}
+        下面我们考虑两种近似~Schur 补矩阵 ~$B\vec{F}^{-1}B^T$ 的方法，压力对流扩散预处理(PCD precoditon) 和最小二乘交换子预处理(LSC precondition)。
+        我们先引入速度空间和压力空间的对流扩散算子
+        \begin{eqnarray*}
+            \mathcal{L} & = & -\nu \nabla^2 + \vec{w}_h \cdot \nabla, \\
+            \mathcal{L}_p &= & -(\nu \nabla^2 + \vec{w}_h \cdot \nabla)_p.
+        \end{eqnarray*}
+        我们考虑对流扩散算子和散度算子的交换子：
+        \begin{equation}
+            \mathcal{E} = \nabla \cdot (-\nu \nabla^2 + \vec{w}_h \cdot \nabla) -
+            (\nu \nabla^2 + \vec{w}_h \cdot \nabla)_p \nabla \cdot,
+            \label{eq::commutor}
+        \end{equation}
+        这个交换子在某种意义下是比较小的。我们先来看压力对流扩散预处理(PCD precondition)。
+        令 ~$Q^{-1}B$ 是负的散度算子的矩阵表现形式，$\vec{Q}^{-1}B^T$ 是离散梯度算子的
+        矩阵表现形式。则 ~\eqref{eq::commutor} 可以写成离散矩阵形式
+        \begin{equation}
+            \mathcal{E}_h = (Q^{-1}B)(\vec{Q}^{-1}\vec{F}) - (Q^{-1}F_p)(Q^{-1}B),
+            \label{eq::commutor_discrete}
+        \end{equation}
+        其中 ~$\vec{Q}$ 是速度质量矩阵，$\vec{F}$ 和 ~$F_p$ 分别是速度和压力空间的对流扩散矩阵。
+        ~$F_p$ 为：
+        \begin{equation}
+            F_p = [f_{p,ij}], f_{p,ij} = \nu \int_{\Omega} \nabla \psi_j \cdot \nabla \psi_i + \int_{\Omega} (\vec{w}_h \cdot \nabla \psi_j) \psi_i.
+        \end{equation}
+        对 ~\eqref{eq::commutor_discrete} 两边乘上 ~$\vec{F}^{-1}B^T$，我们可以得到
+        ~Schur 补矩阵的一个近似：
+        \begin{equation}
+            B\vec{F}^{-1}B^T \approx QF_p^{-1}B\vec{Q}^{-1}B^T.
+        \end{equation}
+        从 ~\eqref{eq::spectral_equal_Ap_D} 和 ~\eqref{eq::spectral_equal_Ap_N} 中我们得知，
+        ~$B\vec{Q}^{-1}B^T$ 是跟压力空间的刚度矩阵是谱等价的。因此我们可以得到压力对流扩散
+        预处理：把 ~\eqref{eq::block_triangular_precond} 中的 ~$M_S$ 取为
+        \begin{equation}
+            M_S := QF_p^{-1}A_p.
+            \label{eq::PCD_schur}
+        \end{equation}
+        预处理方法需要实现矩阵求逆的操作
+        \begin{equation}
+            M_S^{-1} = A_p^{-1}F_pQ^{-1}.
+        \end{equation}
+        在这个过程中包括求解一个泊松问题，一个质量矩阵求解还有一个矩阵向量乘法。
+        在封闭流体(如方腔流) 问题中，压力刚度矩阵 ~$A_p$ 是跟 ~$B\vec{Q}^{-1}B^T$ 是
+        谱等价的。在求解入流/出流问题时，对压力空间刚度矩阵 ~$A_p$ 和压力对流扩散矩阵 ~$F_p$ 不做
+        任何处理，是~\cite{kay2002preconditioner} 中的方法。\cite{elman2009boundary} 指出，在有入流/出流边界的问题中，需要对
+        压力空间刚度矩阵 ~$A_p$ 和 压力对流扩散矩阵 ~$F_p$ 做边界条件处理，来提高计算
+        效率。
+        不失一般性地令 ~$\vec{s} = \vec{0}$，假设压力空间 ~$M^h$ 是 ~$C^0$ 的，则 ~\eqref{eq::weak_form_stokes_momentum}
+        可以写成
+        \begin{equation}
+            \int_{\Omega} \nabla \vec{u}_h : \nabla \vec{v}_h + \int_{\Omega}\nabla \cdot \vec{v}_h = \int_{\Omega_N} p_h(\vec{v}_h \cdot \vec{n}), \quad \mbox{对所有的 } \vec{v}_h \in X_0^h.
+            \label{eq::weak_form_stokes_momentum_nabla}
+        \end{equation}
+        对比 ~\eqref{eq::weak_form_stokes_momentum_nabla} 和 ~\eqref{eq::weak_form_stokes_momentum}， 要使弱形式有相同的解，
+        需要使
+        \begin{equation}
+            p_h|_{\partial \Omega_N} = 0.
+            \label{eq::pressure_condition}
+        \end{equation}
+        下面我们来证明 ~\eqref{eq::pressure_condition}，我们取测试函数 ~$\vec{v}_h = \vec{\phi}_l$，则压力梯度算子的弱形式为
+        \begin{equation}
+            \int_{\Omega} \nabla p_h \cdot \vec{\phi}_l = \sum_{m = 1}^{n_p} \left( \int_{\Omega} \nabla \psi_m \cdot \vec{\phi}_l\right) \vec{p}_m  = \sum_{m = 1}^{n_p} G_{lm} \vec{p}_m = [G\vec{p}]_l,
+        \end{equation}
+        其中 ~$G$ 是一个离散的梯度算子。利用分部积分可得
+        \begin{eqnarray*}
+            [G\vec{p}]_l & = & -\int_{\Omega} p_h\nabla \cdot \vec{\phi}_l + \int_{\Omega_N} p_h (\vec{\phi}_l \cdot \vec{n})\\
+                         & = & \sum_{m = 1}^{n_p} \left( -\int_{\Omega} \psi_m \nabla \cdot \vec{\phi}_l\right)\vec{p}_m +
+                         \sum_{m + 1}^{n_p} \left(\int_{\Omega_N}\psi_m (\vec{\phi}_l \cdot \vec{n}) \right)\vec{p}_m  \\
+                         & = & [B^T\vec{p}]_l + [R\vec{p}]_l,
+        \end{eqnarray*}
+        其中 ~$R = [r_{lm}], r_{lm} = \int_{\partial \Omega_N} \psi_m (\vec{\phi}_l \cdot \vec{n})$
+        要使 ~$[G\vec{p}]_l = \int_{\Omega} p_h\nabla \cdot \vec{\phi}_l = [B^T\vec{p}]_l$，当且仅当 ~$[R\vec{p}]_l = 0$。即有 ~\eqref{eq::pressure_condition} 成立。
+
+        在 ~$\partial \Omega_D$ 上，压力需要满足~Neumann 条件 ~$\frac{\partial p_h}{\partial n} = 0$。下面我们来验证。
+        我们考虑压力拉普拉斯算子
+        \begin{equation}
+            [A_p\vec{p}]_i = \sum_{j = 1}^{n_p}[A_p]_{ij}\vec{p}_j = \sum_{j = 1}^{n_p}\left( \int_{\Omega} \nabla \psi_i \cdot \nabla \psi_j\right)\vec{p}_j = \int_{\Omega}\nabla p_h \cdot \nabla \psi_i.
+            \label{eq::laplacian_pressure}
+        \end{equation}
+        我们对上式右端利用分部积分可得
+        \begin{equation}
+            [A_p\vec{p}]_i = \int_{\Omega} \nabla p_h \cdot \nabla \psi_i  = \int_{\Omega}(-\nabla^2p_h)\psi_i - \int_{\partial \Omega}(\nabla p_h \cdot \vec{n})\psi_i.
+            \label{eq::A_p_anothor_rep}
+        \end{equation}
+        对比 ~\eqref{eq::laplacian_pressure} 和 ~\eqref{eq::A_p_anothor_rep}，要使两者一致，需要 ~\eqref{eq::A_p_anothor_rep} 中边界积分为 ~$0$。因此需要满足
+        \begin{equation}
+            \frac{\partial p_h}{\partial n}|_{\partial \Omega_D} = 0.
+        \end{equation}
+        对于封闭流体问题，在全部边界上都有 ~$\frac{\partial p_h}{\partial n}$ 成立。
+
+        压力对流扩散矩阵 ~$F_p$ 需要在边界上施加 ~Robin 条件
+        \begin{equation}
+            -\nu \frac{\partial p_h}{\partial n} + (\vec{w}_h \cdot \vec{n})p_h = 0.
+        \end{equation}
+        验证过程详见 (\cite{elman2014finite}，第九章)。
+
+        另外一种预处理方法是最小二乘交换子预处理(LSC precoditioning)，我们做如下简要介绍：
+        \begin{equation}
+            M_S = (B\vec{T}^{-1}B^T)(B\vec{T}^{-1}\vec{F}\vec{T}^{-1}B^T)^{-1}(B\vec{T}^{-1}B^T),
+        \end{equation}
+        其中 ~$\vec{T} = diag(\vec{Q})$。结合块三角预处理矩阵 ~\eqref{eq::block_triangular_precond}，就得到了最小二乘交换子的预处理方法。
+        实施这种预处理方法，需要对 ~$M_S$ 完成求逆操作：
+        \begin{equation}
+            M_S^{-1} = (B \vec{T}^{-1}B^T)^{-1}(B\vec{T}^{-1}\vec{F}\vec{T}^{-1}B^T)(B\vec{T}^{-1}B^T)^{-1},
+        \end{equation}
+        其中包括，两个泊松问题的求解，以及关于 ~$B, B^T, \vec{F}, \vec{T}$ 的矩阵向量乘法。
+        对比这两种预处理方法，PCD 预处理需要额外的生成两个矩阵 ~$A_p$ 和 ~$F_p$。LSC 预处理不需要额外生成矩阵，但是在每步
+        中需要两次泊松求解。矩阵 ~$B\vec{T}^{-1}B^T$ 在网格移动后需要从新生成，这其中包含矩阵乘法，是比较耗时的，我们还是倾向使用 ~PCD 预处理。 

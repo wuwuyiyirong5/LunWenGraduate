@@ -1,0 +1,164 @@
+\relax 
+\citation{bercovier1979error}
+\citation{bercovier1979error}
+\citation{li2005multi}
+\citation{li2005multi}
+\citation{di2005moving}
+\citation{di2005moving}
+\citation{li2005multi}
+\citation{li2005multi}
+\@writefile{toc}{\contentsline {chapter}{\numberline {第\hspace  {0.25em plus 0.125em minus 0.08em}\ignorespaces 3\hspace  {0.25em plus 0.125em minus 0.08em}\ignorespaces 章\hspace  {0.3em}}基于$4P_1-P_1$元求解\hspace  {0.25em plus 0.125em minus 0.08em}\ignorespaces Navier-Stokes 方程的移动网格有限元方法}{23}{chapter.3}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{chapter:4P1-P1_moving}{{\hspace  {0.25em plus 0.125em minus 0.08em}\ignorespaces 3\hspace  {0.25em plus 0.125em minus 0.08em}\ignorespaces }{23}{基于$4P_1-P_1$元求解~Navier-Stokes 方程的移动网格有限元方法\relax }{chapter.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}数据结构}{24}{section.3.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}混合元近似}{24}{section.3.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}流体方程}{24}{subsection.3.2.1}}
+\newlabel{eq::stokes_chap3}{{3.1}{24}{流体方程\relax }{equation.3.2.1}{}}
+\newlabel{eq::NS_system}{{3.2}{24}{流体方程\relax }{equation.3.2.2}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {3.1}{\ignorespaces 构建速度单元和压力单元间的索引}}{25}{algorithm.3.1}}
+\newlabel{alg::index}{{3.1}{25}{数据结构\relax }{algorithm.3.1}{}}
+\newlabel{eq::bc_chap3}{{3.3}{25}{流体方程\relax }{equation.3.2.3}{}}
+\newlabel{eq::stream_line}{{3.9}{26}{流体方程\relax }{equation.3.2.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}弱形式}{26}{subsection.3.2.2}}
+\newlabel{eq::generalweak_momentum}{{3.12}{27}{弱形式\relax }{equation.3.2.12}{}}
+\newlabel{eq::generalweak_mass}{{3.13}{27}{弱形式\relax }{equation.3.2.12}{}}
+\newlabel{eq::solve_condition}{{3.14}{27}{弱形式\relax }{equation.3.2.14}{}}
+\newlabel{eq::discreted_weak}{{3.16}{27}{弱形式\relax }{equation.3.2.16}{}}
+\newlabel{eq::time_discreted_weak}{{3.17}{27}{弱形式\relax }{equation.3.2.17}{}}
+\newlabel{eq::linear_system_chap3}{{3.18}{28}{弱形式\relax }{equation.3.2.18}{}}
+\newlabel{eq::element_matrix}{{3.19}{28}{弱形式\relax }{equation.3.2.19}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces 左: $p$ 单元; 右: 与压力单元对应的\hspace  {0.25em plus 0.125em minus 0.08em}\ignorespaces $4$ 个速度\hspace  {0.25em plus 0.125em minus 0.08em}\ignorespaces $v$单元 }}{29}{figure.3.1}}
+\newlabel{fig::matrix_assemble}{{3.1}{29}{左: $p$ 单元; 右: 与压力单元对应的~$4$ 个速度~$v$单元\relax }{figure.3.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}预处理策略}{29}{section.3.3}}
+\newlabel{eq::discreted_weak_stokes}{{3.20}{29}{预处理策略\relax }{equation.3.3.20}{}}
+\newlabel{eq::linear_system_stokes}{{3.21}{29}{预处理策略\relax }{equation.3.3.21}{}}
+\citation{AFEPack}
+\citation{AFEPack}
+\citation{di2005moving}
+\citation{di2005moving}
+\citation{di2005moving}
+\citation{di2005moving}
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}移动网格策略}{31}{section.3.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}获取控制函数}{31}{subsection.3.4.1}}
+\newlabel{eq::monitor_vorticity_chap3}{{3.26}{31}{获取控制函数\relax }{equation.3.4.26}{}}
+\newlabel{eq::monitor_gradient}{{3.27}{31}{获取控制函数\relax }{equation.3.4.27}{}}
+\newlabel{eq::monitor_posterror}{{3.29}{31}{获取控制函数\relax }{equation.3.4.29}{}}
+\newlabel{eq::monitor_posterror_modified}{{3.30}{31}{获取控制函数\relax }{equation.3.4.30}{}}
+\citation{di2005moving}
+\citation{di2005moving}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}获取新的逻辑网格}{32}{subsection.3.4.2}}
+\newlabel{eq::logical_chap3}{{3.31}{32}{获取新的逻辑网格\relax }{equation.3.4.31}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.3}物理网格的移动方向}{32}{subsection.3.4.3}}
+\newlabel{eq::muValue}{{3.35}{33}{物理网格的移动方向\relax }{equation.3.4.35}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.4}散度为\hspace  {0.25em plus 0.125em minus 0.08em}\ignorespaces $0$ 的插值}{33}{subsection.3.4.4}}
+\newlabel{eq::mesh_old2new}{{3.37}{33}{散度为~$0$ 的插值\relax }{equation.3.4.37}{}}
+\newlabel{eq::divergence_free}{{3.39}{33}{散度为~$0$ 的插值\relax }{equation.3.4.39}{}}
+\citation{girault2012finite}
+\citation{girault2012finite}
+\newlabel{eq::div_free_space}{{3.41}{34}{散度为~$0$ 的插值\relax }{equation.3.4.41}{}}
+\newlabel{eq::orthogonal_space}{{3.43}{34}{散度为~$0$ 的插值\relax }{equation.3.4.43}{}}
+\newlabel{eq::continous_update_chap3}{{3.44}{34}{散度为~$0$ 的插值\relax }{equation.3.4.44}{}}
+\newlabel{eq::discreted_update_chap3}{{3.45}{34}{散度为~$0$ 的插值\relax }{equation.3.4.45}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {3.2}{\ignorespaces 移动网格有限元方法来求解\hspace  {0.25em plus 0.125em minus 0.08em}\ignorespaces Navier Stokes 方程}}{35}{algorithm.3.2}}
+\newlabel{state::monitor}{{3}{35}{散度为~$0$ 的插值\relax }{algorithm.3.2}{}}
+\newlabel{state::start}{{5}{35}{散度为~$0$ 的插值\relax }{algorithm.3.2}{}}
+\newlabel{state::end}{{8}{35}{散度为~$0$ 的插值\relax }{algorithm.3.2}{}}
+\newlabel{alg::solve}{{3.2}{35}{散度为~$0$ 的插值\relax }{algorithm.3.2}{}}
+\citation{bercovier1979error}
+\citation{bercovier1979error}
+\citation{milton1982album}
+\citation{milton1982album}
+\@writefile{toc}{\contentsline {section}{\numberline {3.5}数值算例}{36}{section.3.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.1}碰撞流}{36}{subsection.3.5.1}}
+\newlabel{eq::colliding}{{3.48}{36}{碰撞流\relax }{equation.3.5.48}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces 用移动网格计算碰撞流的误差，$\nu = 1.0$。}}{36}{table.3.1}}
+\newlabel{tab::colliding_moving_error}{{3.1}{36}{用移动网格计算碰撞流的误差，$\nu = 1.0$。\relax }{table.3.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.2}{\ignorespaces 用移动网格计算碰撞流的散度和涡量误差， $\nu = 1.0$。}}{36}{table.3.2}}
+\newlabel{tab::colliding_moving_div_error}{{3.2}{36}{用移动网格计算碰撞流的散度和涡量误差， $\nu = 1.0$。\relax }{table.3.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces  左：$m = \frac  {1}{G_1}$的等高线和网格移 动方向；右：压力等高线和速度的流速线，$\alpha = 0.002, \beta = 2.0$。}}{37}{figure.3.2}}
+\newlabel{fig::mesh_move_direction}{{3.2}{37}{左：$m = \frac {1}{G_1}$的等高线和网格移 动方向；右：压力等高线和速度的流速线，$\alpha = 0.002, \beta = 2.0$。\relax }{figure.3.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces  速度$L^2$误差分布，左：均匀网格；右：移动网格 $\alpha = 0.002, \beta = 2.0$。}}{37}{figure.3.3}}
+\newlabel{fig::uniform_vs_moving_err}{{3.3}{37}{速度$L^2$误差分布，左：均匀网格；右：移动网格 $\alpha = 0.002, \beta = 2.0$。\relax }{figure.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.2}喷射流}{37}{subsection.3.5.2}}
+\citation{milton1982album}
+\citation{milton1982album}
+\citation{zheng2010posteriori}
+\citation{zheng2010posteriori}
+\citation{cao1999anr}
+\citation{cao1999anr}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces  网格对比，左：均匀网格$20 \times 20$；右：移动网格 $\alpha = 0.002, \beta = 2.0$。}}{38}{figure.3.4}}
+\newlabel{fig::uniform_vs_moving_mesh}{{3.4}{38}{网格对比，左：均匀网格$20 \times 20$；右：移动网格 $\alpha = 0.002, \beta = 2.0$。\relax }{figure.3.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.3}流体经过一个凹形台阶}{38}{subsection.3.5.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces  顶部：移动网格，底部：涡量等高线，$t = 12s$。}}{39}{figure.3.5}}
+\newlabel{fig::jetting_flow_mesht12s}{{3.5}{39}{顶部：移动网格，底部：涡量等高线，$t = 12s$。\relax }{figure.3.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces  顶部：移动网格，底部: 涡量等高线，$t = 27s$。}}{40}{figure.3.6}}
+\newlabel{fig::jetting_flow_mesht27s}{{3.6}{40}{顶部：移动网格，底部: 涡量等高线，$t = 27s$。\relax }{figure.3.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces  顶部：移动网格；底部：涡量等高线 ，$t = 0.5s$。}}{41}{figure.3.7}}
+\newlabel{fig::step_flow_05s}{{3.7}{41}{顶部：移动网格；底部：涡量等高线 ，$t = 0.5s$。\relax }{figure.3.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces  顶部：移动网格；底部：涡量等高线 ，$t = 1s$。}}{41}{figure.3.8}}
+\newlabel{fig::step_flow_1s}{{3.8}{41}{顶部：移动网格；底部：涡量等高线 ，$t = 1s$。\relax }{figure.3.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.9}{\ignorespaces  顶部：移动网格；底部：涡量等高线 ，$t = 1.5s$。}}{42}{figure.3.9}}
+\newlabel{fig::step_flow_1_5s}{{3.9}{42}{顶部：移动网格；底部：涡量等高线 ，$t = 1.5s$。\relax }{figure.3.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.10}{\ignorespaces  顶部：移动网格；底部：涡量等高线 ，$t = 2s$。}}{42}{figure.3.10}}
+\newlabel{fig::step_flow_2s}{{3.10}{42}{顶部：移动网格；底部：涡量等高线 ，$t = 2s$。\relax }{figure.3.10}{}}
+\citation{cao1999anr}
+\citation{cao1999anr}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.11}{\ignorespaces  顶部：压力等高线；底部：速度流速线 ，$t = 2s$。}}{43}{figure.3.11}}
+\newlabel{fig::step_flow_contour_streamline_2s}{{3.11}{43}{顶部：压力等高线；底部：速度流速线 ，$t = 2s$。\relax }{figure.3.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.4}圆柱绕流}{43}{subsection.3.5.4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.12}{\ignorespaces  顶部：均匀网格；底部：初始移动网格，粘性系 数 $\nu = 0.003$。}}{44}{figure.3.12}}
+\newlabel{fig::cylinder_initial_mesh}{{3.12}{44}{顶部：均匀网格；底部：初始移动网格，粘性系 数 $\nu = 0.003$。\relax }{figure.3.12}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.13}{\ignorespaces  顶部：移动网格；底部：涡量等高线， $t = 24.5s$，粘性系数 $\nu = 0.003$。}}{44}{figure.3.13}}
+\newlabel{fig::cylinder_mesh_t24_5s}{{3.13}{44}{顶部：移动网格；底部：涡量等高线， $t = 24.5s$，粘性系数 $\nu = 0.003$。\relax }{figure.3.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.14}{\ignorespaces  顶部：移动网格；底部：涡量等高线， $t = 23s$，粘性系数 $\nu = 0.001$。}}{45}{figure.3.14}}
+\newlabel{fig::cylinder_mesh_t23s}{{3.14}{45}{顶部：移动网格；底部：涡量等高线， $t = 23s$，粘性系数 $\nu = 0.001$。\relax }{figure.3.14}{}}
+\@setckpt{Chapters/chapter3}{
+\setcounter{page}{46}
+\setcounter{equation}{49}
+\setcounter{enumi}{0}
+\setcounter{enumii}{0}
+\setcounter{enumiii}{0}
+\setcounter{enumiv}{0}
+\setcounter{footnote}{0}
+\setcounter{mpfootnote}{0}
+\setcounter{CTEX@sectiondepth}{2}
+\setcounter{part}{0}
+\setcounter{chapter}{3}
+\setcounter{section}{5}
+\setcounter{subsection}{4}
+\setcounter{subsubsection}{0}
+\setcounter{paragraph}{0}
+\setcounter{subparagraph}{0}
+\setcounter{figure}{14}
+\setcounter{table}{2}
+\setcounter{parentequation}{0}
+\setcounter{float@type}{8}
+\setcounter{algorithm}{2}
+\setcounter{ALG@line}{11}
+\setcounter{ALG@rem}{0}
+\setcounter{ALG@nested}{0}
+\setcounter{ALG@Lnr}{2}
+\setcounter{ALG@blocknr}{10}
+\setcounter{ALG@storecount}{0}
+\setcounter{ALG@tmpcounter}{0}
+\setcounter{subfigure}{0}
+\setcounter{lofdepth}{1}
+\setcounter{subtable}{0}
+\setcounter{lotdepth}{1}
+\setcounter{Item}{0}
+\setcounter{Hfootnote}{0}
+\setcounter{Hy@AnnotLevel}{0}
+\setcounter{bookmark@seq@number}{30}
+\setcounter{NAT@ctr}{0}
+\setcounter{theorem}{0}
+\setcounter{lemma}{0}
+\setcounter{proposition}{0}
+\setcounter{corollary}{0}
+\setcounter{definition}{0}
+\setcounter{example}{0}
+\setcounter{remark}{1}
+\setcounter{case}{0}
+\setcounter{section@level}{2}
+\setcounter{newlist}{0}
+}

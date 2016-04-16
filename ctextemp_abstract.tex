@@ -1,0 +1,55 @@
+\def\CTeXPreproc{Created by ctex v0.2.14, don't edit!}%%---------------------------------------------------------------------------%%
+%%---------------------------- 中英文摘要 -----------------------------------%%
+%%---------------------------------------------------------------------------%%
+
+
+
+\begin{Abstract}
+
+        混合元方法是求解不可压流体方程的重要方法，自适应移动网格方法能够
+    高效求解局部有奇异性的问题。将自适应移动网格应用到流体问题上，可以在
+    抓住流体局部性质的同时，而不额外增加过多的计算量。本文应用一种
+    ~$4P_1-P_1$ 元的混合元方法，结合移动网格有限元方法来求解不可压流体问题。
+    求解不可压流体问题，实际上是在求解一个鞍点问题。通常会根据系数矩阵的性
+    质，来找到合适的预处理矩阵，来加速问题的求解。网格的移动会改
+    变矩阵的条件数，也会影响问题的求解速度。我们用代数多重网格预处理加速了
+    问题的求解，并分析了网格的移动程度对于求解速度的影响。
+
+        我们先用 ~$4P_1-P_1$ 元结合移动网格方法来求解不可压~N-S 方程。$4P_1-P_1$
+    元是基于两层嵌套的网格结构，即速度网格和压力网格。速度网格由压力网格全局加密
+    一次得到。这种有限元是自然满足~inf-sup  条件的，并且速度和压力有限元空间全用线性元逼近。借助于几何遗传树结构，可以建
+    立速度网格单元和压力网格单元间的 ~$1-1$ 对应关系，因此矩阵拼装会变得容易。我们的移动网格策略是：先移动压力网格，然后
+    再同步速度网格。更新速度网格的顶点坐标的方法是：如果速度顶点坐标和压力网格顶点
+    重合的，不需要额外处理~(因为速度和压力网格同在一颗树上)。如果速度网格顶点位于
+    压力的三边中点上，则要用压力单元的三个顶点的两两中点坐标更新速度顶点坐标。
+    这样压力网格移动后，速度网格也会跟着移动。只要把旧网格上的数值解插值到新网
+    格上即可，但在插值的过程中要保持速度散度为 ~$0$。
+
+    当网格移动后，我们用代数多重网格迭代的~PCD 预处理方法来加速求解外部的~N-S
+    方程。我们知道，从旧网格到新网格上保持散度为 ~$0$ 的
+    插值是通过求解一个类似于无黏的~N-S 方程。对这个方程应用多重网格预处理可以加速
+    整个问题的求解。构造预处理矩阵的关键是找到压力~Schur 补矩阵好的近似。在数值解
+    插值过程中，压力刚度矩阵和压力~Schur 补矩阵是谱等价的。因此用压力刚度矩阵近似
+    压力~Schur 补矩阵有很好的效果。我们通过数值例子展示了预处理方法的高效性。
+
+
+\Keywords{$4P_1-P_1$ 元，几何遗传树结构，移动网格方法，多重网格预处理，PCD 预处理。}
+\end{Abstract}
+
+
+\begin{EnglishAbstract}
+
+        It is an important method for solving incompressible flow equations with
+    mixed finite element method. Adaptive moving mesh method can efficiently solve problems with local singularities. It can not only capture the local structure of flow, but also not increase extra computation by applying adaptive moving mesh method to flow problems. In this work, we adopt a $4P_1-P_1$ finite element pair associating moving mesh finite element method to solving incompressible flow problems. It is in fact solving a saddle-point problem in the process of solving incompressible flow problem. It can accelerate the solving by seeking out appropriate preconditioning matrix, according to the property of coefficient matrix. Mesh moving will change the condition number of matrix and affect the efficiency of solving. We apply algebraic multi-grid precondition to accelerate the speed of solving problems and analyze the influence for problem solving by the magnitude of mesh moving.  
+
+        We use $4P_1-P_1$ finite element pair associating moving mesh method to
+    solve incompressible Navier-Stokes equations. $4P_1-P_1$ pair is based on
+    two nested mesh structure, velocity mesh and pressure mesh. Velocity mesh can
+    be obtained by globally refining pressure mesh. This finite element pair naturally satisfies the inf-sup condition and velocity and pressure finite element spaces can only use linear approximation. By the hierarchy geometry tree structure, the $1-1$ index between velocity elements and pressure elements can be built, so it is easy to assemble matrix. Our moving strategy
+    is: we move the pressure mesh and synchronize the velocity mesh. The middle point of two vertexes in pressure element is one vertex of  the corresponding velocity element. In this case, the velocity mesh moves along with the moving of pressure mesh. It is necessary to keep divergence free in the process of interpolating the solutions on old mesh to the new mesh.
+
+    After meshes moving, we apply algebraic multi-grid iterated PCD preconditioning to accelerate the outer Navier-Stokes equations. As we know,
+    the divergence free interpolation from old mesh to new mesh is implemented by solving a inviscid Navier-Stokes-type equation. It can accelerate the speed of solving the whole problem by applying the AMG preconditioning. Good approximation of pressure Schur complement matrix is the key of constructing the preconditioning matrix. In the solution interpolation, pressure matrix is spectral with pressure Schur complement matrix. So approximation the pressure Schur complement matrix using pressure stiff matrix will perform well.  We show the efficiency of preconditioning strategy by numerical experiments.
+
+\EnglishKeywords{$4P_1-P_1$ pair, hierarchy geometry tree structure, moving mesh method, AMG preconditioning, PCD preconditioning.}
+\end{EnglishAbstract}

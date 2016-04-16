@@ -1,0 +1,16 @@
+This is BibTeX, Version 0.99cThe top-level auxiliary file: LingPhDThesis.aux
+The style file: references/LingBib.bst
+A level-1 auxiliary file: Chapters/abstract.aux
+A level-1 auxiliary file: Chapters/chapter1.aux
+A level-1 auxiliary file: Chapters/chapter2.aux
+A level-1 auxiliary file: Chapters/chapter3.aux
+A level-1 auxiliary file: Chapters/chapter4.aux
+Database file #1: references/mathpaper.bib
+Repeated entry---line 1212 of file references/mathpaper.bib
+ : @book{brenner2007mathematical
+ :                              ,
+I'm skipping whatever remains of this entry
+Warning--empty journal in milton1982album
+Warning--empty pages in ebeida2009unsteady
+Warning--empty journal in gresho1998incompressible
+(There was 1 error message)

@@ -1,0 +1,591 @@
+\def\CTeXPreproc{Created by ctex v0.2.14, don't edit!}%%---------------------------------------------------------------------------%%
+%%------------ 第四章：代数~Riccati~方程的~ULM~方法 ---------------------------%%
+%%---------------------------------------------------------------------------%%
+
+
+\chapter{移动网格有限元的多重网格预处理方法}
+    \label{chapter:AMG_preconditioner}
+    原始变量形式的不可压Navier-Stokes方程
+    \begin{equation}
+      \begin{array}{rcl}
+         \partial_t \vec{u} - \nu \nabla^2 \vec{u} +
+        (\vec{u} \cdot \nabla )\vec{u} + \nabla p & =
+        & \vec{f},\\
+        \nabla \cdot \vec{u} & = & 0,
+      \end{array}
+      \label{eq::NS}
+    \end{equation}
+    $\partial \Omega = \partial \Omega_D \bigcup \partial \Omega_N$上的
+    边界条件以及初值条件:
+    \begin{equation}
+      \begin{array}{ll}
+        \vec{u} = \vec{w},& \mbox{ on } \partial \Omega_D \times [0,
+        T]\\
+        \nu \displaystyle \frac{\partial \vec{u}}{\partial n} - p =
+        \vec{0}, & \mbox{ on } \partial \Omega_N \times [0, T],  \\
+        \vec{u}|_{t = 0} = \vec{u_0}, & \mbox{ in } \Omega.
+      \end{array}
+      \label{eq::bc}
+    \end{equation}
+    其中 $\Omega \in \mathcal{R}^d,(d = 2, 3)$ 是计算区域，
+    $[0,T]$ 是时间区间, $\vec{u}$是速度变量并且常量$p$是压力， $\vec{n}$ 是边界
+    $\partial \Omega$上的外法向方向， $\nu > 0$ 是粘性动力学系数。
+    我们用\cite{li2001mesh} 和 \cite{di2005}中提出的移动网格有限元方法求解(\ref{eq::NS}) 和 (\ref{eq::bc})。
+    过去几十年，很多人在移动网格移动网格方法上做出了很多工作(\cite{cao1999adaptive}、
+    \cite{cao2003moving}、\cite{di2005moving}、\cite{di2007level}、\cite{di2007moving}、
+    \cite{li2001PHDthesis}、\cite{li2006moving})。Winslow \cite{Winslow1966NUMERICAL} 提出了
+    用移动网格方法求解椭圆方程。作为Winslow的工作的拓展, Dvinsky \cite{dvinsky1991adaptive}
+    提出了调和函数理论可以用来产生网格。收到Dvinsky工作的启发, L1, Tang and Zhang \cite{li2001mesh}
+    提出了基于调和映射的移动网格有限元方法。邸\cite{di2005moving}把这种移动网格策略应用到求解原始
+    变量形式的不可压Navier-Stokes方程。文中在移动网格策略中提出了保持散度的插值方法，这是通过
+    求解一个类似线性化的Navier-Stokes方程。我们在上一章中，提到了我们将$4P1-P1$元应用到移动网格    有限元方法上。$4P1-P1$元自然满足LBB(inf-sup)条件，在\cite{bercovier1979error}给出了$P1isop2P1$
+    元的误差收敛阶，速度$L^2$误差是二阶收敛，压力是一阶收敛。$4P1-P1$跟$P1isoP2P1$元具有相同的
+    数据结构，但是$4P1-P1$元中的速度单元上的基函数全部位于一个速度单元上，在速度单元和压力单元
+    进行拼装的时候，只要建立速度单元和压力单元间的索引，便是一个简单的过程。
+
+    据我们所知，用满足inf-sup条件的$4P1-P1$元可以推出一个鞍点问题，许和何(\cite{xu1992iterative}、\cite{shen1999schur}、\cite{he2003})
+    将两格子方法应用到Navier-Stokes方程的求解。很多人在为krylov子空间方法提供预处理子方面做出了很多工作。
+    在\cite{benzi2005numerical}文中，概括了求解鞍点问题常用的数值方法，例如块预处理和多重网格预处理。文献(
+    \cite{bai2005inexact}, \cite{bai2006structured},\cite{elman2007least},\cite{elman2009boundary}等)中提出了许多块预处理方法，来
+    找到鞍点问题的schur补的更好的近似。\cite{benzi2006augmented}中提出了求解Ossen系统的增广的基于lagarian方法。在\cite{benzi2011relaxed}
+    中提出了求解不可压Navier-Stokes方程的维数分解的预处理方法。(\cite{boyle2007hsl}
+    \cite{boyle2010hsl_mi20})中提出了求解Navier-Stokes方程的一种高效的Krylov子空间方法，这种方法是用代数多重网格做预处理子。
+    但是据我们所知，对于鞍点问题的高效预处理方法基本上都是基于均匀网格上的，尽管在\cite{benzi2011relaxed}一文中，考虑了拉伸
+    网格的情形。
+
+    在\cite{elman2005finite}的基础上，我们将为移动网格有限元方法求解(\ref{eq::NS})和
+    (\ref{eq::bc})提供了一个代数多重网格预处理方法。我们通过数值例子来表明，我们的预处理子的高效性。
+    \section{时间格式的离散}
+        在时间层离散上，我们把时间区间$[0, T]$分成$N$份，$\{t_i\}_{i = 1}^N$。令$\vec{u}^j$ 和 $p^j$ 是连续形式解$\vec{u}(\cdot, t_j)$ 和 $p(\cdot, t_j)$的离散近似。在时间格式的离散上，主要分为算子分裂方法和全隐格式。
+        在算子分裂方法，也可以看成是分部方法。最简单的方法是将算子分成两步，在每一步中分别用向前和向后欧拉格式，可以参考\cite{peaceman1955numerical}。
+        在\cite{he2003two}中，将这种两步分裂方法应用到Navier-Stokes方程的时间离散上。
+        通常的两步方法如下：
+        \begin{algorithm}
+            \caption{Peaceman-Rachford 格式}
+%            \begin{algorithmic}[1]
+                给定$\vec{u}^0, p^0, \theta \in [0, 1], \alpha \in (0, 1) \beta \in (0, 1)$, 假设$\vec{u}^n$已知，通过以下求解$\vec{u}^{n + 1}$:
+                \begin{eqnarray}
+                    \begin{aligned}
+                        \frac{\vec{u}^{n + \theta} - \vec{u}^n}{\theta \delta t} - \alpha \nu \nabla^2\vec{u}^{n + \theta} + \vec{u}^* \cdot \nabla\vec{u}^{n + \theta}
+                        & = \beta \nu \nabla^2\vec{u}^n - \nabla p^n \quad \mbox {在} \Omega \mbox{内},& \\
+                        \vec{u}^{n + \theta} & = \vec{g}^{n + \theta} \quad \mbox{在} \partial \Omega \mbox{上}:& \\
+                    \end{aligned}
+                    \label{eq::first_step_PR}
+               \end{eqnarray}
+               \begin{eqnarray}
+                    \begin{aligned}
+                        \frac{\vec{u}^{n + 1} - \vec{u}^{N + \theta}}{(1 - \theta)\delta t} - \beta \nu \nabla^2\vec{u}^{n + 1} + \nabla p^{n + 1}
+                        & =  \alpha \nu \nabla^2 \vec{u}^{n + \theta} - \vec{u}^* - \nabla \vec{u}^{n + \theta} \quad \mbox{在} \Omega \mbox{内},&\\
+                        \nabla \cdot \vec{u}^{n + 1} & =  0 \quad \mbox{在} \Omega \mbox{内},&\\
+                        \vec{u}^{n + 1} & = \vec{g}^{n + 1} \quad \mbox{在} \partial \Omega 上.&
+                    \end{aligned}
+                    \label{eq::second_step_PR}
+               \end{eqnarray}
+%            \end{algorithmic}
+            \label{alg::Peaceman_Rachford}
+         \end{algorithm}
+         在(\ref{alg::Peaceman_Rachford})中$\vec{u}^*$的取值要保证散度为0的条件，并且$\alpha + \beta = 1$。它实际上是先求解一个对流方程
+         (\ref{eq::first_step_PR})，然后再求解一个广义的Stokes方程(\ref{eq::second_step_PR})。这个算法第一步计算的时候需要$p^0$的值，它
+         可以在很小的时间步长情况下，全隐格式向前发展一步得到。一般自然的，$\vec{u}^* = \vec{u}^n$, 这样在时间格式上只有一阶精度的。这种
+         方法不是无条件稳定的，并且需要比较小的时间步长。当$\theta = \frac{1}{2}, \vec{u}^* = \vec{u}^{n + theta}$时，可以获得二阶精度，
+         这时候求解(\ref{eq::first_step_PR})变成了一个求解非线性的对流方程。详细内容可以参考(\cite{silvester1996fast})。\cite{dean1993some}将
+         两步Peaceman-Rachford推广到三步, 保持了当$t \leftarrow \infty$时的数值稳定性：
+         \begin{algorithm}
+             \caption{Glowinski $\Theta$格式}
+%            \begin{algorithmic}[1]
+                给定$\vec{u}^0, \theta \in [0, 1/2], \alpha \in (0, 1), \beta \in (0, 1)$, 假设$\vec{u}^n$已知，通过以下求解$\vec{u}^{n + 1}$:
+                \begin{eqnarray}
+                    \begin{aligned}
+                        \frac{\vec{u}^{n + \theta} - \vec{u}^n}{\theta \delta t} - \alpha \nu \nabla^2\vec{u}^{n + \theta} +
+                        \nabla p^{n + \theta}
+                        & = \beta \nu \nabla^2\vec{u}^n - \vec{u}^n \cdot \nabla\vec{u}^{n} \quad \mbox {在} \Omega \mbox{内},& \\
+                        \nabla \cdot \vec{u}^{n + \theta} & =  0 \quad \mbox{在} \Omega \mbox{内},&\\
+                        \vec{u}^{n + \theta} & = \vec{g}^{n + \theta} \quad \mbox{在} \partial \Omega \mbox{上};& \\
+                    \end{aligned}
+                    \label{eq::first_step_GL_theta}
+                \end{eqnarray}
+                \begin{eqnarray}
+                    \begin{aligned}
+                        \frac{\vec{u}^{n + 1 - \theta} - \vec{u}^{n + \theta}}{(1 - 2\theta) \delta t} - \beta \nu \nabla^2\vec{u}^{n + 1 - \theta} + \vec{u}^* \cdot \nabla \vec{u}^{n + 1 -\theta}
+                        & = \alpha \nu \nabla^2\vec{u}^{n + \theta}- \nabla p^{n + \theta} \cdot \nabla\vec{u}^{n} \quad \mbox {在} \Omega \mbox{内},& \\
+                        \vec{u}^{n + 1 - \theta} & = \vec{g}^{n + 1 - \theta} \quad \mbox{在} \partial \Omega \mbox{上};& \\
+                    \end{aligned}
+                    \label{eq::second_step_GL_theta}
+                \end{eqnarray}
+                \begin{eqnarray}
+                    \begin{aligned}
+                        \frac{\vec{u}^{n + 1} - \vec{u}^{n + 1 - \theta}}{\theta \delta t} - \alpha \nu \nabla^2\vec{u}^{n + 1} +
+                        \nabla p^{n + 1}
+                        & = \beta \nu \nabla^2\vec{u}^{n + 1 - \theta} - \vec{u}^* \cdot \nabla\vec{u}^{n + 1 - \theta} \quad \mbox {在} \Omega \mbox{内},& \\
+                        \nabla \cdot \vec{u}^{n + 1} & = 0 \quad \mbox{在} \Omega \mbox{内},&\\
+                        \vec{u}^{n + \theta} & = \vec{g}^{n + \theta} \quad \mbox{在} \partial \Omega \mbox{上}.& \\
+                    \end{aligned}
+                    \label{eq::third_step_GL_theta}
+                \end{eqnarray}
+%            \end{algorithmic}
+         \end{algorithm}
+         这种算法需要在每个时间步中计算两个广义的Stokes方程(\ref{eq::second_step_GL_theta}) 和(\ref{eq::third_step_GL_theta}), 和一个非线性的对流
+         方程(\ref{eq::first_step_GL_theta})。当我们取$\alpha = \beta = 1/2$或者$\theta = 1 - 1/\sqrt(2), \alpha + \beta = 1$，当$t \leftarrow
+         \infty$时，该格式时间上有二阶精度。特别的，当$\theta = 1 - 1/\sqrt{2}, \alpha = (1 -2\theta)/(1 - \theta), \beta = \theta/(1 - \theta)$时，
+         这种方法在时间上是有二阶精度的，并且是无条件稳定的。
+         (\cite{smith1997implicit})中提出了一种线性化$\Theta-$格式，它保持了二阶精度。它的想法是将对流方程(\ref{eq::second_step_GL_theta})中的对流项
+         \begin{equation}
+            \vec{u}^* = \frac{2\theta - 1}{\theta} \vec{u}^n + \frac{1- \theta}{\theta}\vec{u}^{n + \theta}.
+         \end{equation}
+         从而使得非线性对流扩散方程变成了线性化的对流扩散方程。
+         我们将全隐格式的近似方法表述如下：
+         最简单的时间格式是一步有限差分离散，在如何处理非线性对流项上可以归纳为以下算法：
+        \begin{algorithm}
+            \caption{非线性隐式$\Theta$ 格式}
+%            \begin{algorithmic}[1]
+                给定$\vec{u}^0, \theta \in [0, 1]$, 假设$\vec{u}^n$已知，通过以下求解$\vec{u}^{n + 1}$:
+                \begin{eqnarray}
+                    \frac{\vec{u}^{n + 1} - \vec{u}^n}{\delta t} - \nu \nabla^2\vec{u}^{n + \theta} + \vec{u}^* \cdot \nabla\vec{u}^{n + \theta}
+                    + \nabla p^{n + \theta} & = 0\quad \mbox {在} \Omega \mbox{内},&
+                    \label{alg::nonlinear_Theta_moment}    \\
+                    \nabla \cdot \vec{u}^{n + \theta} & = 0 \quad \mbox{在} \Omega \mbox{内},&
+                    \label{eq::nonlinear_theta_mass} \\
+                    \vec{u}^{n + \theta} & = \vec{g}^{n + \theta} \quad \mbox{在} \partial \Omega \mbox{上}.&
+               \end{eqnarray}
+%            \end{algorithmic}
+            \label{alg::nonlinear_Theta}
+         \end{algorithm}
+         其中
+         \begin{eqnarray}
+            \vec{u}^{n + \theta} & = & \theta\vec{u}^{n + 1} + (1 - \theta)\vec{u}^n. \\
+            p^{n + \theta} & = & \theta p^{n + 1} - (1 - \theta)p^n.
+         \end{eqnarray}
+         $\theta = 1$时，是将非线性项隐式化处理了。当$\vec{u}^{n + \theta} = \vec{u}^{n + 1}, \vec{u}^* = \vec{u}^{n + 1}$
+         格式变成了时间方向一阶精度的向后欧拉格式，当$\vec{u}^{n + \theta} = \vec{u}^{n + 1/2}, \vec{u}^* = \vec{u}^{n + 1/2}$时，
+         就是时间方向的二阶精度的Crank-Nicolson格式。但是这两种格式在每个时间步中都需要求解一个非线性问题，因此在计算效率上都不是
+         高效的。一种折中的办法是将$\vec{u}^{n + \theta} = \vec{u}^{n + 1}, \vec{u}^* = \vec{u}^{n},p^{n + \theta} = p^{n + 1}$,
+         这样虽然在时间上损失了一阶精度，但是时间离散格式还是无条件稳定的，因此我们本文中的方法就是采用的这种线性化策略。
+         我们来验证线性化向后欧拉方法的稳定性。不失一般性，我们取$\vec{g}^{n + 1} = \vec{0}$，对\eqref{eq::nonlinear_theta_moment}方程
+         两边同时乘上$\vec{u}^{n + 1}$，并在$\Omega$上做$L_2$内积。我们可以通过选取基函数使得对流项：
+         \begin{equation}
+            \int_{\Omega}(\vec{u}^n \cdot \vec{u}^{n + 1}) \cdot \vec{u}^{n + 1} = 0.
+         \end{equation}
+         并且对质量守恒方程(\ref{eq::nonlinear_theta_mass})关于$p^{n + 1}$做$L_2$内积，再利用分部积分：
+         \begin{equation}
+            \int_{\Omega} \nabla p^{n + 1} \cdot \vec{u}^{n + 1} = -\int_{\Omega}p^{n + 1}(\nabla \cdot \vec{u}^{n + 1}) = 0. \notag
+         \end{equation}
+         因此,
+         \begin{equation}
+            \frac{1}{\delta t}\int_{\Omega}(\vec{u}^{n + 1} - \vec{u}^n)\vec{u}^{n + 1} + \nu \int_{\Omega}\nabla \vec{u}^{n + 1} \cdot \vec{u}^{u + 1} = 0.
+            \label{eq::stable_LEuler}
+         \end{equation}
+         对(\ref{eq::stable_LEuler})在$[t_n, t_{n + 1}]$上进行积分，可得
+         \begin{eqnarray}
+            ||\vec{u}^{n + 1}||^2 + \nu \int_{t_n}^{t^{n + 1}}||\nabla \vec{u}||^2
+            & = & \int_{\Omega} \vec{u}^{n} \vec{u}^{n + 1} \\ \notag
+            &\leq & \frac{1}{2}\int_{\Omega} ((\vec{u}^{n})^2 + (\vec{u}^{n + 1})^2) \\ \notag
+            & = & \frac{1}{2}||\vec{u}^n||^2 + \frac{1}{2}||\vec{u}^{n + 1}||^2. \\ \notag
+         \end{eqnarray}
+         从而我们可以得到
+         \begin{equation}
+            \frac{1}{2}||\vec{u}^{n + 1}||^2 + \nu \int_{t_n}^{t_{n + 1}}||\vec{u}^{n + 1}||^2 \leq \frac{1}{2}||\vec{u}^{n}||^2.
+            \label{eq::inequality_LEuler}
+         \end{equation}
+         注意到(\ref{eq::inequality_LEuler})中的第二项是严格正的，因此
+         \begin{equation}
+            \frac{1}{2} ||\vec{u}^{n + 1}||^2 < \frac{1}{2} ||\vec{u}^{n}||^2.
+         \end{equation}
+         的成立跟时间步长$\delta t$无关。即线性化向后欧拉格式是无条件稳定的。
+         在这种线性化策略的基础上，一种保持时间上二阶精度的方法是$\theta = 1/2, \vec{u}^* = {3/2\vec{u}^n - 1/2\vec{u}^{n - 1}}$，
+         这是\cite{simo1994unconditional}中提出的。我们将这种两步方法表述如下：
+        \begin{algorithm}
+            \caption{Simo-Armero 格式}
+%            \begin{algorithmic}[1]
+                给定$\vec{u}^0， \vec{u}^1$, 通过以下求解$\vec{u}^{k}, k = 1, \cdots, n + 1$:
+                \begin{eqnarray}
+                    \begin{aligned}
+                        \frac{\vec{u}^{n + 1} - \vec{u}^n}{\delta t} - \nu \nabla^2\vec{u}^{n + 1/2} + (\frac{3}{2}\vec{u}^n - \frac{1}{2}\vec{u}^{n - 1}) \cdot \nabla\vec{u}^{n + 1/2}
+                        + \nabla p^{n + 1/2} & = 0\quad \mbox {在} \Omega \mbox{内},& \\
+                        \nabla \cdot \vec{u}^{n + 1/2} & = 0 \quad \mbox{在} \Omega \mbox{内},& \\
+                        \vec{u}^{n + 1/2} & = \vec{g}^{n + 1/2} \quad \mbox{在} \partial \Omega \mbox{上}.&
+                        \label{eq::simo_arero}
+                    \end{aligned}
+               \end{eqnarray}
+%            \end{algorithmic}
+            \label{alg::simo_armero}
+         \end{algorithm}
+        其中$u^1$可以由向后欧拉格式得到， 算法(\ref{alg::simo_armero})也是无条件稳定的，证明过程可以根据线性化向后欧拉格式的证明。
+
+   根据上一章中，我们提到的$4p1-P1$元，这种有限元是基于两套三角形网格和两个有限元空间。根据\cite{li2005multi}中的几何遗传树中的四叉树结构，
+   速度网格可以通过压力网格全局加密一次得到，如图\ref{fig::hgeometry_tree}所示。速度单元和压力单元间的一一对应关系可以根据几何遗传树结构，
+   相对容易的获得。我们先给出一些符号的定义：
+   $\mathcal{T}_h$是速度网格的一个三角剖分，最大的网格尺度$h = max_{T \in \mathcal{T}_h} diam(T)$，同样的，$\mathcal{T}_{H}(H = 2h)$ 是压力
+   网格的三角剖分。速度和压力的有限维空间分别为$X_h \subset (H_0^1(\Omega)^2)$ 和 $P_H \subset \mathcal{L}^2(\Omega)$。那么Navier-Stokes问题
+   的全离散形式为：
+
+   给定$t_n$时刻的$(\vec{u}_h^n, p_H^n)$，来计算$(\vec{u}_h^{n + 1}, p_H^{n + 1})$ 通过
+   \begin{equation}
+     \begin{aligned}
+       \frac{1}{dt}(\vec{u}_h^{n + 1}, \vec{v}_h) + \nu (\nabla
+       \vec{u}_h^{n + 1}, \nabla \vec{v}_h) + (\vec{u}_h^n \cdot
+       \nabla \vec{u}_h^{n + 1}, \vec{v}_h) - (p_H^{n + 1}, \nabla
+       \vec{v}_h) & = &\frac{1}{dt}(\vec{u}_h^n, \vec{v}) \\
+       (\nabla \cdot \vec{u}_h^{n + 1}, q_H) & = & 0. \\
+     \end{aligned}
+     \label{eq::NS_weak_form}
+   \end{equation}
+   对所有的 $(\vec{v}_h, q_H) \in \mathcal{X}_h \times P_H$.
+
+    \begin{figure}[h]
+        \begin{minipage}[t]{0.4\textwidth}
+          \centering
+          \begin{tikzpicture}
+            % 三角形
+            \draw (2, 1) -- (4, 1) -- (3, 3) -- cycle;
+            \draw (5, 1) -- (6, 3) -- (7, 1) -- cycle;
+            \draw (5.5, 2) -- (6.5, 2) -- (6, 1) -- cycle;
+          \end{tikzpicture}
+          \caption{全局加密一次的网格}
+        \end{minipage}
+        \begin{minipage}[t]{0.6\textwidth}
+          \centering
+          \begin{tikzpicture}
+            %五个小三角形
+            \draw (1.0, 0.0) -- (1.2, 0.4) -- (1.4, 0.0) -- cycle;
+            \draw (2.0, 0.0) -- (2.2, 0.4) -- (2.4, 0.0) -- cycle;
+            \draw (3.0, 0.0) -- (3.2, 0.4) -- (3.4, 0.0) -- cycle;
+            \draw (4.0, 0.0) -- (4.2, 0.4) -- (4.4, 0.0) -- cycle;
+            \draw (2.6, 2.4) -- (2.2, 1.8) -- (3.0, 1.8) -- cycle;
+            \draw (2.4, 2.1) -- (2.6, 1.8) -- (2.8, 2.1) -- cycle;
+            %四条线
+            \draw (2.6, 2.0) -- (1.2, 0.2);
+            \draw (2.6, 2.0) -- (2.2, 0.2);
+            \draw (2.6, 2.0) -- (3.2, 0.2);
+            \draw (2.6, 2.0) -- (4.2, 0.2);
+          \end{tikzpicture}
+          \caption{它的几何遗传树}
+        \end{minipage}
+      \caption{几何遗传树结构}
+      \label{fig::hgrometrytree}
+    \end{figure}
+
+
+\section{快速Krylov求解}
+  令$\left(\{\phi_j \}_{j = 1}^n, 0 \right)^T$ 和 $\left(0, \{\phi_j\}_{j = 1}^n\right)^T$ 是速度空间$X_h$的线性元基函数。同时，
+  $\{\psi_k\}_{k = 1}^m$ 为压力空间$P_H$的线性元基函数。$t_{n + 1}$ 时刻，速度解的分量形式$\vec{u}_h^{n + 1} = (u_h^{x, n + 1},
+  u_h^{y, n + 1})^T$，压力数值解为 $\vec{p}_H^{n + 1}$ at $t = t_{n + 1}$，可以写为：
+  \begin{equation}
+    u_h^{x, n + 1} = \sum_{j = 1}^{n_u} \alpha_j^{x, n + 1} \phi_j,
+    \qquad u_h^{y, n + 1} = \sum_{j = 1}^{n_u} \alpha_j^{y, n + 1}
+    \phi_j \qquad p_H^{n + 1} = \sum_{k = 1}^{n_p}\alpha_k^{p, n + 1}
+    \psi_k.
+    \label{eq::basis_fun}
+  \end{equation}
+
+  将(\ref{eq::basis_fun}) 带入弱形式
+  (\ref{eq::NS_weak_form})中，可以得到一个鞍点问题：
+  \begin{equation}
+    \left[
+      \begin{array}{lll}
+        \frac{1}{dt} M + \nu A + N & 0 & B_x^T \\
+        0 & \frac{1}{dt} M +\nu A + N  & B_y^T \\
+        B_x & B_y & 0
+      \end{array}
+    \right]
+    \left[
+      \begin{array}{c}
+        \alpha^{x, n + 1} \\
+        \alpha^{y, n + 1} \\
+        \alpha^{p, n + 1}
+      \end{array}
+    \right] =
+    \left[
+      \begin{array}{c}
+        f_x \\
+        f_y \\
+        0
+      \end{array}
+    \right],
+    \label{eq::linear_system}
+  \end{equation}
+  注意到散度矩阵 $B = [Bx, By]$ 为
+  \begin{eqnarray}
+    B_x := [B_x]_{kj} = -\left(\psi_k, \frac{\partial \phi_j}{\partial
+        x} \right), k = 1, \cdots, n_p, j = 1, \cdots, n_u, \\
+    B_y := [B_y]_{kj} = -\left(\psi_k, \frac{\partial \phi_j}{\partial
+        y} \right), k = 1, \cdots, n_p, j = 1, \cdots, n_u.
+  \end{eqnarray}
+  因为速度单元上的基函数和压力单元上的基函数并不在同一张网格上，所以装配矩阵$B$并不是一个显然的过程。这需要根据上面提到的速度单元和压力单元间
+  的$1-1$索引，我们可以仅仅只用速度和压力单元上的线性元函数来装配$B$，拼装$B^T$的过程类似。
+  我们定义 $F_\nu^{n + 1} = \frac{1}{dt} M + \nu A + N$, 其中
+  \begin{eqnarray}
+    M := &[M]_{ij} =& \left( \phi_i, \phi_j \right),\quad  i,j = 1, \cdots,
+    n_u, \\
+    A := &[A]_{ij} =& \left( \nabla \phi_i, \nabla \phi_j \right), i,j =
+    1, \cdots, n_u, \\
+    N := &[N]_{ij} =& \left(\vec{u}_h^n, \nabla \phi_i, \phi_j \right),
+    i,j = 1, \cdots, n_u.
+  \end{eqnarray}
+
+  为了高效的求解线性方程组(\ref{eq::linear_system})，我们用预处理的GMRES(generalized minimal residual algorithm)作为求解器。在\cite{elman2005finite}
+  中考虑的块三角预处理$\mathcal{P}$定义如下：
+  \begin{equation}
+    \mathcal{P} =
+    \left(
+      \begin{array}{lll}
+        F & 0 & B_x^T \\
+        0 & F  & B_y^T \\
+        0 & 0 & S
+      \end{array}
+    \right)
+  \end{equation}
+  其中 $S = B_xF^{-1}B_x^T + B_yF^{-1}B_y^T$ 是 Schur 补矩阵。预处理就是要完成近似矩阵的求逆，实施$\mathcal{P}^{-1}$的过程分为两步，
+  第一步是求解schur补的系统，第二步是求解两个纯量的跟$F$有关的系统。直接求解schur补的方程组是非常耗时的，因为它系数矩阵里包含一个逆
+  矩阵。所以，在实际的计算中，找到schur补的近似矩阵，然后用近似矩阵代替schur补矩阵来进行求解。\cite{elman2005finite}一文中提到PCD预
+  处理可以用来作为schur补的近似。PCD矩阵定义为：
+  \begin{equation}
+    S_* = A_p F_p^{-1} Q_p.
+    \label{eq::PCD}
+  \end{equation}
+  其中$A_p, F_p$ 和 $Q_p$全部定义在压力空间上。 $Q_p$ 是压力质量矩阵， $A_p$ 是压力刚度矩阵，$F_p$ 是对流扩散矩阵，它们分别定义为：
+  \begin{eqnarray}
+    F_p := [F_p]_{ij} = \nu (\nabla \psi_i, \nabla \psi_j) +
+    (\vec{u}_h^n \cdot \nabla \psi_i, \psi_j), \quad i,j = 1, \cdots, n_p, \\
+    A_p := [A_p]_{ij} = (\nabla \psi_i, \nabla \psi_j)\quad i,j = 1, \cdots,
+    n_p.
+    \label{eq::pcd_mat}
+  \end{eqnarray}
+  令
+  \begin{equation}
+    W_p^n := [W_p^n]_{ij} = (\vec{u}_h^n \cdot \nabla \psi_i,
+    \psi_j), \quad i,j = 1, \cdots, n_p.
+  \end{equation}
+  那么$F_p$ 可以被重新写成：
+  \begin{equation}
+    F_p = \nu A_p + W_p^n.
+  \end{equation}
+  我们实施PCD预处理通过
+  \begin{equation}
+    S_*^{-1} \approx Q_p^{-1} F_p A_p^{-1}.
+  \end{equation}
+  精确的PCD 预处理算子定义为
+  \begin{equation}
+    \mathcal{M}^{-1} =
+    \left(
+      \begin{array}{lll}
+        F^{-1} & 0 & B_x^T \\
+        0 & F^{-1} & B_y^T \\
+        0 & 0 &S_*^{-1}
+      \end{array}
+    \right)
+  \end{equation}
+  我们分两步解释预处理的求解过程：令$V^d = \mathcal{M}^{-1} V^s$，
+  其中
+  \begin{equation}
+    V^d = (V_x^d, V_y^d, V_p^d)^T, V^s = (V_x^s, V_y^s, V_p^s)^T.
+  \end{equation}
+  第一步我们求解：
+  \begin{equation}
+    V_p^d = S_*^{-1} V_p^s = Q_p^{-1} F_p A_p^{-1} V_p^s.
+    \label{eq::solve_schur}
+  \end{equation}
+  它其中包含两个possion问题的求解$Q_p^{-1}$ and $A_p^{-1}$，所以我们可以用为求解possion问题设计的多重网格求解器来实现求解。
+  第二步我们再用这种多重网格求解器去求解
+  \begin{equation}
+    \begin{aligned}
+      V_x^d = F^{-1} (V_x^s - B_x^T V_p^d), \\
+      V_y^d = F^{-1} (V_y^s - B_y^T V_p^d).
+    \end{aligned}
+    \label{eq::solve_velocity}
+  \end{equation}
+  将(\ref{eq::solve_schur}) 和 (\ref{eq::solve_velocity})中的解合并在一起，就得到了要求解的 $V^d$.
+
+  在实际的计算中，我们对矩阵$F$, $F_p$, $Q_p$, 和 $A_p$的求解，是用固定的几步代数多重网格迭代(algbraic multi-grid)来代替精确求解。这
+  就是迭代的PCD方法。我们用的多重网格求解器是在AFEPack中(一个自适应有限元包)，可以从\url{http://dsec.pku.edu.cn/~rli}获得。在(\cite{elman2005finite},
+  第10章)中，数值算例说明了PCD预处理的高效。\cite{elman2011fast}一文将PCD预处理方法应用到bouyancy驱动流问题上。在我们的数值实验中，发现如果将
+  \eqref{eq::pcd_mat}中的
+  \begin{equation}
+    F_p = \nu A_p + W_p^n.
+  \end{equation}
+  中$A_p$前面的系数去掉，会发现GMRES的迭代步数会减少。我们采用(\cite{elman2009boundary})中在Neumann边界上的处理矩阵$F_p$ 和 $A_p$的方法，来提高
+  求解效率。$F_p$需要在边界$\partial \Omega = \partial \Omega_D \cup \partial \Omega_N$上满足边界条件
+  \begin{equation}
+    \nu \frac{\partial p_h}{\partial n} + (\vec{w}_h \cdot \vec{n})
+    p_h = 0.
+    \label{eq::bc_Fp}
+  \end{equation}
+  我们知道对于方腔流，在所有的边界上$\vec{w}_h \cdot \vec{n} = 0$，所以(\ref{eq::bc_Fp})将会退化成
+  \begin{equation}
+    \frac{\partial p_h}{\partial n} = 0.
+  \end{equation}
+  这就意味着我们在所有的边界$\partial \Omega$上，对$F_p$不采取任何操作，$A_p$采取同样的操作。
+  在本文中，我们将PCD预处理方法应用到移动网格有限元方法，来高效地求解Navier-Stokes问题\eqref{eq::linear_system}。
+\section{移动网格策略}
+  \subsection{网格移动的流程}
+     再上一章中我们详细的介绍过移动网格的策略，这一章中简要描述一下。在$t = t_{n}$时刻，我们获得了数值解 $\vec{u}_h^{(n)}, p_H^{(n)}$ 在$t_n$时刻的
+     网格 $\mathcal{T}_h^n$上。我们根据\cite{di2005moving}中的方法，用保持散度为0的差值方法将$\mathcal{T}_h^n$上的数值解差值到$t_{n + 1}$时刻的网格
+     $\mathcal{T}_h^{(n + 1)}$上。简单的来说，总共分为三步：
+     \begin{enumerate}[step 1]
+     \item 获取控制函数。 令$m = 1/G$，其中$G$是控制函数。基于涡量的控制函数
+       \begin{equation}
+         \centering
+         G = \sqrt{1 + \alpha |\omega|^\beta}.
+         \label{eq::monitor_vorticity}
+       \end{equation}
+       其中 $\omega = \nabla \times \vec{u}$， $\alpha, \beta$
+       是两个正的常数。在本文中，$\beta = 2$有比较的效果，$\alpha$ 根据不同的问题，选取不同的值。
+       problems.
+
+     \item 获取物理网格上的移动方向。求解
+       \begin{equation}
+         \begin{aligned}
+           \nabla_{\vec{x}}(m \nabla_{\vec{x}} \vec{\xi}) = 0, \\
+           \vec{\xi}|_{\partial \Omega} = \vec{\xi}_b.
+         \end{aligned}
+         \label{eq::logical}
+       \end{equation}
+       来获得一个新的逻辑网格$\mathcal{T}_c^*$，$\mathcal{A}^*$ 作为它的节点。
+       我们可以得到新的逻辑网格和初始逻辑网格$\mathcal{T}_c^0(\mbox{节点为} \mathcal{A}^0)$
+       之间的误差
+       \begin{equation}
+         \delta \mathcal{A} = \mathcal{A}^0 - \mathcal{A}^*.
+       \end{equation}
+       我们可以根据$\delta \mathcal{A}$来获得物理区域的位移$\delta X_i$，通常再乘上一个正的常数$\mu$
+       避免网格缠接：
+       \begin{equation}
+         X_i^{(n + 1)} = X_i^{(n)} + \mu \delta X_i.
+       \end{equation}
+     \item 保持散度为0的差值。
+       在用移动网格有限元方法来求解不可压流体方程的时候，需要在数值解差值的过程中保持散度为0。在\cite{di2005moving}中，
+       数值解在新网格$\mathcal{T}^{(n + 1)}$上的重新分布，是通过求解一个类似无粘的Navier-Stokes方程。
+       \begin{eqnarray}
+         \begin{aligned}
+           \frac{\partial \vec{u}}{\partial \tau} - \nabla_{\vec{x}}\vec{u}
+           \cdot \delta \vec{x} & =  - \nabla \hat{p},& \\
+           \nabla_{\vec{x}}\cdot \vec{u} & =  0.&
+         \end{aligned}
+         \label{eq::continous_update}
+       \end{eqnarray}
+       其中 $\delta \vec{x} := x^{\text{old}} - x^{\text{new}}$，
+       $x^{\text{old}}, x^{\text{new}}$ 是物理区域上的两组坐标。$\tau$ 是一个虚拟时间，通常取成$1.0$。因为对流速度$\delta \vec{x}$
+       相对较小。这里 $\hat{p}$ 是一个临时变量，为了跟(\ref{eq::NS})中的压力变量区别开来。
+
+       (\ref{eq::continous_update})的弱形式是: 寻找 $(\vec{u}_h, \hat{p}_H) \in X_E^h \times P^H$ 使得
+       \begin{eqnarray}
+         \begin{aligned}
+           \left( \partial_{\tau} \vec{u}_h - \nabla_{\vec{x}}\vec{u}_h
+           \cdot \delta \vec{x}, \vec{v}_h \right) & =  \left( \hat{p}_H, \nabla
+           \vec{v}_h \right), \quad \forall \vec{v}_h \in X_E^h,&  \\
+           \left( \nabla_{\vec{x}} \cdot \vec{u}, q_H\right) & =  0, \quad \forall
+           q_H \in P^H. &
+         \end{aligned}
+         \label{eq::semi_discreted_update}
+       \end{eqnarray}
+
+       在本文中，我们用时间层上用显示格式离散：
+       (\ref{eq::semi_discreted_update}) for time discretization:
+       \begin{eqnarray}
+         \begin{aligned}
+           \left ( \frac{\vec{u}_{h, *}^{(n)} - \vec{u}_h^{(n)}}{\delta
+               t},
+           \vec{v}_h \right) + \left( \delta \vec{x} \cdot \nabla
+           \vec{u}_{h}^{(n)}, \vec{v}_h \right)  & =  \left(
+           \hat{p}_{H, *}^{(n)}, \nabla \vec{v}_h \right), \quad
+           \forall \vec{v}_h \in X_E^h. &\\
+           \left( \nabla \cdot \vec{u}_{h, *}^{n}, q_H \right) & =  0, \quad
+           \forall q_H \in P^H. &
+         \end{aligned}
+         \label{eq::full_discreted_update}
+       \end{eqnarray}
+       其中$\vec{u}_h^{(n)}$ 和 $p_H^{(n)}$ 是 方程(\ref{eq::NS}) 在 $t = t_{n}$ 时刻的网格上计算的数值解。$\vec{u}_{h,*}^{(n)}$ 和 $p_{h, *}^{(n)}$
+      是在新网格$\mathcal{T}^{(n + 1)}$上，$t_n$时刻的数值解，是一个中间变量。
+     \end{enumerate}
+
+   \subsection{用AMG 预处理求解(\ref{eq::full_discreted_update})}
+   (\ref{eq::full_discreted_update}) 将会得到一个线性系统， 它的系数矩阵为$\mathcal{M}^p$，定义如下：
+   \begin{equation}
+     \mathcal{M}^p =
+     \left(
+       \begin{array}{lll}
+         \frac{1}{\delta t} Q_p & 0 & B_x^T \\
+         0 & \frac{1}{\delta t} Q_p & B_y^T \\
+         B_x & B_y & 0
+       \end{array}
+     \right)
+     \label{mat::moving}
+   \end{equation}
+   据我们所知，矩阵$\mathcal{M}^p$的schur补矩阵为：
+   \begin{equation}
+    M_S = B_x Q_p^{-1} B_x^T + B_y Q_p^{-1} B_y^T.
+   \end{equation}
+   根据(\cite{elman2005finite}, 第5章)，对于满足LBB条件的混合元近似，当边界条件全部是封闭流体边界时，$M_S$是跟压力空间的刚度矩阵
+   $A_p$谱等价的。因此我们可以用 $A_p$ 来作为schur补矩阵的近似矩阵。那么我们可以选取
+   \begin{equation}
+     \mathcal{K} =
+     \left(
+       \begin{array}{lll}
+         Q_p & 0 & B_x^T \\
+         0 & Q_p & B_y^T \\
+         0 & 0 & M_S^*
+       \end{array}
+     \right)
+     \label{eq::updateSolution_precond}
+   \end{equation}
+
+   来作为(\ref{mat::moving})的块预处理矩阵，其中 $M_S^* = A_p$ 或者 $M_S^* =
+   \frac{1}{\nu} A_p$。我们选择不同的$M_S^*$来作为schur补矩阵的近似矩阵，
+   来对比求解效率的差别。在我们的实际计算中，$\frac{1}{\nu}A_p$ 要比 $A_p$效率要高。
+   对于入流/出流问题，$A_p$ 需要在Neumann边界上做出一些修改来提高计算效率。在出流边界
+   $\partial \Omega_N$上，离散的压力 $p_h$ 需要满足一个齐次的Dirichlet边界条件。
+   而在$\Omega_D$上，压力$p_h$要满足Neumann条件 $\frac{\partial p_h}{\partial n} = 0$，
+   那就意味着我们在Dirichlet边界上，对$A_p$不采取任何操作。细节可以参考\cite{elman2009boundary}。
+   注意到，一旦网格发生移动，所有的矩阵 $M, B_x^T, B_y^T, B_x, B_y, A_p$ 都需要重新构建。
+
+   在我们的算法中，PCD预处理的GMRES作为求解线性系统(\ref{eq::linear_system})的求解器。
+   我们定义GMRES收敛的停止准则为
+   \begin{equation}
+     ||r^{(k)}||  \leq 10^{-6} ||r^{(0)}||
+   \end{equation}
+   其中 $r^{(k)}$ 是线性系统(\ref{eq::linear_system})的残差，$r^{0}$ 是(\ref{eq::linear_system})的右端项的残差。
+   最后，为了清楚地表述我们的算法，我们给出算法的流程图如下：
+
+      \begin{algorithm}
+        \caption{移动网格有限元方法求解Navier-Stokes}
+        \begin{algorithmic}[1]
+          \State 用AMG预处理来求解稳态的Stokes方程来获得初值值 $\vec{u}_h^{(0)}, p_H^{(0)}$.
+          \While {$t_n < T$}
+          \State 在$\triangle_p^{(n)}$上，用 $\vec{u}_h^{(n)}, p_H^{(n)}$ 计算控制函数，并且通过求解调和映射(\ref{eq::logical})来获得
+                 新的逻辑网格$\vec{\xi}^*$。 \label{state::monitor}
+          \State 判断 如果 $\vec{\xi}^* - \vec{\xi}^{(0)}$ 的 $L_2$ 范数是不是比容忍量小。若是，则迭代结束，否则
+                 继续 \ref{state::start} - \ref{state::end}。
+          \State 用$\vec{\xi}^* - \vec{\xi}^{(0)}$之间的误差来计算压力网格$\triangle_p^{(n)}$在物理区域上的移动量$\delta \vec{x}$。
+                 \label{state::start}
+          \State 在速度网格 $\triangle_v^{(n)}$ 上，用AMG预处理方法求解方程 (\ref{eq::full_discreted_update}) 来获取中间变量
+                 $\vec{u}_{h, *}^{(n)}, p_{H, *}^{(n)}$。
+          \State 更新压力网格 $\triangle_p^{(n)}$ 到 $\triangle_p^{(n +
+                 1)}$ 并且利用几何遗传树结构来同步 $\triangle_v^{(n)}$ 到
+                 $\triangle_v^{(n + 1)}$。
+          \State 回到 \ref{state::monitor}。 \label{state::end}
+
+          \State 用AMG预处理方法来求解 Navier-Stokes 问题 (\ref{eq::linear_system})，从而获得新网格$\triangle_v^{(n + 1)}$ 和 $\triangle_p^{(n
+                 + 1)}$ 上的数值解 $\vec{u}_h^{(n + 1)}, p_H^{(n + 1)}$。
+          \EndWhile
+        \end{algorithmic}
+        \label{alg::solve}
+      \end{algorithm}
+
+
+% ----------------------------------------------------------------------------------------
+%	SECTION 6
+% ----------------------------------------------------------------------------------------
+\section{数值算例}
+      我们用三个数值算例来展示我们的方法。在实际的计算过程中，我们采用稳态的Stokes方程的解作为Navier-Stokes方程的初始值，
+      边界条件设置跟Navier-Stokes方程一致。在我们的算法中，初始的物理区域和逻辑区域是一致的。网格的移动效果以及数值解在
+      下面展示出来。我们的代码是基于有限元包AFEPack。
+
+     \subsection{方腔驱动流}
+       我们考虑经典算例：正则化的方腔流。我们的计算区域是$\Omega = [-1, 1] \times [-1, 1]$，粘性系数是$\nu = 0.001$。Dirichlet
+       边界条件设置在所有的边界$\partial \Omega$上。在顶部边上，速度$\vec{u} = (1 - x^4, 0)^T$，无滑移条件设置在$\partial \Omega$
+       的其它部分。
+
+       在我们的移动策略中，我们选取涡量(\ref{eq::monitor_vorticity})为控制函数。参数取成$\alpha = 0.5, \beta = 2.0$时网格移动效果
+       表现好。在图\ref{fig::cavity_flow_mesh}中展示的是发展到稳态的移动网格以及涡量的等高线。我们可以看出网格集中在顶部边和右边边界
+       ，这些地方都是涡量比较大的地方。速度的流速线如图\ref{fig::cavity_flow_streamline}。
+
+       从表\ref{tab::GMRES_steps_initial}中，我们得知在PCD预处理中，选取$F_p = A_p + W_p^n$ 比 $F_p = \nu A_p + W_p^n$ 需要的迭代步数
+       要少很多。在每个时间步，求解线性方程组的(\ref{eq::linear_system})的GMRES迭代步数如图\ref{fig::cavity_GMRES_steps}。它需要$1

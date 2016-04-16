@@ -1,0 +1,942 @@
+%%---------------------------------------------------------------------------%%
+%%------------ 第四章：数值实验 ---------------------------%%
+%%---------------------------------------------------------------------------%%
+
+
+\chapter{数值实验}
+\label{chapter:NumExp}
+
+本章通过若干数值例子来验证本文所得的收敛结果的有效性.
+
+\section{算法描述}
+
+为讨论的方便, 将本文所考虑的三种迭代方法重写如下: 耦合~Newton~法为
+\begin{equation}
+\label{it:CoupledNM} \left\{
+\begin{array}{ll}
+\displaystyle X_{k + 1} = X_k \left(\frac{(p-1)\I + N_k}{p}\right),
+& X_0 =
+\I, \\
+\displaystyle N_{k + 1} = \left(\frac{(p-1)\I + N_k}{p}\right)^{- p}
+N_k, &  N_0 = A.
+\end{array} \right.
+\end{equation}
+耦合~Euler~法为
+\begin{equation}
+\label{it:CoupledEM} \left\{
+\begin{array}{ll}
+\displaystyle X_{k + 1} = X_k \left(\frac{(2 p^2 - 3p + 1)\I + 2(2p
+- 1)N_k - (p - 1)N_k^2}{2p^2}\right), & X_0 =
+\I, \\
+\displaystyle N_{k + 1} = \left(\frac{(2 p^2 - 3p + 1)\I + 2(2p -
+1)N_k - (p - 1)N_k^2}{2p^2}\right)^{- p} N_k, & N_0 = A.
+\end{array} \right.
+\end{equation}
+耦合~Halley~法为
+\begin{equation}
+\label{it:CoupledHM} \left\{
+\begin{array}{ll}
+\displaystyle X_{k + 1} = X_k \big((p+1)\I + (p-1)N_k\big)^{-1}
+\big((p-1)\I + (p+1)N_k\big), & X_0 =
+\I, \\
+\displaystyle N_{k + 1} = N_k \left(\big((p+1)\I +
+(p-1)N_k\big)^{-1} \big((p-1)\I + (p+1)N_k\big)\right)^{- p}, & N_0
+= A.
+\end{array} \right.
+\end{equation}
+显然,
+上述任一耦合迭代法产生的矩阵序列与相应地迭代法产生的矩阵序列是相同的,
+故定理~\ref{th:MatrixNMCon},
+\ref{th:MatrixEMCon}~及~\ref{th:MatrixHMCon}~保证了上述耦合迭代法的收敛性.
+另外, 若假设~$\{X_k\}$~为上述任一迭代法产生的矩阵序列,
+则当~$X_k$~收敛于~$A^{1/p}$~时, $N_k$~收敛于单位矩阵~$\I$.
+
+虽然耦合形式的迭代法具有数值稳定性, 但在实际计算中,
+当~$p$~较大或矩阵是病态的时, 仍然有可能会得到不尽如意的数值结果,
+如见图~\ref{fig:relerr_CEM_exa}. 因此, 为了能够得到更好的计算结果,
+一种有效的途径就是先利用~Schur~分解对给定的矩阵进行预处理,
+得到结构较好的上~(或拟上)~三角矩阵,
+再使用耦合迭代法来求解该上~(或拟上)~三角矩阵的~$p$~次根.
+算法~\ref{al:SIM}~给出了这一方法的具体框架.
+
+\begin{algorithm}
+\floatname{algorithm}{算法}
+\caption{计算矩阵主~$p$~次根~$A^{1/p}$~的预处理迭代框架}
+\label{al:SIM} 给定矩阵~$A\in\CS^{n\times n}$, 设~$\sigma(A) \subset
+\CS\backslash\RS^-$. 给定整数~$p\geq 2$, 则存在整数~$k_0 \geq
+0$~及奇数~$q$~使得~$p = 2^{k_0}q$.
+本算法框架通过~Schur~分解和某种迭代法
+来计算~$A$~的主~$p$~次根~$A^{1/p}$.
+%\newcounter{newlist}
+\begin{list}{\arabic{newlist}.}{\usecounter{newlist}
+\setlength{\rightmargin}{0em}\setlength{\leftmargin}{1.2em}}
+\item
+计算矩阵~$A$~的~Schur~分解~$A = QRQ^*$.
+\item
+若~$q=1$，令~$k_1 = k_0$;
+若~$q\neq1$，设~$\lambda$~为矩阵~$A$~的任意特征值,
+则选取满足~$k_1\geq k_0$~的最小~$k_1$~使得~$
+\lambda^{1/{2^{k_1}}}$~属于某一收敛域~$\MCR$.
+\item
+计算~$B = R^{1/{2^{k_1}}}$.
+\item
+若~$q=1$, 则令~$X = QBQ^*$；若~$q\neq 1$, 则应用某一迭代法来计算~$C
+= B^{1/q}$~并令~$X = QC^{2^{k_1-k_0}}Q^*$.
+\end{list}
+\end{algorithm}
+
+
+考虑该算法的计算成本.
+对于计算矩阵~$A$~的~Schur~分解所需要的计算成本,
+参考文献~\cite[算法~7.5.2]{Golub1996},
+若~$Q$~和~$R$~都需要计算都需要计算时其计算成本为~$25n^3$.
+对于矩阵平方根的计算,
+采用算法~\ref{al:MatSquRoot_SchurMethod}~或~\ref{al:MatSquRoot_RealSchurMethod}~时,
+因矩阵~$R$~已经是上~(或拟上)~三角矩阵, 故该步的实际
+计算成本为~$\frac{1}{3}n^3$. 此外,
+当算法~\ref{al:SIM}~中的迭代法分别使用耦合~Newton~法~(\ref{it:CoupledNM}),
+耦合~Euler~法~(\ref{it:CoupledEM})~和耦合~Halley~法~(\ref{it:CoupledHM}),
+若使用二进制求幂法~\cite[算法~11.2.2]{Golub1996}~
+来计算各耦合迭代法中出现的幂,
+则计算一次各迭代法总的计算成本由表~\ref{tab:ComputCost}~给出:
+
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{@{\hspace{0.5cm}}l@{\hspace{2cm}}l@{\hspace{0.5cm}}}
+\hline
+迭代法 & 计算成本, 其中~$\theta \in [1,2]$ \\
+\hline
+耦合~Newton~法~(\ref{it:CoupledNM}) & $\displaystyle\frac{1}{3}(3+\theta\log_2q)n^3$
+\\[0.3cm]
+耦合~Euler~法~(\ref{it:CoupledEM}) & $\displaystyle\frac{1}{3}(4+\theta\log_2q)n^3$
+\\[0.3cm]
+耦合~Halley~法~(\ref{it:CoupledHM}) & $\displaystyle\frac{1}{3}(5+\theta\log_2q)n^3$ \\
+\hline
+\end{tabular}
+\end{center}
+\caption{%Results for $|z_k - \zeta|$ by using Newton's method with
+%starting point $z=1$.
+计算一次各迭代法所需要的成本.} \label{tab:ComputCost}
+\end{table}
+
+
+\begin{figure}[h!]
+\centering
+\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_PraConvReg_p3m20.eps}}
+\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_PraConvReg_p5m20.eps}}
+\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_PraConvReg_p11m20.eps}}\\
+\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_PraConvReg_p20m20.eps}}
+\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_PraConvReg_p50m20.eps}}
+\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_NM_PraConvReg_p100m20.eps}}\\
+\caption{取定~$m=20$, 当~$p$~分别取~$2,5,11,20,50,100$~时,
+由~(\ref{set:NM_R})~定义的~$\MCR_{\text{N}}$~(红色和蓝色的并集部分)~
+与由~(\ref{set:R_N_pra})~定义的~$\MCR_{\text{N}}^{\text{P}}$~(黄色部分)~的图形比较.}
+\label{fig:NM_PraConvReg}
+\end{figure}
+
+对于算法~\ref{al:SIM}~中的收敛域~$\MCR$,
+根据定理~\ref{th:MatrixNMCon},
+\ref{th:MatrixEMCon}~及~\ref{th:MatrixHMCon},
+Newton~法~(\ref{it:NM}),
+Euler~法~(\ref{it:EM})~及~Halley~法~(\ref{it:HM})~的收敛域分别由~(\ref{set:NM_R}),
+(\ref{set:EM_R})~和~(\ref{set:HM_R})~所定义的~$\MCR_{\textup{N}}$,
+$\MCR_{\textup{E}}$~和~$\MCR_{\textup{H}}$.
+下面我们给出上述三个收敛域的近似简化表达.
+
+首先考虑~Newton~法~(\ref{it:NM}).
+基于对图~\ref{fig:NM_ConvReg}~的实验观察, 定义
+\begin{equation}
+\label{set:R_N_pra} \MCR_{\textup{N}}^{\textup{P}} = \widehat{\MCD}
+\bigcup \MCD_3^{\textup{N}},
+\end{equation}
+其中
+\begin{align}
+\widehat{\MCD} & := \{z \in \CS: 1-z \in
+\overline{\MCD} \},\label{set:D_hat}\\
+\MCD_3^{\textup{N}} & := \left\{
+\begin{array}{ll}
+\displaystyle \left\{z\in\CS:
+\left|\frac{8}{5}-z\right|<\frac{6}{5}\right\},
+& p=2,3,4,\\
+\displaystyle \left\{z\in\CS: |\arg(z)|<\frac{\pi}{6},
+\left|\frac{5p-13}{4(p-3)} - z\right| <
+\frac{43p-105}{48(p-3)}\right\}, & p\geq5. \nonumber
+\end{array}
+\right.
+\end{align}
+在图~\ref{fig:NM_PraConvReg}~中,
+我们给出了分别由~(\ref{set:NM_R})~和~(\ref{set:R_N_pra})~定义的收
+敛域~$\MCR_{\textup{N}}$~和~$\MCR_{\textup{N}}^{\textup{P}}$~在
+~$m$~取定而~$p$~取不同值时的近似图形. 由该图可知,
+所定义的新的近似收敛域~$\MCR_{\textup{N}}^{\textup{P}}$~是可接受的.
+因而, 在算法~\ref{al:SIM}~中,
+若使用~Newton~法来计算矩阵矩阵~$B$~的~$q$~次根,
+则其相应的收敛域将用~$\MCR_{\textup{N}}^{\textup{P}}$~来替代~$\MCR_{\textup{N}}$.
+
+
+
+
+
+
+
+
+
+对于~Euler~法. 基于对图~\ref{fig:EM_ConvReg}~的实验观察, 定义
+\begin{equation}
+\label{set:R_E_pra} \MCR_\text{E}^{\textup{P}} := \widehat{\MCD}
+\bigcup \MCD_3^\text{E},
+\end{equation}
+其中~$\widehat{\MCD}$~由~(\ref{set:D_hat})~定义, 而
+\begin{align*}
+\MCD_3^{\text{E}} := \left\{z \in \CS: |\arg(z)| < \frac{\pi}{4},
+|1-z| < \frac{31}{24}\right\}.
+\end{align*}
+在图~\ref{fig:EM_PraConvReg_p100n20}~中,
+我们给出了由~(\ref{set:EM_R})~定义的收敛域~$\MCR_{\text{E}}$~及
+由~(\ref{set:R_E_pra})~定义的新的近似收敛域
+~$\MCR_{\text{E}}^{\textup{P}}$~的图形比较. 由该图可知,
+所定义的新的近似收敛域~$\MCR_{\textup{E}}^{\textup{P}}$~同样是可接受的.
+因而, 在算法~\ref{al:SIM}~中,
+若使用~Euler~法来计算矩阵矩阵~$B$~的~$q$~次根,
+则其相应的收敛域将用~$\MCR_{\textup{E}}^{\textup{P}}$~来替代~$\MCR_{\textup{E}}$.
+
+
+
+
+\begin{figure}[t!]
+\begin{center}
+\scalebox{0.75}[0.75]{\includegraphics{fig_EM_PraConvReg_p100m20.eps}}\\
+\end{center}
+\caption{当~$p=100$, $m=20$~时,
+由~(\ref{set:EM_R})~定义的收敛域~$\MCR_{\text{E}}$~
+(红色和蓝色的并集部分)~与由~(\ref{set:R_E_pra})~
+定义的新近似收敛域~$\MCR_{\textup{E}}^{\textup{P}}$~(黄色部分)~的图形比较.}
+\label{fig:EM_PraConvReg_p100n20}
+\end{figure}
+
+最后考虑~Halley~法, 基于对图~\ref{fig:HM_ConvReg}~的实验观察, 定义
+\begin{equation}
+\label{set:R_H_pra} \MCR_{\text{H}}^{\text{P}} = \widehat{\MCD}
+\bigcup \MCD_3^{\text{H}},
+\end{equation}
+其中~$\widehat{\MCD}$~由~(\ref{set:D_hat})~定义, 而
+\begin{equation*}
+\MCD_3^{\text{H}} := \left\{z\in\CS: |\arg(z)|<\frac{\pi}{3},
+|1-z|<\frac{7}{5}\right\}.
+\end{equation*}
+%The actual convergence region $\MCR_2$ and the new feasible region
+%$\MCR_2^{\text{H}}$ are depicted in Figure \ref{fig:HM_PraConvReg}
+%with $p=7, 20, 100$ and fixed $m=20$, where the yellow parts denote
+%the region $\MCR_2^{\text{H}}$.
+图~\ref{fig:HM_PraConvReg}~给出的是,
+分别由~(\ref{set:HM_R})~和~(\ref{set:R_H_pra})~定义
+的~$\MCR_{\text{H}}$~和~$\MCR_{\text{H}}^{\text{P}}$~
+在~$m=20$~取定而~$p$~取不同值时的近似图形. 由该图可知,
+所定义的新的近似收敛域~$\MCR_{\textup{H}}^{\textup{P}}$~同样是可接受的.
+因而, 在算法~\ref{al:SIM}~中,
+若使用~Halley~法来计算矩阵矩阵~$B$~的~$q$~次根,
+则其相应的收敛域将用~$\MCR_{\textup{H}}^{\textup{P}}$~来替代~$\MCR_{\textup{H}}$.
+
+
+\begin{figure}[t!]
+\centering
+\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_HM_PraConvReg_p7m20.eps}}
+\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_HM_PraConvReg_p20m20.eps}}
+\subfigure[]{\includegraphics[width=0.3\textwidth]{fig_HM_PraConvReg_p100m20.eps}}\\
+\caption{取定~$m=20$, 取~$p$~分别为~$7,20,100$~时,
+由~(\ref{set:HM_R})~定义的~$\MCR_{\textup{H}}$~(红色和蓝色的并集部分)~与
+由~(\ref{set:R_H_pra})~定义的~$\MCR_{\textup{H}}^{\textup{P}}$~(黄色部分)~的近似图形比较.
+}\label{fig:HM_PraConvReg}
+\end{figure}
+
+
+
+
+虽然在文献~\cite{Iannazzo2008}~中已经证明, 当矩阵~$A\in\CS^{n\times
+n}$~的谱属于复平面右平面时,
+Halley~法~(\ref{it:HM})~迭代产生的矩阵序列收敛于~$A$~的主~$p$~次根~$A^{1/p}$.
+但在实际计算中, 考虑到收敛速度, 若特征值的模比较大时,
+收敛速度可能会很慢. 因此, Iannazzo
+~在~\cite[算法~4]{Iannazzo2008}~中通过实验得到一个快速的收敛域
+\begin{equation}
+\label{set:HM_Ian08_R} \MCR_{\textup{H}}^{\textup{I}} := \left\{z\in
+\CS: \left|\frac{8}{5}-z\right|\leq 1\right\}.
+\end{equation}
+需要指出的是,
+由~(\ref{set:R_H_pra})~定义的收敛域~$\MCR_{\textup{H}}^{\textup{P}}$~
+较~$\MCR_{\textup{H}}^{\textup{I}}$~更大,
+且保证~Halley~法的快速收敛性.
+图~\ref{fig:HM_PraConvRegVSIannazzo}~给出了收敛域~$\MCR_{\textup{H}}$,
+$\MCR_{\textup{H}}^{\textup{I}}$~及~$\MCR_{\textup{H}}^{\textup{P}}$~的比较.
+
+
+
+\begin{figure}[t!]
+\centering
+\subfigure[]{\includegraphics[width=0.4\textwidth]{fig_HM_ConvReg_p100m20_Iannazzo.eps}}
+\quad\quad\quad
+\subfigure[]{\includegraphics[width=0.4\textwidth]{fig_HM_PraConvReg.eps}}\\
+\caption{(a) 当~$p=100$,
+$m=20$~时由~(\ref{set:HM_R})~定义的收敛域~$\MCR_{\textup{H}}$~(红色和蓝色的并集部分),
+Iannazzo~给出的由~(\ref{set:HM_Ian08_R})~定义的收敛域~$\MCR_{\textup{H}}^{\textup{I}}$~(黄色部分)~
+的近似图形比较; (b) 由~(\ref{set:R_H_pra})~定义的新的收敛域
+~$\MCR_{\textup{H}}^{\textup{P}}$~(红色部分)~和收敛域
+~$\MCR_{\textup{H}}^{\textup{I}}$~(蓝色部分)~的近似图形比较.}
+\label{fig:HM_PraConvRegVSIannazzo}
+\end{figure}
+
+
+\section{数值例子}
+
+
+
+本节将通过若干数值例子来说明本文所得到的结果的有效性,
+多数的例子取自文献~\cite{GuoHigham2006,Guo2010,Iannazzo2006,Iannazzo2008,Laszkiewicz2009,HighamLin2011}.
+所有的数值例子都是在~MATLAB 7.0~上运行得到的, CPU~是~2.13
+GHz~的~Intel Pentium P6200.
+通过相对残差~$\rho_A(X)$~和相对误差~$\textup{err}(X)$~来刻画计算所得到的解~$X$~的精度,
+这两个量的定义分别为
+\begin{equation}
+\label{eq:RelResErr} \rho_A(X) = \frac{\|A - X^p\|}{\|X\| \|\sum_{j
+= 0}^{p - 1} \tran{(X^{p - 1 - j})}\otimes X^j\|}, \ \ \
+\textup{err}(X) = \frac{\|A - X^p\|}{\|A\|},
+\end{equation}
+其中~$\otimes$~表示~Kronecker~积, $\|\cdot\|$~表示~Frobenius~范数.
+注意到, 在实际计算中,
+相对残差~$\rho_A(X)$~测试方面通常比相对误差~$\textup{err}(X)$~更加有用.
+相对残差~$\rho_A(X)$~的定义由~\cite{GuoHigham2006}~所提出.
+
+算法的~CPU~运算时间使用标准的~MATLAB~函数~\textsf{cputime}~来计算,
+所得到的~CPU~时间是通过重复运算~100~次的平均时间.
+使用~`iter'~来表示迭代的次数. 为简便,
+使用如下的简记来表示不同的算法:
+
+
+\begin{enumerate}
+\item
+SE: 表示~Schur-Euler~算法, 即
+在算法~\ref{al:SIM}~中取收敛域~$\MCR$~为由
+~(\ref{set:R_E_pra})~定义的~$\MCR_{\textup{E}}^{\textup{P}}$,
+迭代法选定为偶合~Euler~法~(\ref{it:CoupledEM}).
+\item
+SN-new: 表示新~Schur-Newton~算法, 即
+在算法~\ref{al:SIM}~中取收敛域~$\MCR$~为由
+~(\ref{set:R_N_pra})~定义的~$\MCR_{\textup{N}}^{\textup{P}}$,
+迭代法选定为偶合~Newton~法~(\ref{it:CoupledNM}).
+\item
+SN-old: 表示旧~Schur-Newton~算法,
+即在算法~\ref{al:SIM}~中取收敛域~$\MCR$~为由
+~(\ref{set:D_hat})~定义的~$\widehat{\MCD}$,
+迭代法选定为偶合~Newton~法~(\ref{it:CoupledNM}).
+\item
+SH-new: 表示新~Schur-Halley~算法,
+即在算法~\ref{al:SIM}~中取收敛域~$\MCR$~为由
+~(\ref{set:R_H_pra})~定义的~$\MCR_{\textup{H}}^{\textup{P}}$,
+迭代法选定为偶合~Halley~法~(\ref{it:CoupledHM}).
+\item
+SH-old: 表示旧~Schur-Halley~算法,
+即在算法~\ref{al:SIM}~中取收敛域~$\MCR$~为由
+~(\ref{set:HM_Ian08_R})~定义的~$\MCR_{\textup{H}}^{\textup{I}}$,
+迭代法选定为偶合~Halley~法~(\ref{it:CoupledHM}).
+\item
+PSN: 表示由~Guo $\&$ Higham~提出的参数~Schur-Newton~算法
+\cite[算法~3.3]{GuoHigham2006},
+即算法~\ref{al:MatpthRoot_ParSchurNewton_GuoHig06}.
+\item
+SN:
+表示由~Iannazzo~提出的~Schur-Newton~算法~\cite[算法~3]{Iannazzo2008},
+即算法~\ref{al:MatpthRoot_SchurNewton_Ian08}.
+\item
+SH:
+表示由~Iannazzo~提出的~Schur-Halley~算法~\cite[算法~4]{Iannazzo2008},
+即算法~\ref{al:MatpthRoot_SchurHalley_Ian08}.
+\end{enumerate}
+上述所有算法的终止条件为
+$$
+\|N_k - \I\| < \frac{\sqrt{n}u}{2},
+$$
+其中~$n$~为矩阵~$A$~的阶数而~$u = 2^{-52} \approx2.2204\me-16$.
+
+
+\begin{example}
+%Consider the following $4\times4$ complex matrix:
+本例测试的是,
+说明在实际计算中使用偶合~Newton~法~(\ref{it:CoupledNM})~计算矩阵主~$p$~次根时,
+由
+~(\ref{set:R_N_pra})~定义的收敛域~$\MCR_{\textup{N}}^{\textup{P}}$~比由
+~(\ref{set:D_hat})~定义的~$\widehat{\MCD}$~可保证得到更好的数值结果.
+考虑如下的~$4\times4$~复矩阵
+\begin{equation}
+\label{mat:A_Newton}
+A_1 = \left[\begin{array}{rrrr} 12.8151+2.4316\mi & -0.4877+3.1990\mi & 4.7224-4.6512\mi  & 1.8432-7.6687\mi \\
+1.8540+3.1990\mi & 17.7730-5.4760\mi & -1.6360-6.1631\mi & 1.1517+4.4198\mi \\
+5.9046-4.6512\mi & 0.3346-6.1631\mi & 13.5011+3.6951\mi & -0.6007+0.4075\mi \\
+-1.0759-7.6687\mi  & 5.5917+4.4198\mi & -0.6000+0.4075\mi &
+14.4901-1.2850\mi
+\end{array}\right],
+\end{equation}
+该矩阵的特征值为~$18.8531\pm5.5282\mi, 12.1860 -12.2882\mi,
+8.6870+11.6541\mi$.
+我们使用算法~SN-new~和~SN-old~来分别计算该矩阵的主~$p$~次根,
+其中分别取~$p = 5, 10, 20$.
+计算结果如表~\ref{tab:example_newton}~所示, 可知, 一般情况下,
+新的收敛域可保证在使用偶合~Newton~法在计算中减少平方根的使用次数以达到缩短计算时间,
+且计算精度仍然能够保证不会变差.
+
+%where the eigenvalues of this matrix are $18.8531\pm5.5282\mi,
+%12.1860 -12.2882\mi, 8.6870+11.6541\mi$. We now compute the
+%principal $p$th root $A_1^{1/p}$ for $p = 5, 10, 20$, respectively,
+%by using SN  and SN-old. The results in terms of CPU time, number of
+%iterations, relative residual and relative error are given in Table
+%\ref{tab:example_newton}.
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{cl@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c}
+\hline
+& 算法 & CPU~时间~(s)& iter & $k_1$ & $\rho(X)$ & err($X$) \\
+\hline
+$p = 5$ \\
+& SN     & 1.09e-003 & 5 & 2 & 1.18e-015 & 4.70e-015 \\
+& SN-old & 1.25e-003 & 5 & 3 & 1.80e-015 & 7.14e-015 \\
+$p = 10$ \\
+& SN     & 1.09e-003 & 5 & 2 & 2.27e-015 & 9.04e-015 \\
+& SN-old & 1.41e-003 & 5 & 3 & 2.53e-015 & 1.01e-014 \\
+$p = 20$ \\
+& SN     & 1.25e-003 & 5 & 2 & 4.21e-015 & 1.68e-014 \\
+& SN-old & 1.41e-003 & 5 & 3 & 4.52e-015 & 1.80e-014 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{%Results for computing $A_1^{1/p}$ by using the Algorithms
+%SN and SN-old.
+使用算法~SN-new~和~SN-old~来计算由~(\ref{mat:A_Newton})~定义的矩阵主~$p$~次根的数值结果.}
+\label{tab:example_newton}
+\end{table}
+\end{example}
+
+
+
+\begin{example}
+%Consider the following $4\times4$ complex matrix:
+本例测试的是,
+说明在实际计算中使用偶合~Halley~法~(\ref{it:CoupledHM})~计算矩阵主~$p$~次根时,
+由
+~(\ref{set:R_H_pra})~定义的收敛域~$\MCR_{\textup{H}}^{\textup{P}}$~比由
+~(\ref{set:HM_Ian08_R})~定义的~$\MCR_{\textup{H}}^{\textup{I}}$~可保证得到更好的数值结果.
+考虑如下的~$4\times4$~复矩阵
+\begin{equation}
+\label{mat:A_Halley}
+A_2 = \left[\begin{array}{rrrr} 6.8105+5.8061\mi & 2.8346-8.1869\mi & -1.0779-12.7941\mi  & 11.7581+2.6592\mi \\
+1.5359-8.1869\mi & 4.0090+1.2532\mi & 11.2660-10.9461\mi & -0.2492-9.6685\mi \\
+0.1243-12.7941\mi & 5.8023-10.9461\mi & 11.3261+2.8311\mi & -2.2722-4.8603\mi \\
+9.2076+2.6592\mi  & -0.3495-9.6685\mi & -0.68948-4.8603\mi &
+3.2102+7.1976\mi
+\end{array}\right],
+\end{equation}
+其中该矩阵的特征值为~$16.2281\pm20.1960\mi, -1.5344-14.9761\mi,
+-5.5664-2.1120\mi$.
+我们使用算法~SH-new~和~SH-old~来分别计算该矩阵的主~$p$~次根,
+其中分别取~$p = 7, 18, 28$.
+计算结果如表~\ref{tab:example_halley}~所示, 可知, 一般情况下,
+新的收敛域可保证在使用偶合~Halley~法在计算中减少平方根的使用次数以达到缩短计算时间,
+且计算精度仍然能够保证不会变差.
+
+%where the eigenvalues of this matrix are $16.2281\pm20.1960\mi,
+%-1.5344-14.9761\mi, -5.5664-2.1120\mi$. We now compute the principal
+%$p$th root $A_2^{1/p}$ for $p = 7, 18, 28$, respectively, by using
+%SH and SH-old. The results in terms of CPU time, number of
+%iterations, relative residual and relative error are given in Table
+%\ref{tab:example_halley}.
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{cl@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c}
+\hline
+& 算法 & CPU~时间~(s)& iter & $k_1$ & $\rho(X)$ & err($X$) \\
+\hline
+$p = 7$ \\
+& SH     & 1.09e-003 & 3 & 2 & 1.75e-015 & 6.69e-015 \\
+& SH-old & 1.25e-003 & 3 & 3 & 4.19e-015 & 1.60e-014 \\
+$p = 18$ \\
+& SH     & 1.25e-003 & 3 & 2 & 4.52e-015 & 1.77e-014 \\
+& SH-old & 1.41e-003 & 4 & 3 & 5.01e-015 & 1.96e-014 \\
+$p = 28$ \\
+& SH     & 9.37e-004 & 3 & 2 & 2.69e-015 & 1.06e-014 \\
+& SH-old & 1.25e-003 & 3 & 3 & 5.88e-015 & 2.32e-014 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{%Results for computing $A_2^{1/p}$ by using the Algorithms
+%SH and SH-old.
+使用算法~SH-new~和~SH-old~来计算由~(\ref{mat:A_Halley})~定义的矩阵主~$p$~次根的数值结果.
+} \label{tab:example_halley}
+\end{table}
+\end{example}
+
+%
+%
+%As is shown in Tables \ref{tab:example_newton} and
+%\ref{tab:example_halley}, the new convergence regions for Newton's
+%method and Halley's method make better convergence behavior, in most
+%cases, which require less computational time and less steps of
+%square root but have more numerical accuracy of the computed
+%solution.
+%
+
+\begin{example}
+进一步考虑,
+当使用~Schur-Euler~算法来计算由~(\ref{mat:A_test_CoupledEM})~给出的~$3
+\times 3$~矩阵~$A$~的主~$p$~次根~$A^{1/p}$~时的计算结果, 即
+$$
+A = \left[\begin{array}{ccc} 1 & 1/2 & 0 \\
+1/2 & 2 & 1/2 \\
+0 & 1/2 & 3 \end{array}\right],
+$$
+其中分别取~$p = 2:15$. 在图~\ref{fig:relerr_CEM}~中,
+(a)~和~(b)~显示的是仅使用偶合~Euler~法
+~(\ref{it:CoupledEM})~来计算~$A^{1/p}$~时的相对误差
+~(由~(\ref{eq:RelResErr})~中的~$\textup{err}(X)$~来刻画),
+而~(c)~显示的是使用~Schur-Euler~算法来计算~$A^{1/p}$~时的相对误差.
+显然, 由图可知, 对于任意的~$p$~值,
+Schur-Euler~算法都得到了很好的结果.
+而若仅使用偶合~Euler~法~(\ref{it:CoupledEM})~来计算,
+则当~$p$~逐渐变大时所得误差越来越大.
+\begin{figure}[h!]
+\centering
+\subfigure[]{\includegraphics[width=0.45\textwidth]{fig_relerr_coupledEM_1.eps}}
+\quad\quad
+\subfigure[]{\includegraphics[width=0.45\textwidth]{fig_relerr_coupledEM_2.eps}}
+\subfigure[]{\includegraphics[width=0.45\textwidth]{fig_relerr_coupledEM_Schur_3.eps}}
+\caption{%(a) and (b) show the relative error for the $p$th root
+%$A^{1/p}$ by using coupled Euler iteration (\ref{it:CoupledEM}); (c)
+%is the result of Algorithm \ref{al:SE}.
+(a)~和~(b)~显示的相对误差结果是仅使用偶合~Euler~法~(\ref{it:CoupledEM})~计算得到的,
+而~(c)~显示的则是使用~Schur-Euler~算法计算得到的相对误差结果.
+}\label{fig:relerr_CEM}
+\end{figure}
+\end{example}
+
+
+
+%TEST 1.  We first give a simple example to illustrate that it
+%usually suffers from bad numerical results when we purely use
+%coupled Euler iteration (\ref{it:CoupledEM}) to compute $A^{1/p}$.
+%Consider the following simple $3 \times 3$ matrix
+%$$
+%A = \left[\begin{array}{ccc} 1 & 1/2 & 0 \\
+%1/2 & 2 & 1/2 \\
+%0 & 1/2 & 3 \end{array}\right],
+%$$
+%and compute the $p$th root $A^{1/p}$ for $p = 2:15$. In Figure
+%\ref{fig:relerr_CEM}, we give the relative error $\textup{err}(X)$
+%for each $p$. As one can see, for $p = 2:6$ the coupled Euler
+%iteration (\ref{it:CoupledEM}) gives good relative error (Figure
+%\ref{fig:relerr_CEM} (a)), but the errors deteriorate as $p = 7:15$
+%(Figure \ref{fig:relerr_CEM} (b)). Algorithm \ref{al:SE} (taking
+%some preprocessing before using oupled Euler iteration
+%(\ref{it:CoupledEM})) shows good numerical stability (Figure
+%\ref{fig:relerr_CEM} (c)).
+
+
+
+
+
+\begin{example}
+本例测试的是, 比较当分别应用~Schur-Euler~算法,
+参数~Schur-Newton~算法,
+Schur-Newton~算法及~Schur-Halley~算法来计算如下依赖于变量
+~$\varepsilon$~的简单~$2\times2$~矩阵~$A(\varepsilon)$~
+(该矩阵取自文献~\cite{HighamLin2011})~的
+主~$p$~次根~$A(\varepsilon)^{1/p}$~时的相对误差:
+\begin{equation}
+\label{mat:Ae}
+A(\varepsilon) = \left[\begin{array}{cc} 1 & 1 \\
+0 & 1 + \varepsilon \end{array}\right],
+\end{equation}
+其中分别取~$p = 12, 15, 30$, 而~$\varepsilon = 10^{-t}$,
+其中~$t$~取为将闭区间~$[0,16]$~进行~65~均分的分点值.
+如文献~\cite{HighamLin2011}~所指出的, 当~$t$~逐渐变大时,
+矩阵~$A(\varepsilon)$~逐渐变成为亏损矩阵.
+这四种算法所计算的相对误差结果如图~\ref{fig:relerr_Ae}~所示.
+由该图可知, 相对于其他三种算法,
+Schur-Euler~算法得到了更好的计算结果. 此外,
+我们还计算了相应的相对残差,
+所得结果与图~\ref{fig:relerr_Ae}~所显示的基本相同.
+\begin{figure}[h!]
+\centering
+\subfigure[$p=12$]{\includegraphics[width=0.45\textwidth]{fig_relerr_se_spn_sn_sh_p12.eps}}
+\quad\quad
+\subfigure[$p=15$]{\includegraphics[width=0.45\textwidth]{fig_relerr_se_spn_sn_sh_p15.eps}}
+\subfigure[$p=30$]{\includegraphics[width=0.45\textwidth]{fig_relerr_se_spn_sn_sh_p30.eps}}
+\caption{%The relative errors for the four algorithms on matrix
+%(\ref{mat:Ae}).
+使用算法~SE, PSN,
+SN~及~SH~计算由~(\ref{mat:Ae})~定义的矩阵~$A(\varepsilon)$~的
+主~$p$~次根~$A(\varepsilon)^{1/p}$~所得到的相对误差结果.
+}\label{fig:relerr_Ae}
+\end{figure}
+\end{example}
+
+
+%
+%
+%
+%
+%TEST 2. In this test, we compare the relative error on computing the
+%principal $p$th root of the matrices \cite{HighamLin2011} (depend on
+%variable $\varepsilon$)
+%\begin{equation}
+%\label{mat:Ae}
+%A(\varepsilon) = \left[\begin{array}{cc} 1 & 1 \\
+%0 & 1 + \varepsilon \end{array}\right]
+%\end{equation}
+%for $p = 12, 15, 30$. We choose $\varepsilon = 10^{-t}$ with 65
+%equally spaced values of $t \in [0,16]$. As is pointed out in
+%\cite{HighamLin2011}, $A(\varepsilon)$ approaches a defective matrix
+%as $t$ increases. The relative errors for the four algorithms are
+%shown in Figure \ref{fig:relerr_Ae}. The numerical results of
+%Algorithm \ref{al:SE} are very good. Note that, there exists 9
+%values of $t$ cannot be computed by using PSN while $t$ approaches
+%to 16. We also computed the relative residuals of these four
+%algorithms on matrix $A(\varepsilon)$, the results were broadly
+%similar to those shown in Figure \ref{fig:relerr_Ae}.
+
+
+
+\begin{example}
+本例测试的是, 比较~Schur-Euler~算法, 参数~Schur-Newton~算法,
+Schur-Newton~算法及~Schur-Halley~算法这四种算法在计算矩阵主~$p$~次根时的计算时间.
+我们选择典型的测试矩阵: Frank~矩阵, 阶数为~$15\times15$,
+$p$~取为~10~至~300, 该矩阵由~MATLAB~中的~\textsf{gallery}~函数产生.
+Frank~矩阵是一种行列式为~1~的上~Hessenbery~矩阵,
+其特别值均为正实数且有一半的特征值~$\ll 1$, 即该矩阵是病态的矩阵.
+这种矩阵已经在文献~\cite{GuoHigham2006,GrecoIannazzo2010,Iannazzo2006}~中被使用.
+图~\ref{fig:FrankMat_cputime}~给出了四种算法的在计算不同~$p$~值时所需要的平均~CPU~时间.
+由该图可知,
+在多数情况下~Schur-Euler~算法所需要的计算时间比其他三种算法要少.
+\begin{figure}[h!]
+\centering
+\subfigure[]{\includegraphics[width=0.45\textwidth]{fig_cputime_psn.eps}}
+\quad\quad
+\subfigure[]{\includegraphics[width=0.45\textwidth]{fig_cputime_sn.eps}} \\
+\subfigure[]{\includegraphics[width=0.45\textwidth]{fig_cputime_sh.eps}}
+\quad\quad
+\subfigure[]{\includegraphics[width=0.45\textwidth]{fig_cputime_se.eps}}
+\caption{%The CPU time (in seconds) required by using the four
+%Algorithms to compute the principal $p$th root of $15 \times 15$
+%Frank matrix for $p = 10:300$.
+使用算法~SE, PSN,
+SN~及~SH~计算~$15\times15$~的~Frank~矩阵的主~$p$~次根所需要的~CPU~时间,
+其中~$p = 10:300$. }\label{fig:FrankMat_cputime}
+\end{figure}
+\end{example}
+
+
+%TEST 3. To compare the computational time of the existing three
+%algorithms with Algorithm \ref{al:SE}, we select the classical test
+%matrix (Frank matrix) from the MATLAB \textsf{gallery} function with
+%$15 \times 15$ matrix which no nonpositive real eigenvalues and
+%compute the principal $p$th root for $10 \leq p \leq 300$. Note
+%that, the Frank matrix is an upper Hessenbery with determinant 1.
+%This test matrix was also used in
+%\cite{GuoHigham2006,GrecoIannazzo2010,Iannazzo2006}. The eigenvalues
+%of a Frank matrix are positive and occur in reciprocal pairs, half
+%of which are ill-conditioned. The averaged CPU time for any value of
+%$p$ is shown in Fingure \ref{fig:FrankMat_cputime}. As one can see in Figure
+%\ref{fig:FrankMat_cputime}, the required CPU time of Algorithm \ref{al:SE} is
+%generally less than other algorithms, especially, PSN.
+
+
+
+\begin{example}
+考虑如下分别取自文献~\cite{Guo2010}~和~\cite{Iannazzo2008}~的矩阵
+\begin{equation}
+\label{mat:Guo10Ian08}
+S_1 = \left[\begin{array}{rrrr} 0.44 & - 0.88 & - 0.38 & - 0.50 \\
+0.68 & 2.15 & 0.48 & 0.11 \\
+0.61 & 0.77 & 2.14 & 1.04 \\
+- 0.16 & - 0.30 & - 0.67 & 1.33
+\end{array}\right], \ \ \
+S_2 = \left[\begin{array}{ccc} - 1 & - 2 & 2 \\
+- 4 & - 6 & 6 \\
+- 4 & - 16 & 13 \end{array}\right].
+\end{equation}
+设矩阵~$A_1 = S_1^5$~而~$A_2 = S_2^{15}$, 则~$A_1$~的特征值为
+~$15.2477, 0.2724 \pm 16.0066 \,\textup{i}, 1.1030$,
+$A_2$~的特征值为~$1, 2, 3$. 本例测试的是, 使用~Schur-Euler~算法,
+参数~Schur-Newton~算法,
+Schur-Newton~算法及~Schur-Halley~算法这四种算法来分别计算~$A_1$~的主~$5$~次根~$A_1^{1/5}$,
+$A_2$~主~$15$~次根~$A_2^{1/15}$.
+计算结果如表~\ref{tab:Guo10Ian08Mat}~所示,
+其中相对残差~$\rho(X)$~由~(\ref{eq:RelResErr})~来刻画,
+而相对误差~err($X$)~由如下刻画:
+$$
+\textup{err}(X) = \frac{\|X - S\|}{\|S\|},
+$$
+$S$~为~(\ref{mat:Guo10Ian08})~中的~$S_1$~或~$S_2$. 由该表可知,
+Schur-Euler~算法所得到的计算结果没有比其他三种算法要好.
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{cc@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c}
+\hline
+& 算法 & CPU~时间~(s)& iter & $k_1$ & $\rho(X)$ & err($X$) \\
+\hline
+$A_1^{1/5}$ \\
+& PSN & 3.91e-03 & 5 & 2 & 1.75e-15 & 2.05e-15 \\
+& SN & 3.28e-03 & 6 & 2 & 4.67e-16 & 1.05e-15 \\
+& SH & 3.13e-03 & 3 & 2 & 6.15e-16 & 9.63e-16 \\
+& SE & 3.59e-03 & 3 & 3 & 8.77e-16 & 1.55e-15 \\
+$A_2^{1/15}$ \\
+& PSN & 6.09e-03 & 5 & 5 & 1.48e-15 & 2.67e-08 \\
+& SN & 5.17e-03 & 6 & 4 & 5.74e-15 & 2.67e-08 \\
+& SH & 5.00e-03 & 3 & 4 & 7.82e-15 & 2.67e-08 \\
+& SE & 4.53e-03 & 5 & 5 & 2.25e-14 & 2.67e-08 \\
+
+\hline
+\end{tabular}
+\end{center}
+\caption{%Results for computing $A_1^{1/5}$ and $A_2^{1/15}$ by using
+%the four Algorithms.
+使用算法~SE, PSN, SN~及~SH~计算~$A_1^{1/5}$~和
+~$A_2^{1/15}$~的数值结果.} \label{tab:Guo10Ian08Mat}
+\end{table}
+\end{example}
+
+
+
+%TEST 4. Consider the following two matrices which take from
+%\cite{Guo2010} and \cite{Iannazzo2008}, respectively.
+%$$
+%S_1 = \left[\begin{array}{rrrr} 0.44 & - 0.88 & - 0.38 & - 0.50 \\
+%0.68 & 2.15 & 0.48 & 0.11 \\
+%0.61 & 0.77 & 2.14 & 1.04 \\
+%- 0.16 & - 0.30 & - 0.67 & 1.33
+%\end{array}\right], \ \ \
+%S_2 = \left[\begin{array}{ccc} - 1 & - 2 & 2 \\
+%- 4 & - 6 & 6 \\
+%- 4 & - 16 & 13 \end{array}\right].
+%$$
+%Let $A_1 = S_1^5$ and $A_2 = S_2^{15}$. The eigenvalues of $A_1$ are
+%$15.2477, 0.2724 \pm 16.0066 \,\textup{i}, 1.1030$ and of $A_2$ are
+%$1, 2, 3$. We now compute $A_1^{1/5}$ and $A_2^{1/15}$ using the
+%four algorithms. The computational results are given in Table
+%\ref{tab:Guo10Ian08Mat}. The relative error is computed by $\|X - S\|/\|S\|$
+%and the relative residuals is computed by using
+%(\ref{eq:RelResErr}). As is shown in Table \ref{tab:Guo10Ian08Mat},
+%Algorithm \ref{al:SE} has a less pronounced advantage for computing
+%$A_1^{1/5}$ and $A_2^{1/15}$.
+
+
+\begin{example}
+考虑通过如下方式构造而成的~$8 \times 8$~随机矩阵~$A = Q R \tran{Q}$,
+其中~$Q$~为随机正交矩阵, $R$~为~$A$~的~Schur~形式的矩阵,
+其特征值为~$\alpha_j \pm \mathrm{i} \beta_j, \alpha_j = - j^2/10,
+\beta_j = - j, j = 1:n/2$, 而~$(2j, 2j + 1)$~位置的元素均为~-450.
+这种随机矩阵已经被文献~\cite{GuoHigham2006,Iannazzo2008,Laszkiewicz2009}~所使用.
+本例测试的是, 使用~Schur-Euler~算法, 参数~Schur-Newton~算法,
+Schur-Newton~算法及~Schur-Halley~算法这四种算法来计算该矩阵的$p$次根.
+计算结果如表~\ref{tab:RandomMat}~所示, 显然,相对于其他三种算法,
+Schur-Euler~算法得到更好的数值结果.
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{cc@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c}
+\hline
+& 算法 & CPU~时间~(s)& iter & $k_1$ & $\rho(X)$ & err($X$) \\
+\hline
+$p = 5$ \\
+& PSN & 2.34e-03 & 5 & 3 & 8.68e-15 & 3.11e-12 \\
+& SN & 2.97e-03 & 5 & 2 & 8.62e-15 & 3.08e-12 \\
+& SH & 3.13e-03 & 3 & 2 & 8.54e-15 & 3.06e-12 \\
+& SE & 1.41e-03 & 3 & 2 & 8.52e-15 & 3.05e-12 \\
+$p = 7$ \\
+& PSN & 5.00e-03 & 5 & 3 & 1.45e-14 & 3.83e-12 \\
+& SN & 4.22e-03 & 4 & 2 & 1.50e-14 & 3.96e-12 \\
+& SH & 4.38e-03 & 3 & 2 & 1.55e-14 & 4.07e-12 \\
+& SE & 4.06e-03 & 4 & 2 & 1.47e-14 & 3.87e-12 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{%Results for a random nonnormal matrix by using the four
+%Algorithms.
+使用算法~SE, PSN, SN~及~SH~计算随机矩阵主~$p$~次根的数值结果.}
+\label{tab:RandomMat}
+\end{table}
+\end{example}
+
+%
+%TEST 5. Consider a random nonnormal $8 \times 8$ matrix constructed
+%as $A = Q R \tran{Q}$, where $Q$ is a random orthogonal matrix and
+%$R$ is in the Schur form with eigenvalues $\alpha_j \pm \mathrm{i}
+%\beta_j, \alpha_j = - j^2/10, \beta_j = - j, j = 1:n/2$ and elements
+%$(2j, 2j + 1)$ equal to $- 450$. This example was used in
+%\cite{GuoHigham2006} and \cite{Iannazzo2008} to compare the behavior
+%of Algorithms PSN, SN and SH. We use the four algorithms to compute
+%the $p$th of this random matrix and list in Table \ref{tab:RandomMat}
+%the results in terms of CPU time, number of iterations, relative
+%residual and relative error. Algorithm \ref{al:SE} shows a good
+%accuracy and requires less computational time.
+
+
+\begin{example}
+本例测试的是, 比较~Schur-Euler~算法, 参数~Schur-Newton~算法,
+Schur-Newton~算法及~Schur-Halley~算法这四种算法在计算典型矩阵
+(长矩阵, Frank~矩阵及~Hilbert~矩阵)的主~$p$~次根的数值行为,
+这里取~$p = 18, 33, 81$,
+这三种典型矩阵已经由文献~\cite{Iannazzo2006,GrecoIannazzo2010,GuoHigham2006}~所考虑.
+其中长矩阵, Frank~矩阵可通过~MATLAB~中的~\textsf{gallery}~而生成的,
+而~Hilbert~矩阵则可通过~MATLAB~中的函数~\textsf{hilb}~生成.
+需要指出的是, 长矩阵是一种对称病态的~Toeplitz~矩阵,
+其元素值分别为~$A_{ii} = 1/2, A_{ij} = \sin(\pi(j-i)/2)/(\pi(j -
+i))$. 而~Hilbert~矩阵同样是一种病态矩阵, 其元素可表示为~$H_{ij} =
+1/(i + j - 1)$.
+计算三种矩阵的主~$p$~次根的数值结果分别由表~\ref{tab:HilbMat},
+\ref{tab:ProlMat}~及~\ref{tab:FrankMat}~给出. 由这三个表可知,
+在多数情况下, 相比于其他三种算法,
+Schur-Euler~算法所需要的计算时间最少, 且计算精度也要更高.
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{cc@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c}
+\hline
+& 算法 & CPU~时间~(s)& iter & $k_1$ & $\rho(X)$ & err($X$) \\
+\hline
+$p = 18$ \\
+& PSN & 1.06e-02 & 5 & 5 & 1.31e-14 & 6.47e-14 \\
+& SN & 8.44e-03 & 6 & 4 & 6.09e-15 & 3.01e-14 \\
+& SH & 8.59e-03 & 4 & 4 & 1.34e-15 & 6.60e-15 \\
+& SE & 7.03e-03 & 5 & 3 & 3.19e-15 & 1.57e-14 \\
+$p = 33$ \\
+& PSN & 1.06e-02 & 5 & 5 & 3.77e-14 & 2.12e-13 \\
+& SN & 8.59e-03 & 6 & 4 & 1.65e-14 & 9.31e-14 \\
+& SH & 8.59e-03 & 4 & 4 & 2.43e-14 & 1.37e-13 \\
+& SE & 8.44e-03 & 4 & 4 & 4.53e-15 & 2.55e-14 \\
+$p = 81$ \\
+& PSN & 1.05e-02 & 5 & 5 & 6.77e-14 & 4.30e-13 \\
+& SN & 8.59e-02 & 6 & 4 & 2.63e-14 & 1.67e-13 \\
+& SH & 8.59e-03 & 4 & 4 & 2.51e-14 & 1.60e-13 \\
+& SE & 8.44e-03 & 4 & 4 & 2.45e-14 & 1.56e-13 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{使用算法~SE, PSN,
+SN~及~SH~计算~$7\times7$~Hilbert~矩阵主~$p$~次根的数值结果.}
+\label{tab:HilbMat}
+\end{table}
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{cc@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c}
+\hline
+& 算法 & CPU~时间~(s)& iter & $k_1$ & $\rho(X)$ & err($X$) \\
+\hline
+$p = 18$ \\
+& PSN & 2.16e-02 & 5 & 5 & 3.96e-15 & 3.45e-14 \\
+& SN & 1.81e-02 & 6 & 4 & 1.29e-15 & 1.12e-14 \\
+& SH & 1.72e-02 & 4 & 4 & 1.84e-15 & 1.61e-14 \\
+& SE & 1.23e-02 & 4 & 3 & 1.29e-15 & 1.13e-14 \\
+$p = 33$ \\
+& PSN & 2.03e-02 & 5 & 5 & 1.33e-14 & 1.03e-13 \\
+& SN & 1.81e-02 & 6 & 4 & 5.74e-15 & 5.26e-14 \\
+& SH & 1.59e-02 & 4 & 4 & 1.03e-14 & 9.47e-14 \\
+& SE & 1.33e-02 & 4 & 3 & 3.41e-15 & 3.13e-14 \\
+$p = 81$ \\
+& PSN & 2.31e-02 & 4 & 5 & 3.79e-14 & 3.64e-13 \\
+& SN & 1.77e-02 & 6 & 4 & 9.05e-15 & 8.70e-14 \\
+& SH & 1.81e-02 & 4 & 4 & 2.55e-14 & 2.45e-13 \\
+& SE & 1.25e-02 & 4 & 3 & 1.08e-14 & 1.04e-13 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{使用算法~SE, PSN,
+SN~及~SH~计算~$10\times10$~长矩阵主~$p$~次根的数值结果.}
+\label{tab:ProlMat}
+\end{table}
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{cc@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c}
+\hline
+& 算法 & CPU~时间~(s)& iter & $k_1$ & $\rho(X)$ & err($X$) \\
+\hline
+$p = 18$ \\
+& PSN & 2.31e-02 & 5 & 4 & 1.46e-15 & 1.54e-08 \\
+& SN & 1.69e-02 & 6 & 3 & 1.46e-15 & 1.55e-08 \\
+& SH & 1.77e-02 & 4 & 3 & 1.52e-15 & 1.61e-08 \\
+& SE & 1.63e-02 & 4 & 3 & 1.17e-15 & 1.24e-08 \\
+$p = 33$ \\
+& PSN & 2.39e-02 & 5 & 4 & 7.65e-15 & 2.51e-08 \\
+& SN & 1.67e-02 & 6 & 3 & 5.06e-15 & 1.66e-08 \\
+& SH & 1.67e-02 & 4 & 3 & 8.09e-15 & 2.65e-08 \\
+& SE & 1.80e-02 & 4 & 3 & 7.45e-15 & 2.44e-08 \\
+$p = 81$ \\
+& PSN & 2.44e-02 & 5 & 4 & 1.17e-13 & 6.58e-08 \\
+& SN & 1.70e-02 & 6 & 3 & 1.15e-13 & 6.45e-08 \\
+& SH & 1.80e-02 & 4 & 3 & 8.24e-14 & 4.73e-08 \\
+& SE & 1.78e-02 & 4 & 3 & 1.07e-13 & 6.00e-08 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{使用算法~SE, PSN,
+SN~及~SH~计算~$12\times12$~Frank~矩阵主~$p$~次根的数值结果.}
+\label{tab:FrankMat}
+\end{table}
+\end{example}
+
+
+
+%TEST 6. We select the classical test matrices (prolate matrix and
+%Frank matrix) with no nonpositive real eigenvalues from the MATLAB
+%\textsf{gallery} function together with Hilbert matrix, and then
+%compute their principal $p$th root for $p = 18, 33, 81$ by using the
+%four algorithms. These test matrices also were used in
+%\cite{Iannazzo2006,GrecoIannazzo2010,GuoHigham2006}. Note that, the
+%prolate matrix is a symmetric ill-conditioned Toeplitz matrix whose
+%elements are $A_{ii} = 1/2, A_{ij} = \sin(\pi(j-i)/2)/(\pi(j - i))$.
+%The Hilbert matrix is a notable example of an ill-conditioned
+%matrix. The elements of the Hilbert matrix are $H_{ij} = 1/(i + j -
+%1)$. The results of the comparison are summarized in Table
+%\ref{tab:relres_err_it}. As we can see that, in most cases,
+%Algorithm \ref{al:SE} has less computational time and smaller errors
+%than others algorithms. It also confirms that Euler's method is a
+%very good choice for computing $p$th roots of a matrix.
+
+%\begin{landscape}
+%\begin{table}
+%\begin{center}
+%%\begin{tabular}{cc|c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c@{\hspace{0.7cm}}c}
+%\begin{tabular}{cccccccccccccccccc}
+%\hline
+%& \multicolumn{4}{c}{$p = 18$} &&& \multicolumn{4}{c}{$p = 33$} &&& \multicolumn{4}{c}{$p = 81$}\\
+%\cline{2-6} \cline{8-12} \cline{14-18}
+%& CPU time & iter & $k_1$ & $\rho(X)$ & err($X$)&& CPU time & iter & $k_1$ & $\rho(X)$ & err($X$) && CPU time & iter & $k_1$ & $\rho(X)$ & err($X$)\\
+%\hline
+% \\
+% \multicolumn{6}{l}{Hilbert matrix ($7 \times 7$)} \\
+% \\
+%PSN & 1.06e-02 & 5 & 5 & 1.31e-14 & 6.47e-14 & & 1.06e-02 & 5 & 5 & 3.77e-14 & 2.12e-13 && 1.05e-02 & 5 & 5 & 6.77e-14 & 4.30e-13\\
+%SN & 8.44e-03 & 6 & 4 & 6.09e-15 & 3.01e-14 & & 8.59e-03 & 6 & 4 & 1.65e-14 & 9.31e-14 && 8.59e-02 & 6 & 4 & 2.63e-14 & 1.67e-13\\
+%SH & 8.59e-03 & 4 & 4 & 1.34e-15 & 6.60e-15 & & 8.59e-03 & 4 & 4 & 2.43e-14 & 1.37e-13 && 8.59e-03 & 4 & 4 & 2.51e-14 & 1.60e-13\\
+%SE & 7.03e-03 & 5 & 3 & 3.19e-15 & 1.57e-14 & & 8.44e-03 & 4 & 4 & 4.53e-15 & 2.55e-14 && 8.44e-03 & 4 & 4 & 2.45e-14 & 1.56e-13\\
+% \\
+%\multicolumn{6}{l}{Prolate matrix ($10 \times 10$)}\\
+% \\
+%PSN & 2.16e-02 & 5 & 5 & 3.96e-15 & 3.45e-14 & & 2.03e-02 & 5 & 5 & 1.33e-14 & 1.03e-13 && 2.31e-02 & 4 & 5 & 3.79e-14 & 3.64e-13\\
+%SN & 1.81e-02 & 6 & 4 & 1.29e-15 & 1.12e-14 & & 1.81e-02 & 6 & 4 & 5.74e-15 & 5.26e-14 && 1.77e-02 & 6 & 4 & 9.05e-15 & 8.70e-14\\
+%SH & 1.72e-02 & 4 & 4 & 1.84e-15 & 1.61e-14 & & 1.59e-02 & 4 & 4 & 1.03e-14 & 9.47e-14 && 1.81e-02 & 4 & 4 & 2.55e-14 & 2.45e-13\\
+%SE & 1.23e-02 & 4 & 3 & 1.29e-15 & 1.13e-14 & & 1.33e-02 & 4 & 3 & 3.41e-15 & 3.13e-14 && 1.25e-02 & 4 & 3 & 1.08e-14 & 1.04e-13\\
+% \\
+%\multicolumn{6}{l}{Frank matrix ($12 \times 12$)}\\
+% \\
+%PSN & 2.31e-02 & 5 & 4 & 1.46e-15 & 1.54e-08 & & 2.39e-02 & 5 & 4 & 7.65e-15 & 2.51e-08 && 2.44e-02 & 5 & 4 & 1.17e-13 & 6.58e-08\\
+%SN & 1.69e-02 & 6 & 3 & 1.46e-15 & 1.55e-08 & & 1.67e-02 & 6 & 3 & 5.06e-15 & 1.66e-08 && 1.70e-02 & 6 & 3 & 1.15e-13 & 6.45e-08\\
+%SH & 1.77e-02 & 4 & 3 & 1.52e-15 & 1.61e-08 & & 1.67e-02 & 4 & 3 & 8.09e-15 & 2.65e-08 && 1.80e-02 & 4 & 3 & 8.24e-14 & 4.73e-08\\
+%SE & 1.63e-02 & 4 & 3 & 1.17e-15 & 1.24e-08 & & 1.80e-02 & 4 & 3 & 7.45e-15 & 2.44e-08 && 1.78e-02 & 4 & 3 & 1.07e-13 & 6.00e-08\\
+%\hline
+%\end{tabular}
+%\end{center}
+%\caption{Results for computing principal $p$th root of $7 \times 7$
+%Hilbert matrix, $10 \times 10$ Prolate matrix and $12 \times 12$
+%Frank matrix by using the four Algorithms. }
+%\label{tab:relres_err_it}
+%\end{table}
+%\end{landscape}

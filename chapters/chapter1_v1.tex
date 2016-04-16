@@ -1,0 +1,1266 @@
+%%---------------------------------------------------------------------------%%
+%%------------ 第一章：绪论 -------------------------------------------------%%
+%%---------------------------------------------------------------------------%%
+
+
+\chapter{绪论}
+\label{chapter:Introduction}
+
+
+本章首先对有关~Newton~型迭代法的理论研究作一概述,
+然后对矩阵函数中矩阵平方根和矩阵~$p$~次根的研究作一概述.
+
+\section{引言}
+
+
+矩阵函数在微分方程、Markov~模型、控制论、核磁共振、
+理论粒子物理学、非对称特征值问题等方面有着重要的应用.
+而矩阵~$p$~次根求解问题是矩阵函数理论中特殊的重要的一类.
+
+如考虑核磁共振问题. 核~Overhauser~效应实验的基本理论可得知
+一个强度矩阵~$M(t)$~和一个对称的对角占优矩阵~$R$~的关系满足~Solomon~方程
+$$
+\frac{\dif{M}}{\dif{t}} = - R M(t), \quad M(0) = \I,
+$$
+可得~$M(t) = \me^{-Rt}$. 于是, 若~$M(t)$~可通过仿真测试而得到,
+则确定矩阵~$R$~等价于求解一个矩阵的矩阵对数.
+而求解矩阵~$A$~的矩阵对数~$\log{A}$~的基本方法是选取一个适当的~$p$~使得
+~$\log{A^{1/p}}$~容易计算，再由关系
+$$
+\log{A} = p \log{A^{1/p}}
+$$
+得到所需的矩阵对数.
+
+计算一个给定的矩阵~$A\in \CS^{n\times n}$~的~$p$~次根,
+其中整数~$p\geq2$, 实际上就是求解矩阵方程~$X^p - A = 0$~的根.
+所以迭代法是一种自然的选择. 本文的主要研究内容是, 考虑~Newton~法,
+Halley~法及~Euler~法这三种经典迭代算法在计算矩阵~$p$~次根时的收敛行为.
+
+
+
+
+
+\section{迭代法介绍}
+
+令~$\mathbb{X}$~和~$\mathbb{Y}$~是欧氏空间或一般的~Banach~空间,
+$\mathbb{D}$~是~$\mathbb{X}$~的一个开凸子集, 设~$f:\mathbb{D}
+\subset \mathbb{X} \to
+\mathbb{Y}$~是一个~Fr\'{e}chet~可导的非线性算子,
+考虑如下一般的非线性算子方程：
+\begin{equation}
+\label{eq:NonlinearOperatorEquation} f(x) = 0.
+\end{equation}
+求解非线性算子方程~(\ref{eq:NonlinearOperatorEquation})~
+的近似解是一个重要的数学问题．有别于线性方程组的情形,
+求解非线性算子方程~(\ref{eq:NonlinearOperatorEquation})~
+一般应用迭代方法． 目前,  Newton~ 法是求解非线性算子方程
+~(\ref{eq:NonlinearOperatorEquation})~的最有效方法,
+其迭代格式定义为~(初始点~$x_0$~ 给定):
+\begin{equation}
+\label{it:NM_BanachSpace} x_{k+1} = x_k - f'(x_k)^{-1}f(x_k),\quad k
+= 0,1,2,\ldots.
+\end{equation}
+
+用迭代法求解算子方程~(\ref{eq:NonlinearOperatorEquation})~,
+基本的途径是构造一个有效的迭代格式
+(如~Newton~法~(\ref{it:NM_BanachSpace})),  使得由给定的初始点出发,
+逐步逼近到方程~(\ref{eq:NonlinearOperatorEquation})~的一个解． 于是,
+迭代法的收敛性成为研究的一个核心问题． 一般情况下,
+收敛性分析有以下三种类型：
+\begin{itemize}
+\item[1)]
+局部收敛性：该类型首先假定方程
+~(\ref{eq:NonlinearOperatorEquation})~ 存在解~$x^*$~，再
+根据~$f$~在~$x^*$~的局部条件 ~(例如，$f$~在~$x^*$~是连续可微的)~
+来研究有关迭代法的收敛性质，
+其中包括收敛速度、解的唯一性球及~(最重要的)~收敛球半径的最优性．
+例如，关于 ~Newton~法~(\ref{it:NM_BanachSpace}), 文献
+~\cite{Traub1979,Ypma1982,Smale1986,Wang2000a,Huang2004,Proinov2009,Ferreira2009b}~
+分别研究了该迭代法在不同条件下的最优半径及相应局部收敛结果
+\footnote{其中文献~\cite{Ypma1982}~拓展了文献~\cite{Traub1979}~的结果；
+文献~\cite{Smale1986}~的结果是在解析条件下得到的；
+文献~\cite{Huang2004}~的结果是在~H\"{o}lder~条件下得到的；
+而文献~\cite{Wang2000a,Proinov2009,Ferreira2009b}~
+分别在不同的更一般的条件下统一了
+文献~\cite{Traub1979,Ypma1982,Smale1986}~的结果．}.
+\item[2)]
+半局部收敛性：这种类型在不知方程解~$x^*$~存在的情形下，
+根据~$f$~在~某一近似初始点~$x_0$~的局部条件来研究有关迭代法的收敛性质，
+一般包括收敛判据、收敛速度以及以~$x_0$~为中心的收敛球和解的唯一性球
+\footnote{这里的收敛球和解的
+唯一性球与局部收敛分析中的相应概念不同，
+文献~\cite{Huang2004}~给出了局部收敛分析的有关定义．}.
+\item[3)]
+全局收敛性：有别于前面两种，
+这种类型研究当~$f$~满足某些适当的~(全局)~条件时，
+可以保证取定义域内任意一点作为初始点时
+都可收敛到方程的某个解~(有解存在时).
+同伦延拓法，线性搜索法和信赖域法是常用的全局化方法,
+详见文献~\cite{Ortega1970,Dennis1996,Deuflhard2004}.
+\end{itemize}
+
+
+设~$\mathbb{X}=\mathbb{Y} = \CS^n$,
+则求解~(\ref{eq:NonlinearOperatorEquation})~的~Newton~法
+~(\ref{it:NM_BanachSpace})~可写成~(初始点~$x_0$~
+给定):
+$$
+f'(x_k) \Delta x_k = -f(x_k),\ x_{k+1} = x_k + \Delta x_k, \quad k =
+0,1,\ldots.
+$$
+即在每一步迭代中, 先求解如下的~Newton~方程
+\begin{equation}
+\label{eq:NewtonEquation} f'(x_k)\Delta x_k = - f(x_k),
+\end{equation}
+求得上述方程组的精确解~$\Delta x_k$~后, 由~$x_{k+1} = x_k + \Delta
+x_k$~进行迭代修正． 从数值计算的角度看,
+Newton~法~(\ref{it:NM_BanachSpace})~具有收敛快的优点,
+在实际计算时每一步运算只与前一步有关, 误差不传播且是自校正的. 因此,
+在理论和实际应用上都是一种重要的方法. 但是, Newton~法亦有其不足,
+例如, 在每步计算中都要计算~$n^2$~个分量偏导数值和~$n$~个分量函数值,
+并求一次矩阵的逆, 运算量较大. 为此, Newton~法有不少改进的算法．
+这些修正的~Newton~法统称为~Newton~型迭代法, 针对不同的问题背景,
+应用相应的~Newton~型迭代法. 例如:
+\begin{itemize}
+\item
+简化~Newton~法~(初始点~$x_0$~ 给定)~\cite{Ortega1970}:
+$$
+f'(x_0) \Delta x_k = -f(x_k),\ x_{k+1} = x_k + \Delta x_k,\quad k =
+0,1,\ldots.
+$$
+在每步迭代中, 只需要计算~$n$~个分量函数, 但这种迭代法只有线性收敛．
+\item
+~Newton~类法~(初始点~$x_0$~ 给定)~\cite{Rheinboldt1968}:
+\begin{equation}
+\label{it:NML_general} M(x_k)\Delta x_k = -f(x_k),\ x_{k+1} = x_k +
+\Delta x_k,\quad k = 0,1,\ldots,
+\end{equation}
+其中~$M(x_k)$~是近似于~$f'(x_k)$~的矩阵．
+\item
+非精确~Newton~法~(初始点~$x_0$~
+给定)~\cite{Dembo1982}~\cite{Dembo1982}:
+\begin{equation}
+\label{it:INM_BanachSpace} f'(x_k) \Delta x_k = -f(x_k) + r_k,\
+x_{k+1} = x_k + \Delta x_k,\quad k = 0,1,\ldots,
+\end{equation}
+其中~$r_k \in \mathbb{Y}$~一般应满足~$\|r_k\|/\|f(x_k)\|\leqslant
+\eta_k,\ k= 0,1,\ldots$~, $\{\eta_k\}$~满足~$0\leqslant \eta_k <1$,
+可能与~$x_k$~有关, 为控制序列,
+用来控制求方程~(\ref{eq:NewtonEquation})~的解的精确程度．
+显然令~$\eta_k \equiv 0$~时得到一般的~Newton~法．
+\item
+拟~Newton~法~(初始点~$x_0$~ 给定)~\cite{Deuflhard2004}:
+$$
+J_k \Delta x_k = -f(x_k), \ J_{k+1} = J_k + \Delta J_k,\quad k =
+0,1,\ldots,
+$$
+其中~$J_k$~是近似于~$f'(x_k)$~的矩阵．不同的~$\Delta J_k$~选择，
+可以得到不同的迭代法. 例如，当取~$\Delta J_k =
+f(x_{k+1})\tran{\Delta x_k}/(\tran{\Delta x_k}\Delta x_k)$,
+则得到~Broyden~法~\cite{Broyden1965}.
+\end{itemize}
+
+
+还有~Gauss-Newton~法~\cite{Ortega1970}、Newton-Steffensen~法~\cite{LingXu2013}~等.
+除上述几类重要的~Newton~型迭代法外, 还有几类高阶的~Newton~变形法．
+如~Halley~法~\cite{Candela1990a}, 迭代格式为：
+\begin{equation}
+\label{it:HM_BanachSpace} x_{k+1} = x_k - [\IO -
+\frac{1}{2}L_f(x_k)]^{-1}f'(x_k)^{-1}f(x_k), \quad k=0,1,\ldots,
+\end{equation}
+及~Euler/Chebyshev~法~\cite{Candela1990b}, 迭代格式为：
+\begin{equation}
+\label{it:EM_BanachSpace} x_{k+1} = x_k - [\IO +
+\frac{1}{2}L_f(x_k)]f'(x_k)^{-1}f(x_k), \quad k=0,1,\ldots,
+\end{equation}
+其中
+$$L_f(x) := f'(x)^{-1}f''(x)f'(x)^{-1}f(x).
+$$
+
+
+
+为统一研究这两种迭代法的收敛性, Guti\'{e}rrez~ 和
+~Hern\'{a}ndez~在文献
+~\cite{Gutierrez1997a}~中提出了如下的~Halley-Euler~迭代族法：
+\begin{equation}
+\label{it:HEFM_BanachSpace} x_{\alpha,k+1} = x_{\alpha,k} -
+\left\{\IO + \frac{1}{2}L_f(x_{\alpha,k})[\IO - \alpha
+L_f(x_{\alpha,k})]^{-1}\right\}f'(x_{\alpha,k})^{-1}f(x_{\alpha,k}),
+\quad k=0,1,\ldots,
+\end{equation}
+其中~$\alpha \in [0,1]$. 显然, $\alpha = 0$~时~Halley-Euler~迭代族法
+~(\ref{it:HEFM_BanachSpace})~
+变为~Euler~法~(\ref{it:EM_BanachSpace})； 当~$\alpha =
+\frac{1}{2}$~时~Halley-Euler~迭代族法 ~(\ref{it:HEFM_BanachSpace})~
+变为~Halley~法~(\ref{it:HM_BanachSpace})；当~$\alpha = 1$~时,
+Halley-Euler~迭代族法
+~(\ref{it:HEFM_BanachSpace})~变为快速~Halley~法．
+
+
+关于~Newton~法~(\ref{it:NM_BanachSpace})~
+收敛的性质研究主要有~Kantorovich~型收敛理论和~Smale~点估计理论两个方向.
+Newton-Kantorovich~半局部收敛定理~\cite{Kantorvich1982}~是
+~Newton~法收敛性的一个最重要收敛结果.
+该定理在理论和应用上都是相当重要的, 它是解方程算法现代研究的起点.
+大量的收敛结果都是基于被称为~Kantorovich~型条件而得到的,
+例如，\cite{Ortega1970,Rokne1972,Rall1974,GraggTapia1974,Deuflhard1979,
+Huang1993,Gutierrez1997a,Wang1999,Gutierrez2000,Ezquerro2002}. 最近,
+Newton-Kantorovich~定理在若干新的问题研究中得到应用,
+例如非线性特征值问题~\cite{SzyldXue2013,SzyldXue2014},
+稳定性谱问题~\cite{Vleck2010,BadawyVleck2012,BredaVleck2014}.
+
+而~Smale~点估计理论是由~Smale~于~1986~年提出, 包括~$\alpha-$理论
+和~$\gamma-$理论. 在~$\alpha-$理论中，
+假设~$f$~在初始点~$x_0$~是解析的，
+给出了基于如下三个不变量的收敛判据~\cite{Smale1986}:
+\begin{equation}
+\label{cons:smale1986}
+\begin{cases}
+\alpha(f,x_0) = \beta(f,x_0)\gamma(f,x_0),\\
+\beta(f,x_0) = \|f'(x_0)^{-1}f(x_0)\|,\\
+\gamma(f,x_0) = \sup\limits_{k \geqslant 2} \left\|\displaystyle
+\frac{1}{k!} f'(x_0)^{-1}f^{(k)}(x_0)^{-1}\right\|^{\frac{1}{k-1}}.
+\end{cases}
+\end{equation}
+而~$\gamma-$理论则研究了算子~$f$~在解析条件下的局部收敛性.
+下面给出的定理~\ref{th:SmaleGammaTh}~称为~$\gamma-$定理.
+王兴华等人改进并完善了~Smale~点估计理论
+~(见文献~\cite{WangLi2001}~及其所列文献). 值得指出的是，
+王兴华引入了~$\gamma$~条件
+并在此基础上系统建立了~Smale~原先在解析条件下的全部结果
+~(见文献~\cite{WangHan1997b}~及其所列文献).
+
+
+\begin{theorem}[{\cite[$\gamma-$定理]{Smale1986}}]
+\label{th:SmaleGammaTh} 设~$f: \CS^n \to \CS^n$~是解析的.
+设~$\zeta$~为~$f$~的一个零点且~$f'(\zeta)^{-1}$~存在.
+若~$\gamma(f,\zeta)$~由~$(\ref{cons:smale1986})$~定义且~$z \in
+\CS^n$~满足
+\begin{equation}
+\label{radius:gamma_AZ} \|z - \zeta\| < \frac{3-\sqrt{7}}{2
+\gamma(f,\zeta)},
+\end{equation}
+则~$z$~为~$f$~关于~$\zeta$~的一个近似零点，即
+\begin{equation}
+\label{ApproximateZero} \|\zeta - z_k\| \leq
+\left(\frac{1}{2}\right)^{2^{k} - 1} \|\zeta - z\|, \quad  k = 0, 1,
+2, \ldots,
+\end{equation}
+其中~$\{z_k\}$~为~Newton~法~$(\ref{it:NM_BanachSpace})$~以初始点~$z_0
+= z$~进行迭代所产生的序列.
+\end{theorem}
+
+对于前面介绍的~Newton~型迭代法亦有很多研究结果是建立上述两种条件下而得到的,
+例如,
+关于非精确~Newton~法~(\ref{it:INM_BanachSpace})~的收敛性研究有~
+\cite{ChenLi2006,Guo2007,LiShen2008,ShenLi2009,ShenLi2010,Ferreira2011c},
+关于~Newton~类法~(\ref{it:NML_general})~的收敛性研究有
+~\cite{Yamamoto2000,Morini1999,Ferreira2011b,Ferreira2012a},
+关于~Gauss-Newton~法的收敛性研究有~
+\cite{DedieuShub2000,DedieuKim2002,Chen2008,LiHuWang2010,Ferreira2011b,XuLi2008},
+关于~Halley~法~(\ref{it:HM_BanachSpace})~和~Euler~法~(\ref{it:EM_BanachSpace})~的收敛性结果有
+~\cite{Candela1990a,Candela1990b,Ezquerro2005,Gutierrez1997b,YeLi2006,YeLiShen2007}.
+
+
+
+
+
+对于一个迭代法，研究其收敛速度对实际计算是重要的．
+为刻画收敛速度，本文引入~$Q$~收敛阶和~$R$~收敛阶．
+对于二者关系的详细论述可见文献~\cite{Potra1989,Jay2001,Ortega1970,Rheinboldt1998}.
+
+\begin{definition}[$Q$~阶收敛]
+\label{def:Q-orderConv} 设序列~$\{x_k\}$~收敛到~$x^*$. 如果存在~$q
+\geqslant 1$~及常数~$c \geqslant 0$~和~$N \geqslant 0$~使得当~$k
+\geqslant N$~时有
+$$
+\|x^* - x_{k+1}\| \leqslant c\|x^* - x_k\|^q,
+$$
+则称序列~$\{x_n\}$~具有~$Q$~收敛阶至少为~$q$.  当~$q =
+2$~时称为~(至少)~$Q$~平方收敛~(或~$Q$~二阶收敛), $q =
+3$~时称为~(至少)~$Q$~立方收敛~(或~$Q$~三阶收敛). 特别地,
+若当~$N\equiv0$~时上式恒成立,
+则称序列~$\{x_n\}$~具有局部~$Q$~收敛阶至少为~$q$.
+\end{definition}
+
+\begin{definition}[$R$~阶收敛]
+\label{def:R-orderConv} 设序列~$\{x_k\}$~收敛到~$x^*$.
+如果存在~$\tau > 1$~及常数~$c \in (0,\infty)$~和~$\theta \in
+(0,1)$~使得对所有 ~$k \geq 0$~有
+$$
+\|x_k - x^*\| \leqslant c \theta^{\tau^k},
+$$
+则称~$\{x_k\}$~具有~$R$~收敛阶至少为~$\tau$. 特别地, 当~$\tau =
+2$~时称为~(至少)~$R$~平方收敛~(或~$R$~二阶收敛), $\tau =
+3$~时称为~(至少)~$R$~立方收敛~(或~$R$~三阶收敛).
+\end{definition}
+
+
+
+
+
+
+
+\section{矩阵函数}
+
+矩阵函数~$f:\CS^{n\times n} \to \CS^{n\times n}$~有多种等价定义,
+下面所给出的定义是基于~Jordan~标准形而得到的,
+其他等价的定义可见~\cite[1.2~节]{Higham2008}.
+
+对于任意的矩阵~$A \in \CS^{n\times n}$~, 设其~Jordan~标准形为
+\begin{equation}
+\label{eq:JorCanForm} Z^{-1}AZ = J = \diag(J_1,J_2,\ldots,J_s),
+\end{equation}
+其中~$Z\in\CS^{n\times n}$~是非奇异的,
+$$
+J_k = J_k(\lambda_k) = \left[\begin{array}{cccc} \lambda_k & 1 & &  \\
+ & \lambda_k & \ddots & \\
+ &  & \ddots & 1 \\
+ &  &  & \lambda_k \end{array}\right] \in \CS^{m_k\times m_k}, \ \
+ m_1 + m_2 + \cdots + m_s = n.
+$$
+设~$\lambda_1,\ldots, \lambda_r$~为~$A$~的所有不同的特征值,
+$n_\ell$~为属于特征值~$\lambda_\ell$~的~Jordan~块的阶数,
+称为~$\lambda_\ell$~的次数. 对于任意函数~$f$, 如果
+$$
+f^{(j)}(\lambda_\ell), \ \ \ j = 0, \ldots, n_\ell-1,\ \ell =
+1,\ldots, r
+$$
+的值都存在, 则称~$f$~在~$A$~的谱上有定义. 记~$J_k = \lambda_k\I +
+N_k \in \CS^{m_k\times m_k}$, 其中
+$$
+N_k = \left[\begin{array}{cccc} 0 & 1 & &  \\
+ & 0 & \ddots & \\
+ &  & \ddots & 1 \\
+ &  &  & 0 \end{array}\right] \in \CS^{m_k\times m_k}.
+$$
+注意到,
+$$
+N_k^2 = \left[\begin{array}{ccccc} 0 & 0 & 1 & & \\
+ & 0 & 0 & \ddots & \\
+ &  & \ddots & \ddots & 1 \\
+  &  &  & \ddots & 0 \\
+ &  &  & & 0 \end{array}\right], \ldots,
+ N_k^{m_k-1} = \left[\begin{array}{cccc} 0  & \cdots & 0 & 1 \\
+  & \ddots & \ddots & 0\\
+  &  & \ddots & \vdots \\
+  &  & & 0 \end{array}\right],\  N_k^{m_k} = 0.
+$$
+如果函数~$f(t)$~在特征值~$\lambda_k$~处有如下的~Taylor~展式:
+$$
+f(t) = f(\lambda_k) + f'(\lambda_k)(t-\lambda_k) + \cdot +
+\frac{f^{(j)}(t-\lambda_k)}{j!} (t-\lambda_k)^j + \cdots,
+$$
+那么将~$t$~替换为~$J_k$, 并注意到~$N_k = J_k -
+\lambda_k\I$~且~$N_k^{m_k} = 0$, 可得
+\begin{align}
+f(J_k) & = f(\lambda_k)\I + f'(\lambda_k)(J_k - \lambda_k\I) + \cdot
++ \frac{f^{(j)}(t-\lambda_k)}{j!} (J_k - \lambda_k\I)^j + \cdots
+\nonumber\\
+& = f(\lambda_k)\I + f'(\lambda_k) N_k + \cdots +
+\frac{f^{(m_k-1)}(t-\lambda_k)}{(m_k-1)!}N_k^{m_k-1} \nonumber\\
+& = \left[\begin{array}{cccc} f(\lambda_k) & f'(\lambda_k) & \cdots & \displaystyle \frac{f^{(m_k-1)}(\lambda_k)}{(m_k-1)!} \\
+ & f(\lambda_k) & \ddots & \vdots\\
+ &  & \ddots & f'(\lambda_k) \\
+ &  &  & f(\lambda_k) \end{array}\right] \label{eq:f(Jk)}.
+\end{align}
+至此, 我们有如下矩阵函数的定义:
+
+\begin{definition}[{\cite[定义~1.4]{Higham2008}}]
+\label{def:MatFun} 设函数~$f$~在矩阵~$A \in \CS^{n\times
+n}$~的谱上有定义, 且有~Jordan~标准形~(\ref{eq:JorCanForm}),
+则若定义矩阵函数~$f(A)$~为
+\begin{equation}
+\label{eq:MatFun} f(A) := Zf(J)Z^{-1} = Z\diag(f(J_k))Z^{-1},
+\end{equation}
+则~$f(J_k)$~的形式由~(\ref{eq:f(Jk)})~给出.
+\end{definition}
+
+下面的定理给出了矩阵函数的若干基本性质,
+更多的其他性质参见~\cite{Higham2008}~或~\cite{HornJohnson1991}.
+
+\begin{theorem}[{\cite[定理~1.13]{Higham2008}}]
+\label{th:MatFunProperty} 设函数~$f$~在矩阵~$A\in\CS^{n\times
+n}$~的谱上有定义, 则有如下性质：
+\begin{enumerate}
+\item[\textup{(i)}]
+$f(A)$~与~$A$~可交换, 即~$f(A)A = Af(A)$.
+\item[\textup{(ii)}]
+$f(\tran{A})= \tran{f(A)}$.
+\item[\textup{(iii)}]
+$f(XAX^{-1}) = Xf(A)X^{-1}$.
+\item[\textup{(iv)}]
+若~$\lambda_\ell$~为~$A$~的特征值,
+则~$f(\lambda_\ell)$为~$f(A)$~的特征值,  $\ell = 1,\ldots,n$.
+\item[\textup{(v)}]
+如果~$X$~与~$A$~可交换, 那么~$X$~与~$f(A)$~可交换.
+\end{enumerate}
+\end{theorem}
+
+
+\begin{theorem}[{\cite[定理~1.15]{Higham2008}}]
+\label{th:MatFun_sum_product} 设函数~$f,g$~在矩阵~$A\in\CS^{n\times
+n}$~的谱上有定义.
+\begin{enumerate}
+\item[\textup{(i)}]
+若~$h(t) = f(t) + g(t)$, 则~$h(A) = f(A)+g(A)$.
+\item[\textup{(ii)}]
+若~$h(t)=f(t)g(t)$, 则~$h(A)=f(A)g(A)$.
+\end{enumerate}
+\end{theorem}
+
+
+常见的矩阵函数有矩阵符号函数、矩阵平方根、矩阵~$p$~次根~($p >
+2$)、矩阵指数函数、矩阵对数函数及矩阵~Cos~和~Sin~函数.
+本文我们关注的是矩阵平方根和矩阵~$p$~次根这两类矩阵函数.
+
+
+
+\subsection{矩阵平方根}
+
+对于任意给定的矩阵~$A\in\CS^{n\times n}$,
+若存在矩阵~$X\in\CS^{n\times n}$~使得~$X^2 = A$~成立,
+则称~$X$~为~$A$~的一个平方根. 特别地,
+若~$X$~满足由矩阵函数~$f(A)$~的定义~\ref{def:MatFun}~或其等价定义,
+则称~$X$~为~$A$~的准素平方根, 否则称为非准素平方根.
+下面的定理给出了矩阵平方根存在性的一个充要条件.
+
+\begin{theorem}[{\cite[推论~6.4.13]{HornJohnson1991}}]
+\label{th:MatSquRoot_Existence} 矩阵~$A\in\CS^{n\times
+n}$~存在一个平方根的充要条件是如下定义的递增的整数数列~$d_1,
+d_2,\ldots$~没有两项都是相同的奇数：
+$$
+d_\ell = \dim(\nspace(A^\ell)) - \dim(\nspace(A^{\ell-1})), \ \ \
+\ell = 1,2,\ldots.
+$$
+\end{theorem}
+
+若矩阵~$A\in\RS^{n\times n}$, 也有相应地矩阵平方存在性定理,
+见~\cite[定理~1.23]{Higham2008}. 进一步, 有如下的矩阵平方根分类定理:
+
+\begin{theorem}[矩阵平方根的分类, {\cite[定理~1.26]{Higham2008}}]
+\label{th:MatSquRoot_Classification} 设非奇异矩阵~$A\in\CS^{n\times
+n}$~的~Jordan~标准形由~$(\ref{eq:JorCanForm})$~给出,
+其所有不同的特征值数为~$r$.  如果~$r\leq s$,
+那么~$A$~有~$2^r$~准素平方根, 由下式给出：
+$$
+X_j = Z \diag(L_1^{(j_1)},L_2^{(j_2)},\ldots,L_s^{j_s})Z^{-1},\ \ \
+j = 1, 2, \ldots, 2^r,
+$$
+其中~$L_k^{(j_k)} \equiv L_k^{(j_k)}(\lambda_k) =
+f(J_k(\lambda_k))$, $j_k = 1$~或~$2$, 当~$\lambda_\ell =
+\lambda_k$~时~$j_\ell = j_k,\ k=1,2,\ldots,s$. 特别地, 如果~$r<s$,
+那么~$A$~存在非准素平方根, 其形式为
+$$
+X_j(U) =
+ZU\diag(L_1^{(j_1)},L_2^{(j_2)},\ldots,L_s^{j_s})U^{-1}Z^{-1}, \ \ \
+j=2^r+1, \ldots, 2^s,
+$$
+其中~$j_k = 1$~或~$2$, $U$~为任意与~$J$~可交换的非奇异矩阵,
+且对于每一个 ~$j$, 存在~$\ell$~和~$k$, 使得当~$j_\ell\neq
+j_k$~时~$\lambda_\ell = \lambda_k$.
+\end{theorem}
+
+基于上述的结果, 在实际计算中, 对于一般地矩阵~$A\in\CS^{n\times n}$,
+求解其平方根是件困难的事. 为此, 我们考虑其中一类特殊矩阵的平方根.
+
+\begin{definition}[矩阵主平方根, {\cite[定理~1.29]{Higham2008}}]
+\label{th:MatSquRoot_Principal} 设矩阵~$A\in\CS^{n\times
+n}$~的谱为~$\sigma(A)$~并记~$\RS^- := (-\infty,0]$. 若~$\sigma(A)
+\subset \CS\backslash\RS^-$, 则存在唯一的~$A$~的准素平方根~$X$,
+且它的谱~$\sigma(X)$~满足~$\sigma(X)\subset \{z\in\CS:
+\Real{z}>0\}$. 此时称~$X$~为矩阵~$A$~的主平方根, 记为~$X :=
+A^{1/2}$. 若~$A$~是实矩阵, 则~$A^{1/2}$~也是实矩阵.
+\end{definition}
+
+
+下面考虑对非奇异矩阵~$A\in\CS^{n\times
+n}$~的主平方根~$A^{1/2}$~(若存在)~的计算问题.
+记~$f(A)$~为~$A$~的任一准素平方根,
+并设~$A$~的~Schur~分解为~$A=QTQ^*$,
+其中~$Q$~为酉矩阵而~$T$~为上三角矩阵.
+由定理~\ref{th:MatFunProperty}~知~$f(A)=Qf(T)Q^*$,
+故为了计算矩阵~$A$~的主平方根,  只要计算上三角矩阵~$T$~的主平方根~$U
+= f(T)$~即可. 设~$U=[u_{ij}]_{n\times n}, T=[t_{ij}]_{n\times n}$,
+由~$U^2 = T$~可得
+\begin{align*}
+u_{ii}^2 & = t_{ii},\quad i = 1,2,\ldots,n,\\
+(u_{ii}+u_{jj})u_{ij} & = t_{ij} - \sum_{k=i+1}^{j-1}u_{ik}u_{kj},
+\quad j > i.
+\end{align*}
+于是,
+有如下计算非奇异矩阵平方根的算法~\ref{al:MatSquRoot_SchurMethod},
+该算法由~Bj\"{o}rck~$\&$~Hammarling~在文献~\cite{Bjorck1983}~中得到.
+
+\begin{algorithm}[h!]
+\floatname{algorithm}{算法}
+\caption{计算矩阵平方根的~Schur~法~\cite{Bjorck1983}}
+\label{al:MatSquRoot_SchurMethod} 给定非奇异矩阵~$A\in\CS^{n\times
+n}$, 设其谱~$\sigma(A) \subset \CS\backslash\RS^-$, 其中~$\RS^- :=
+(-\infty,0]$. 本算法通过~Schur~分解来计算~$A$~的主平方根~$A^{1/2}$.
+%\newcounter{newlist}
+\begin{list}{\arabic{newlist}.}{\usecounter{newlist}
+\setlength{\rightmargin}{0em}\setlength{\leftmargin}{1.2em}}
+\item
+计算矩阵~$A$~的~Schur~分解~$A = QRQ^*$.
+\item
+计算矩阵~$U$~各对角元素的主平方根~$u_{ii} = t_{ii}^{1/2},\ i = 1,
+\ldots, n$.
+\item
+依次计算矩阵~$U$~的非对角元:
+$$
+u_{ij} = \displaystyle
+\frac{t_{ij}-\displaystyle\sum_{k=i+1}^{j-1}u_{ik}u_{kj}}{u_{ii}+u_{jj}},
+\quad j = 2,3,\ldots,n,\ i = j-1,j-2,\ldots,1.
+$$
+\item
+计算~$X = QUQ^*$.
+\end{list}
+\end{algorithm}
+
+算法~\ref{al:MatSquRoot_SchurMethod}~的总计算量为~$28\frac{1}{3}n^3$~flops,
+其中~Schur~分解的计算量为~$25n^3$~flops,
+$U$~的计算量为~$\frac{1}{3}n^3$~flops,  $X$~的计算量为~$3n^3$~flops.
+
+当~$A$~是实矩阵时,
+Higham~\cite{Higham1987}~推广了算法~\ref{al:MatSquRoot_SchurMethod}~而
+得到了算法~\ref{al:MatSquRoot_RealSchurMethod}.
+
+\begin{algorithm}[h!]
+\floatname{algorithm}{算法}
+\caption{计算矩阵主平方根的实~Schur~法~\cite{Higham1987}}
+\label{al:MatSquRoot_RealSchurMethod} 给定矩阵~$A\in\RS^{n\times
+n}$, 设其谱~$\sigma(A) \subset \CS\backslash\RS^-$, 其中~$\RS^- :=
+(-\infty,0]$.
+本算法通过实~Schur~分解来计算~$A$~的主平方根~$A^{1/2}$.
+\begin{list}{\arabic{newlist}.}{\usecounter{newlist}
+\setlength{\rightmargin}{0em}\setlength{\leftmargin}{1.2em}}
+\item
+计算矩阵~$A$~的实~Schur~分解~$A = QR\tran{Q}$, 其中~$R$~是~$m\times
+m$~的块矩阵.
+\item
+计算矩阵~$U$~各对角块的主平方根：当~$R_{ii}=[r_{ij}]_{1\times1}$~时,
+$U_{ii} = R_{ii}^{1/2}$；当~$R_{ii}=[r_{ij}]_{2\times2}$~时,
+$$
+U_{ii} = \left[\begin{array}{cc} \alpha +
+\displaystyle\frac{1}{4\alpha}(r_{11}-r_{22}) &
+\displaystyle\frac{1}{2\alpha}r_{12} \\
+\displaystyle\frac{1}{2\alpha}r_{21} & \alpha -
+\displaystyle\frac{1}{4\alpha}(r_{11}-r_{22})
+\end{array}\right],
+$$
+其中
+\begin{equation*}
+\alpha = \left\{
+\begin{array}{ll}
+\displaystyle \left(\frac{|\theta|+(\theta^2 +
+\mu^2)^{1/2}}{2}\right)^{1/2}, & \theta \geq 0,\\
+\displaystyle
+\frac{\mu}{2\left(\displaystyle\frac{|\theta|+(\theta^2 +
+\mu^2)^{1/2}}{2}\right)^{1/2}}, & \theta <0,
+\end{array}
+\right.
+\end{equation*}
+$$
+\theta = \frac{r_{11}+r_{12}}{2},\quad \mu =
+\frac{\left(-(r_{11}-r_{22})^2-4r_{21}r_{22}\right)^{1/2}}{2}.
+$$
+\item
+依次通过计算如下的方程而得到矩阵~$U$~的非对角块~$U_{ij}$:
+$$
+U_{ii}U_{ij} + U_{ij}U_{jj} = R_{ij} - \sum_{k=i+1}^{j-1}
+U_{ik}U_{kj}, \quad j = 2,3,\ldots,m,\ i = j-1,j-2,\ldots,1.
+$$
+\item
+计算~$X = QU\tran{Q}$.
+\end{list}
+\end{algorithm}
+
+
+
+若将计算矩阵平方根问题看成是对非线性矩阵方程~$X^2 = A$~的求根问题,
+则迭代法是自然的选择. 下面考虑应用~Newton~法来计算~$X^2=A$.
+设~$Y$~为该矩阵方程的一个近似解, 并记~$X = Y+E$, 则
+$$
+A = (Y+E)^2 = Y^2 + YE + EY + E^2.
+$$
+去掉上式中的~$E^2$~项后即可得如下的~Newton~法~($X_0$~给定):
+\begin{equation}
+\label{it:NM_MatSquRoot_original} X_{k+1} = X_k + E_k, \quad k = 0,
+1, 2, \ldots,
+\end{equation}
+其中~$E_k$~为如下~Sylvesterh~方程的解：
+$$
+X_k E_k + E_k X_k = A - X^2_k.
+$$
+一般地, 通过上述~Newton~法来计算矩阵的平方根所需要的计算成本比
+算法~\ref{al:MatSquRoot_SchurMethod}~或
+~\ref{al:MatSquRoot_RealSchurMethod}~要高很多. 但是,
+下面的结果可以改进这个不足.
+
+\begin{lemma}[{\cite[引理~6.8]{Higham2008}}]
+假设~Newton~法~$(\ref{it:NM_MatSquRoot_original})$~
+的初始点~$X_0$~与矩阵~$A$~可交换,
+且所产生的序列~$\{X_k\}$~是有定义的. 则对于所有的~$k\geq1$,
+$X_k$~与~$A$~都是可交换的,  且此时~Newton~法的迭代格式为：
+\begin{equation}
+\label{it:NM_MatSquRoot} X_{k+1} = \frac{1}{2}(X_k+X_k^{-1}A).
+\end{equation}
+\end{lemma}
+
+当矩阵~$A$~有实的正特征值时, Laasonen
+\cite{Laasonen1958}~证明了以~$X_0 =
+A$~为初始点由~Newton~法~(\ref{it:NM_MatSquRoot})~进行迭代产生的矩阵序列~$\{X_k\}$~
+平方收敛于~$A^{1/2}$. 进一步,
+Higham~在~\cite{Higham1986}~中弱化了上述结果的条件,
+证明当矩阵~$A$~的谱~$\sigma(A) \subset
+\CS\backslash\RS^-$~且初始点~$X_0$~与~$A$~可交换时,
+依然能够保证矩阵序列~$\{X_k\}$~是平方收敛于~$A^{1/2}$, 其中~$\RS^-
+:= (\infty,0]$.
+
+此外,
+Higham~在文献~\cite{Higham1986}~还详细分析了~Newton~法~(\ref{it:NM_MatSquRoot})~
+在计算矩阵平方根时通常是数值不稳定性的. 事实上,
+要保证在利用~Newton~法~(\ref{it:NM_MatSquRoot})~计算矩阵平方根时是稳定的必要条件是~\cite{Higham1986}:
+$$
+\max_{i,j}\frac{1}{2}\left|1-\lambda_i^{1/2}\lambda_j^{-1/2}\right|
+< 1,
+$$
+其中~$\lambda_i$~为~$A$~的特征值, $i = 1,2,\ldots, n$. 显然,
+这是一个很强的限制. 例如, 若~$A$~为~Hermite~正定矩阵,
+则该条件等价于其条件数须满足~$\kappa_2(A) < 9$. 为此, Denman $\&$
+Beavers
+\cite{Denman1976}~给出了~Newton~法~(\ref{it:NM_MatSquRoot})~的
+一个具有数值稳定性~(详见~\cite[6.4~节]{Higham2008})~的耦合形式：
+\begin{equation}
+\label{it:NM_MatSquRoot_Coupled} \left\{
+\begin{array}{ll}
+\displaystyle X_{k + 1} = \frac{1}{2}(X_k + Y_k^{-1}), & X_0 =
+A, \\
+\displaystyle Y_{k + 1} = \frac{1}{2}(Y_k + X_k^{-1}), & Y_0 = \I.
+\end{array} \right.
+\end{equation}
+Higham~等在~\cite[定理~4.5]{Higham2005}~中证明了在较~(\ref{it:NM_MatSquRoot_Coupled})~
+更一般的耦合形式中仍可保证 当~$k \to \infty$~时, $X_k \to
+A^{1/2}$~且~$Y_k \to A^{-1/2}$. 易知, 对于任意的~$k\geq 0$, $Y_k
+\equiv A^{-1}X_k$,
+故由~(\ref{it:NM_MatSquRoot_Coupled})~迭代产生的矩阵序列~$\{X_k\}$~和由
+~(\ref{it:NM_MatSquRoot})~迭代产生的矩阵序列是相同的. 注意到,
+(\ref{it:NM_MatSquRoot_Coupled})~不仅是数值稳定的 ,
+且保持了~Newton~法的二阶收敛性. 特别地,
+这种处理方法将在计算矩阵~$p\, (> 2)$~次根中起到重要作用. 此外,
+还有其他具有数值稳定性的迭代法研究,
+如~Newton~法~(\ref{it:NM_MatSquRoot_Coupled})~的其他变形迭代法~\cite{Cheng2001,Iannazzo2003,Meini2004},
+Pad\'{e}~迭代法~\cite{Higham1997,Lu1998,Higham2005},
+二项迭代法~\cite{Alefeld1982,Butler1985,LinLiu2001},
+幂方法~\cite{Hasan1997}.
+
+
+
+
+
+%Note that Newton's method (\ref{it:NM}) and Halley's method
+%(\ref{it:HM}) are special cases as (dual) Pad\'{e} family of
+%iterations which have recently received particular interest for
+%computing both the principal $p$th root of a complex number and a
+%matrix, see for example
+%\cite{Gomilko2012,Laszkiewicz2009,Zietak2013,Iannazzo2008}.
+
+
+
+\subsection{矩阵~$p$~次根}
+
+作为矩阵平方根问题的推广, 矩阵~$p\,(>2)$~次根的计算问题更为复杂.
+给定矩阵~$A \in \CS^{n\times n}$~及任意的整数~$p \geq
+2$，如果存在矩阵~$X \in \CS^{n \times n}$~使得~$X^p =
+A$，那么称~$X$~为~$A$~的一个~$p$~次根. 特别地,
+若~$X$~满足由矩阵函数~$f(A)$~的定义~\ref{def:MatFun}~或其等价定义,
+则称~$X$~为~$A$~的准素~$p$~次根, 否则称为非准素~$p$~次根.
+
+
+%Given a square matrix , a matrix  is called a th root of $A$ if
+% for any integer . If $A$ has no eigenvalues on $\RS^-$,
+%the closed negative real axis, there exists a unique principal $p$th
+%root of $A$, denoted by $A^{1/p}$, which in turn has eigenvalues in
+%the segment $\{z: -\pi/p < \arg(z) < \pi/p\}$ \cite[Theorem
+%7.2]{Higham2008}.
+
+类似于定理~\ref{th:MatSquRoot_Existence},
+我们有如下的关于矩阵~$p$~次根的存在性定理.
+
+\begin{theorem}[矩阵~$p$~次根的存在性, {\cite{Psarrakos2002}}]
+\label{th:MatpthRoor_existence} 定义如下的整数列~$\{d_k\}$:
+$$
+d_k = \dim(\nspace(A^k)) - \dim(\nspace(A^{k-1})),\quad
+k=1,2,\ldots.
+$$
+矩阵~$A\in\CS^{n\times n}$~存在~$p$~次根的充要条件是
+对于任一整数~$\nu\geq0$,
+数列~$\{d_k\}$~中至多只有一个元素处于~$p\nu$~与~$p(\nu+1)$~之间.
+\end{theorem}
+
+类似于定理~\ref{th:MatSquRoot_Classification},
+我们有如下的关于矩阵~$p$~次根的分类定理.
+
+\begin{theorem}[矩阵~$p$~次根的分类~\cite{Smith2003}]
+设非奇异矩阵~$A\in\CS^{n\times
+n}$~的~Jordan~标准形由~$(\ref{eq:JorCanForm})$~给出,
+其所有不同的特征值数为~$r$.  如果~$r\leq s$, 那么~$A$~存在~$p^r$~
+个准素~$p$~次根, 由下式给出:
+$$
+X_j = Z \diag(L_1^{(j_1)},L_2^{(j_2)}, \ldots,
+L_s^{(j_s)})Z^{-1},\quad j = 1,2,\ldots, p^r,
+$$
+其中~$L_k^{(j_k)} \equiv L_k^{(j_k)}(\lambda_k) =
+f(J_k(\lambda_k))$, $j_k \in \{1,2,\ldots,p\}, k=1,2,\ldots,r$,
+当~$\lambda_i = \lambda_k$~时有~$j_i = j_k$. 特别地, 若$r < s$,
+则~$A$~存在非准素~$p$~次根, 其形式由下式给出:
+$$
+X_j(U) = ZU\diag(L_1^{(j_1)},L_2^{(j_2)}, \ldots,
+L_s^{(j_s)})U^{-1}Z^{-1}, \quad j = p^r+1, \ldots, p^s,
+$$
+其中~$j_k \in \{1,2,\ldots,p\}, k=1,2,\ldots,r$,
+$U$为任意与~$J$~可交换的非奇异矩阵, 对于每一个~$j$, 存在~$i$~和~$k$,
+使得当~$\lambda_i = \lambda_k$~时仍有~$j_i \neq j_k$.
+\end{theorem}
+
+基于上述的结果, 在实际计算中, 对于一般地矩阵~$A\in\CS^{n\times n}$,
+求解其~$p$~次根是件十分困难的事. 为此,
+我们考虑其中一类特殊矩阵的~$p$~次根求解问题.
+
+\begin{definition}[{\cite[定理~7.2]{Higham2008}}]
+\label{th:MatPricipalpthRoot} 设矩阵~$A\in\CS^{n\times
+n}$~的谱~$\sigma(A)$~满足~$\sigma(A) \subset \CS\backslash\RS^-$,
+其中~$\RS^- := (-\infty,0]$, 则~$A$~存在唯一的~$p$~次根~$X$,
+其所有的特征值均属于集合
+$$
+\left\{z\in \CS: -\frac{\pi}{p} < \arg(z) < \frac{\pi}{p}\right\}.
+$$
+此时, 称~$X$~为矩阵~$A$~的主~$p$~次根, 并记为~$X = A^{1/p}$.
+若~$A$~是实矩阵, 则~$A^{1/p}$~亦是实矩阵.
+\end{definition}
+
+矩阵~$p$~次根的应用目前主要出现在金融及其他矩阵函数的计算问题中,
+详细见文献~\cite{Higham2008,HighamLin2011,HighamLin2011a,Laszkiewicz2008,HighamAlMohy2010}~及其所列文献.
+类似于矩阵平方根的情形, 计算一个给定矩阵的
+主~$p$~次根~(若存在)~通常有直接法和迭代法两种途径.
+
+关于直接法, Smith
+\cite{Smith2003}~推广了计算矩阵平方根的算法~\ref{al:MatSquRoot_SchurMethod}~和
+~\ref{al:MatSquRoot_RealSchurMethod}~至~$p$~次根的情形.
+其算法的计算代价为~$O(pn^3)$. 基于~Smith~的工作, Greco $\&$ Iannazzo
+~在文献~\cite{GrecoIannazzo2010}~中给出了一种新的利用~Schur~分解来计算矩阵~$p$~次根的算法,
+该算法的计算代价降为~$O(n^3\log_2p + pn^2)$.
+这种新的算法在文献~\cite{Iannazzo2013}~中得到进一步的改进.
+
+%There are two various ways to deal with the matrix $p$th root. The
+%first way is to use the direct Schur decomposition of $A$, say
+%$Q^*AQ = R$, to solve the equation $Y^p = R$, instead of the
+%equation $X^p = A$, by appropriate recurrences on the elements of
+%$Y$, see for example
+%\cite{Smith2003,GrecoIannazzo2010,Iannazzo2013}. The second way is
+%to use the matrix iterations which converge to the principal $p$th
+%root of $A$, see for example
+%\cite{BiniHighamMeini2005,GuoHigham2006,Guo2010,Iannazzo2006,Iannazzo2008,
+%Laszkiewicz2009,Lin2010,Gomilko2012,Zietak2013}.
+%
+%
+%Methods based on Pad\'{e} approximation (Pad\'{e} family of
+%iterations and dual Pad\'{e} family of iterations) for computing the
+%principal $p$th root are also investigated by several authors, see
+%for example \cite{Laszkiewicz2009, Gomilko2012,Zietak2013}. Note
+%that Newton's method and Halley's method are special cases as dual
+%Pad\'{e} family of iterations. Meanwhile, Halley's method is also a
+%special case of Pad\'{e} family of iterations, see \cite{Zietak2013}
+%for more details.
+
+关于迭代法,
+目前的研究主要集中在~Newton~法~\cite{Iannazzo2006,Iannazzo2008,GuoHigham2006,Guo2010},
+Halley~法~\cite{Iannazzo2008,Lin2010,Guo2010}~及
+~Pad\'{e}~型迭代族法~\cite{Laszkiewicz2009,HighamLin2011,Cardoso2011,Cardoso2011a,Gomilko2012,Gomilko2012a,HighamLin2013,Zietak2013},
+其他的方法可参见文献~\cite{Shieh1985,Tsay1986,Tsai1988,Lakic1998,BiniHighamMeini2005}.
+对于计算矩阵~$p$~次根的~Pad\'{e}~迭代族法, 是由~Laszkiewicz $\&$
+Zi\c{e}tak \cite{Laszkiewicz2009}~
+基于文献~\cite{Kenney1991}~对矩阵符号函数的研究而提出的有理迭代法.
+最近, 受文献~\cite{Greco2012}~启发, Zi\c{e}tak~
+在文献~\cite{Zietak2013}~中提出了另一种~Pad\'{e}~型迭代族法,
+称为对偶~Pad\'{e}~迭代族法. 需要指出的是, 在计算矩阵~$p$~次根时,
+Halley~法的迭代格式刚好是~Pad\'{e}~迭代族法的一个特例,
+而~Newton~法的迭代格式则刚好是对偶~Pad\'{e}~迭代族法的一个特例,
+详见~\cite{Laszkiewicz2009,Zietak2013}.
+
+
+
+本文我们只关注~Newton~法和~Halley~法. 首先考虑~Newton~法.
+类似于矩阵平方根的情形, 给定矩阵~$A\in\CS^{n\times n}$,
+应用~Newton~法~(\ref{it:NM_BanachSpace})~对矩阵方程~$f(X) := X^p-A =
+0,\, (p>2)$~进行求解时,
+可通过迭代格式~(\ref{it:NM_MatSquRoot_original})~实现,
+此时~$E_k$~通过如下的广义~Sylvester~方程得到:
+$$
+\sum_{\ell=1}^p X_k^{p-\ell} E_k X_k^{\ell-1} = A - X_k^p.
+$$
+特别地, 同矩阵平方根的情形一样, 当初始点~$X_0$~与~$A$~可交换时,
+可得知对任意的~$k\geq 1$, $X_k$~均与~$A$~可交换.
+于是得到如下计算矩阵主~$p$~次根的简化~Newton~法:
+\begin{equation}
+\label{it:NM_MatpthRoot_original} X_{k+1} = \frac{1}{p}[(p - 1)X_k +
+X_k^{1-p}A], \quad X_0A = AX_0.
+\end{equation}
+
+当初始点取~$X_0 = A$~且~$A$~为正定矩阵时, Hoskins $\&$
+Walton~\cite{Hoskins1979}
+证明了~Newton~法~(\ref{it:NM_MatpthRoot_original})~二阶收敛于~$A^{1/p}$.
+进一步, 当初始点取~$X_0 = A$~且~$A$~为一般的矩阵时,
+Smith~\cite{Smith2003}
+证明了~Newton~法~(\ref{it:NM_MatpthRoot_original})~仍然是二阶收敛的.
+特别地, 当初始点取~$X_0 = \I$~时, Iannazzo
+\cite{Iannazzo2006}~得到了如下的收敛性结果:
+
+\begin{theorem}[\cite{Iannazzo2006}]
+\label{th:Conv_NM_Ian2006} 给定矩阵~$A\in\CS^{n\times n}$,
+设其谱为~$\sigma(A)$. 若~$\sigma(A) \subset \MCE_1$, 其中
+\begin{equation}
+\label{set:ConvReg_NM_Ian2006} \MCE_1 := \{z\in\CS: \Real{z}
+>0, |z| \leq 1\},
+\end{equation}
+则以~$X_0 = \I$~为初始点的
+~Newton~法~$(\ref{it:NM_MatpthRoot_original})$~
+所产生的矩阵序列~$\{X_k\}$~收敛于矩阵~$A$~的主~$p$~次根~$A^{1/p}$.
+\end{theorem}
+
+根据定理~\ref{th:Conv_NM_Ian2006},
+考察~Newton~法~$(\ref{it:NM_MatpthRoot_original})$~在计算~$A^{1/p}$~~时的收敛性的关键是
+确定矩阵~$A$~的谱~$\sigma(A)$~的具体分布.
+我们称由~(\ref{set:ConvReg_NM_Ian2006})~确定的集~$\MCE_1$~为~Newton~法
+~$(\ref{it:NM_MatpthRoot_original})$~计算~$A^{1/p}$~的一个收敛域.
+之后, Iannazzo~在~\cite{Iannazzo2008}~得到了关于~Newton~法
+~$(\ref{it:NM_MatpthRoot_original})$~的一个新收敛域:
+
+\begin{theorem}[\cite{Iannazzo2008}]
+\label{th:Conv_NM_Ian2008} 给定矩阵~$A\in\CS^{n\times n}$,
+设其谱为~$\sigma(A)$. 若~$\sigma(A) \subset \MCE_2$, 其中
+\begin{equation}
+\label{set:ConvReg_NM_Ian08} \MCE_2 := \left\{z\in\CS: |z|\leq 2,
+|\arg(z)|< \frac{\pi}{4}\right\},
+\end{equation}
+则以~$X_0 = \I$~为初始点的
+~Newton~法~$(\ref{it:NM_MatpthRoot_original})$~
+所产生的矩阵序列~$\{X_k\}$~收敛于矩阵~$A$~的主~$p$~次根~$A^{1/p}$.
+\end{theorem}
+
+最近, Guo \cite{Guo2010}~进一步得到了一个更好的收敛域:
+
+\begin{theorem}[\cite{Guo2010}]
+\label{th:Conv_NM_Guo2010} 给定矩阵~$A\in\CS^{n\times n}$,
+设其谱为~$\sigma(A)$. 若~$\sigma(A) \subset
+\MCE_3$~且零特征值~$($若存在$)$~是半单的, 其中
+\begin{equation}
+\label{set:ConvReg_NM_Guo2010} \MCE_3 := \{z\in\CS: |z-1| \leq 1\},
+\end{equation}
+则以~$X_0 = \I$~为初始点的
+~Newton~法~$(\ref{it:NM_MatpthRoot_original})$~
+所产生的矩阵序列~$\{X_k\}$~收敛于矩阵~$A$~的主~$p$~次根~$A^{1/p}$,
+且是二阶收敛的.
+\end{theorem}
+
+
+然而, 在实际计算中~Newton~法~(\ref{it:NM_MatpthRoot_original})~
+的数值稳定性并不好. 事实上, 若~$\lambda_1, \ldots,
+\lambda_n$~为矩阵~$A$~的特征值,
+则保证迭代~(\ref{it:NM_MatpthRoot_original})~是数值稳定的必要条件是~\cite{Smith2003}
+$$
+\frac{1}{p} \left|(p-1) - \sum_{r=1}^{p-1}
+\left(\frac{\lambda_i}{\lambda_j}\right)^{r/p}\right| \leq 1, \quad
+i, j = 1, \ldots, n.
+$$
+类似于矩阵平方根的情形, 该条件同样是一个很强的限制,
+通常情况下很难得到满足. 因此, 基于~Denman $\&$
+Beavers~在计算矩阵平方根时所给出的具有数值稳定性的
+~Newton~法~(即耦合~Newton~法~(\ref{it:NM_MatSquRoot_Coupled})),
+Iannazzo \cite{Iannazzo2006}提出了如下的~Newton~迭代格式来计算矩阵
+~$p$~次根:
+\begin{equation}
+\label{it:NM_MatpthRoot_Coupled} \left\{
+\begin{array}{ll}
+\displaystyle X_{k + 1} = X_k \left(\frac{(p-1)\I + N_k}{p}\right),
+& X_0 = \I, \\
+\displaystyle N_{k + 1} = \left(\frac{(p-1)\I + N_k}{p}\right)^{- p}
+N_k, & N_0 = A.
+\end{array} \right.
+\end{equation}
+称~(\ref{it:NM_MatpthRoot_Coupled})~为耦合~Newton~法,
+该迭代格式的一个优点是具有很好的数值稳定性. 显然,
+由~(\ref{it:NM_MatpthRoot_Coupled})~迭代产生的矩阵序列~$\{X_k\}$~与
+由~(\ref{it:NM_MatpthRoot_original})~迭代产生的矩阵序列是相同的.
+故定理~\ref{th:Conv_NM_Ian2006},
+\ref{th:Conv_NM_Ian2008}~和~\ref{th:Conv_NM_Guo2010}~保证了~$\{X_k\}$~的收敛性.
+特别地, 当~$N_k \to \I$~时~$X_k \to A^{1/p}$. 之后, Guo $\&$
+Higham~在~ \cite{GuoHigham2006}~给出了一种含参数的耦合~Newton~法:
+\begin{equation}
+\label{it:NM_MatpthRoot_ParCoupled} \left\{
+\begin{array}{ll}
+\displaystyle X_{k + 1} = \left(\frac{(p+1)\I -
+N_k}{p}\right)^{-1}X_k,
+& X_0 = c\I, \\
+\displaystyle N_{k + 1} = \left(\frac{(p+1)\I - N_k}{p}\right)^p
+N_k, & \displaystyle N_0 = \frac{1}{c^p}A.
+\end{array} \right.
+\end{equation}
+显然, 当~$N_k \to \I$~时~$X_k \to A^{1/p}$. 此外,
+也给出了计算矩阵~$p$~次根的算法
+~\ref{al:MatpthRoot_ParSchurNewton_GuoHig06}.
+
+\begin{algorithm}[h!]
+\floatname{algorithm}{算法}
+\caption{计算矩阵主~$p$~次根的含参数~Schur-Newton~法~\cite[算法~
+3.3]{GuoHigham2006}} \label{al:MatpthRoot_ParSchurNewton_GuoHig06}
+给定矩阵~$A\in\RS^{n\times n}$, 其所有特征值都不属于~$\RS^- :=
+(-\infty,0]$. 给定整数~$p\geq 2$, 则存在整数~$k_0 \geq
+0$~及奇数~$q$~使得~$p = 2^{k_0}q$.
+本算法通过实~Schur~分解和含参数耦合~Newton~法~
+(\ref{it:NM_MatpthRoot_ParCoupled})~
+来计算~$A$~的主~$p$~次根~$A^{1/p}$.
+\begin{list}{\arabic{newlist}.}{\usecounter{newlist}
+\setlength{\rightmargin}{0em}\setlength{\leftmargin}{1.2em}}
+\item
+计算矩阵~$A$~的实~Schur~分解~$A = QR\tran{Q}$.
+\item
+若~$q=1$, 令~$k_1 = k_0$; 若~$q\neq1$, 则选取~$k_1\geq k_0$~使得
+$|\lambda_1/\lambda_n|^{1/2^{k_1}}\leq 2$, 其中~$\lambda_1,\ldots,
+\lambda_n$~为~$A$~的特征值且满足~$|\lambda_n|\leq \cdots \leq
+|\lambda_1|$, 当~$\lambda_\ell$~不全是实数时,
+重新选取~$k_1$~使得对任意的~$\ell \in \{1,2,\ldots,n\}$~都有
+$$
+\arg(\lambda_\ell^{1/2^{k_1}}) \in
+\left(-\frac{\pi}{8},\frac{\pi}{8}\right).
+$$
+\item
+通过算法~\ref{al:MatSquRoot_RealSchurMethod}~计算~$B =
+R^{1/{2^{k_1}}}$.
+\item
+若~$q=1$, 则令~$X = QB\tran{Q}$；若~$q\neq 1$, 则先选取参数~$c$,
+再通过含参数耦合~Newton~法~ (\ref{it:NM_MatpthRoot_ParCoupled})~
+来计算~$C = B^{1/q}$~并令~$X = QC^{2^{k_1-k_0}}\tran{Q}$.
+\end{list}
+\end{algorithm}
+
+进一步, 在~\cite{Iannazzo2008}~中,
+Iannazzo~给出了使用~(\ref{it:NM_MatpthRoot_Coupled})~来计算矩阵主~$p$~次根的算法~
+\ref{al:MatpthRoot_SchurNewton_Ian08}.
+该算法相比于算法~\ref{al:MatpthRoot_ParSchurNewton_GuoHig06},
+有着相同的好的计算效果, 且大多数情况下所需要的平方根计算次数会较少.
+
+\begin{algorithm}[h!]
+\floatname{algorithm}{算法}
+\caption{计算矩阵主~$p$~次根的~Schur-Newton~法~\cite[算法~
+3]{Iannazzo2008}} \label{al:MatpthRoot_SchurNewton_Ian08}
+给定矩阵~$A\in\RS^{n\times n}$, 其所有特征值都不属于~$\RS^- :=
+(-\infty,0]$. 给定整数~$p\geq 2$, 则存在整数~$k_0 \geq
+0$~及奇数~$q$~使得~$p = 2^{k_0}q$.
+本算法通过实~Schur~分解和耦合~Newton~法~(\ref{it:NM_MatpthRoot_Coupled})~
+来计算~$A$~的主~$p$~次根~$A^{1/p}$.
+\begin{list}{\arabic{newlist}.}{\usecounter{newlist}
+\setlength{\rightmargin}{0em}\setlength{\leftmargin}{1.2em}}
+\item
+计算矩阵~$A$~的实~Schur~分解~$A = QR\tran{Q}$.
+\item
+若~$q=1$, 令~$k_1 = k_0$; 若~$q\neq1$, 则选取~$k_1\geq k_0$~使得
+存在正数~$s$~使任意~$A$~的特征值~$\lambda$~满足
+$$
+s \lambda^{1/{2^{k_1}}} \in \left\{z\in \CS: \left|z -
+\frac{6}{5}\right| \leq \frac{3}{4}\right\}.
+$$
+\item
+通过算法~\ref{al:MatSquRoot_RealSchurMethod}~计算~$B =
+R^{1/{2^{k_1}}}$.
+\item
+若~$q=1$, 则令~$X = QB\tran{Q}$；若~$q\neq 1$,
+则通过耦合~Newton~法~(\ref{it:NM_MatpthRoot_Coupled})~ 来计算~$C =
+(B/s)^{1/q}$~并令~$X = Q(Cs^{1/q})^{2^{k_1-k_0}}\tran{Q}$.
+\end{list}
+\end{algorithm}
+
+
+
+再者考虑~Halley~法.
+Halley~法是计算矩阵~$p$~次根的另一种重要的迭代法. 类似于~Newton~法,
+若初始点~$X_0$~与矩阵~$A$~可交换,
+则可得如下的计算矩阵~$p$~次根的简化~Halley~法:
+\begin{equation}
+\label{it:HM_MatpthRoot_original} X_{k+1} = X_k\left((p+1)X_k^p +
+(p-1)A\right)^{-1} \left((p-1)X_k^p + (p+1)A\right), \quad AX_0 =
+X_0A.
+\end{equation}
+特别地, 初始点取为~$X_0 = \I$~是研究时主要考虑的情形,
+如~\cite{Iannazzo2008,Guo2010,Lin2010,Laszkiewicz2009,Zietak2013}.
+关于~Halley~(\ref{it:HM_MatpthRoot_original})~法的收敛性,  Iannazzo
+\cite{Iannazzo2008}~得到了如下的结果:
+
+\begin{theorem}[\cite{Iannazzo2008}]
+\label{th:Conv_HM_Ian08} 给定矩阵~$A\in\CS^{n\times n}$,
+设其谱为~$\sigma(A)$. 若
+\begin{equation}
+\label{set:ConvReg_HM_Ian08} \sigma(A) \subset  \MCE_4 := \{z\in
+\CS: \Real{z}>0\},
+\end{equation}
+则以~$X_0 = \I$~为初始点的
+~Halley~法~$(\ref{it:HM_MatpthRoot_original})$~
+所产生的矩阵序列~$\{X_k\}$~收敛于矩阵~$A$~的主~$p$~次根~$A^{1/p}$.
+\end{theorem}
+
+Guo~在~\cite{Guo2010}~中进一步证明了当 ~$\sigma(A) \subset
+\MCE_4$~时~Halley~法~(\ref{it:HM_MatpthRoot_original})~是~Q~三阶收敛的.
+应用在~\cite{Iannazzo2006}~中对~Newton~法稳定性的分析方法可知,
+Halley~法~(\ref{it:HM_MatpthRoot_original})~同样在数值计算中是不稳定的.
+故类似于~Newton~法,
+可引入如下的具有数值稳定的耦合形式的~Halley~法~\cite{Iannazzo2008}:
+\begin{equation}
+\label{it:HM_MatpthRoot_Coupled} \left\{
+\begin{array}{ll}
+\displaystyle X_{k+1} = X_k\left((p+1)\I + (p-1)N_k\right)^{-1}
+\left((p-1)\I + (p+1)N_k\right),
+& X_0 = \I, \\
+\displaystyle N_{k + 1}  = N_k\left((p+1)\I + (p-1)N_k\right)^{-1}
+\left((p-1)\I + (p+1)N_k\right), & \displaystyle N_0 = A.
+\end{array} \right.
+\end{equation}
+显然,
+由~(\ref{it:HM_MatpthRoot_Coupled})~迭代产生的矩阵序列~$\{X_k\}$~与
+由~(\ref{it:HM_MatpthRoot_original})~迭代产生的矩阵序列是相同的.
+故定理~\ref{th:Conv_HM_Ian08}~保证了~$\{X_k\}$~的收敛性. 特别地,
+当~$N_k \to \I$~时~$X_k \to A^{1/p}$.
+算法~\ref{al:MatpthRoot_SchurHalley_Ian08}~
+给出了应用耦合~Halley~法~(\ref{it:HM_MatpthRoot_Coupled})~
+来计算~$A$~的主~$p$~次根~$A^{1/p}$. 需要指出的是,
+该算法中的收敛域并不是~$\MCE_4$, 而是~Iannazzo~通过实验而得到的,
+因为~$\MCE_4$~不能保证~Halley~法的局部三阶收敛速度.
+
+\begin{algorithm}[h!]
+\floatname{algorithm}{算法}
+\caption{计算矩阵主~$p$~次根的~Schur-Halley~法~\cite[算法~
+4]{Iannazzo2008}} \label{al:MatpthRoot_SchurHalley_Ian08}
+给定矩阵~$A\in\RS^{n\times n}$, 其所有特征值都不属于~$\RS^- :=
+(-\infty,0]$. 给定整数~$p\geq 2$, 则存在整数~$k_0 \geq
+0$~及奇数~$q$~使得~$p = 2^{k_0}q$.
+本算法通过实~Schur~分解和对偶~Halley~法~(\ref{it:HM_MatpthRoot_Coupled})~
+来计算~$A$~的主~$p$~次根~$A^{1/p}$.
+\begin{list}{\arabic{newlist}.}{\usecounter{newlist}
+\setlength{\rightmargin}{0em}\setlength{\leftmargin}{1.2em}}
+\item
+计算矩阵~$A$~的实~Schur~分解~$A = QR\tran{Q}$.
+\item
+若~$q=1$, 令~$k_1 = k_0$; 若~$q\neq1$, 则选取~$k_1\geq k_0$~使得
+存在正数~$s$~使任意~$A$~的特征值~$\lambda$~满足
+$$
+s \lambda^{1/{2^{k_1}}} \in \left\{z\in \CS: \left|z -
+\frac{8}{5}\right| \leq 1\right\}.
+$$
+\item
+通过算法~\ref{al:MatSquRoot_RealSchurMethod}~计算~$B =
+R^{1/{2^{k_1}}}$.
+\item
+若~$q=1$, 则令~$X = QB\tran{Q}$；若~$q\neq 1$,
+则通过耦合~Halley~法~(\ref{it:HM_MatpthRoot_Coupled})~ 来计算~$C =
+(B/s)^{1/q}$~并令~$X = Q(Cs^{1/q})^{2^{k_1-k_0}}\tran{Q}$.
+\end{list}
+\end{algorithm}
+
+
+
+
+Euler~法~(\ref{it:EM_BanachSpace})~作为~Halley-Euler~迭代族~(\ref{it:HEFM_BanachSpace})~的另一个重要特例,
+考察该三阶收敛的迭代法在计算矩阵~$p$~次根时的收敛行为是自然的. 目前,
+关于该迭代法在计算矩阵~$p$~次根的研究还很少, Cardoso $\&$ Loureiro
+\cite{Cardoso2011,Cardoso2011a}~研究了~Euler~法在计算复数~$p$~次根的收敛行为.
+本文的一个重要内容是研究Euler法在计算矩阵~$p$~次根时的收敛行为~(见第三章),
+并与~Newton~法及~Halley~法在数值效能上进行比较~(见第四章), 结果显示,
+Euler~法在计算矩阵~$p$~次根时同样有着很好的计算效能,
+且在多数情况下所需要的计算时间要少于~Newton~法和~Halley~法.
+
+
+关于收敛性结果, 虽然~Euler~法和~Halley~法都是具有三阶收敛的迭代法,
+但关于~Euler~法我们无法得到同~Halley~法一样的收敛域~(即由~(\ref{set:ConvReg_HM_Ian08})~定义的收敛域~$\MCE_4$),
+这是由迭代法本身固有的性质所决定.
+
+对于一个有理迭代函数~$\psi(z)$,
+满足~$\psi(\lambda)=\lambda$~的~$\lambda$~称为~$\psi$~的一个不动点.
+如果不动点~$\lambda$~还满足~$|\psi'(\lambda)| < 1$,
+则称作是吸引不动点. 如果不动点~$\lambda$~满足~$|\psi'(\lambda)| >
+1$, 则称作是排斥不动点. 特别地, 当~$\psi'(\lambda)=0$~时,
+称不动点~$\lambda$~为~$\psi$~的超吸引不动点.
+
+计算~$z^p - \lambda = 0$~的~Newton~迭代函数~$N(z)$,
+Halley~迭代函数~$H(z)$~及~Euler~迭代函数~$E(z)$~分别为:
+\begin{align*}
+N(z) & = \frac{(p-1)z+\lambda z^{1-p}}{p}, \\
+H(z) & = z \frac{(p-1)z^p + (p+1)\lambda}{(p+1)z^p + (p-1)\lambda},
+\\
+E(z) & = \frac{1}{2p^2} z \left[(2 p^2 - 3 p + 1) + 2(2 p -
+1)\lambda z^{-p} - (p - 1)\left( \lambda z^{-p}\right)^2\right].
+\end{align*}
+对于~$N(z)$, 所有的不动点都是~$\lambda$~的~$p$~次根,
+且都是超吸引不动点. 对于~$H(z)$,
+$\lambda$~的~$p$~次根也都是超吸引不动点, 除此之外,
+还存在一个额外不动点~$\lambda = 0$, 但该额外不动点是排斥不动点.
+而对于~$E(z)$, 同样~$\lambda$~的~$p$~次根都是超吸引不动点,
+其额外不动点包括~$\lambda = 0$~及~$(p-1)\lambda/(3p-1)$~的~$p$~次根.
+由此即可知, Euler~法不可能有~Halley~法那么大范围的收敛域.
+
+
+%
+%
+%The results concerning convergence of these two methods have
+%recently been studied under the assumption that the eigenvalues of
+%$A$ are all lie in some region, see for example
+%\cite{GuoHigham2006,Guo2010,Iannazzo2006,Iannazzo2008,Lin2010,Zietak2013}.
+%In particular, Guo in \cite{Guo2010} shown that the matrix sequence
+%$\{X_k\}$ generated by Newton's method (\ref{it:NM}) starting from
+%the identity matrix converges to the principal $p$th root of $A$ if
+%all of whose eigenvalues lie in the set $\MCE_1 :=\{z\in\CS:
+%|z-1|\leq 1\}$. Iannazzo obtained in \cite{Iannazzo2008} that the
+%matrix sequence $\{X_k\}$ generated by Halley's method (\ref{it:HM})
+%starting also from the identity matrix converges to $A^{1/p}$ for
+%each $A$ having eigenvalues in the set $\MCE_2 := \{z\in\CS: \Real z
+%> 0\}$.
+%$\I$
+
+
+
+
+
+
+
+%\subsection{代数~Riccati~方程}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{论文的组织}
+
+
+
+本文的主要内容是研究~Newton~法、Halley~法及~Euler~法这三种典型的迭代算法
+在计算一个给定矩阵的~$p$~次根时的收敛行为, 其中整数~$p\geq2$.
+本论文的主要研究内容及结果如下:
+
+在第一章中, 我们首先对若干重要~Newton~型迭代法的收敛理论作了概述.
+然后对在矩阵平方根及矩阵~$p$~次根两个方面的研究进展作了介绍.
+对于矩阵平方根, 除了介绍~Newton~法的研究内容外,
+主要介绍了计算复矩阵和实矩阵平方根的相应标准算法
+~(算法~\ref{al:MatSquRoot_SchurMethod}~和~\ref{al:MatSquRoot_RealSchurMethod}).
+这两个标准算法将为设计计算矩阵~$p$~次根算法提供有效支持.
+对于矩阵~$p$~次根, 主要介绍目前研究的两种常用途径:
+基于~Schur~分解的直接计算法和迭代法,
+其中第一种途径是基于矩阵平方根的上述两种标准算法推广而得的,
+而第二种途径主要是研究~Newton~型迭代法的收敛行为.
+本文所关注的是第二种途径.
+
+在第二章中,
+基于~Iannazzo~在文献~\cite{Iannazzo2006}~中所得到的结果~(即
+是研究所给定的矩阵~$A$~的谱的范围~(称之为迭代法的收敛域)~
+以保证~Newton~法在以单位矩阵为初始点所产生的矩阵序列能够收敛到矩阵~$A$~的主~$p$~次根~$A^{1/p}$),
+我们进一步研究了~Newton~法在计算矩阵~$p$~次根的收敛行为,
+得到了比现有结果更大的收敛域~$\MCR_{\text{N}}$~(见式~(\ref{set:NM_R})),
+并且在该收敛域中能够保证~Newton~法局部的二阶收敛性质.
+
+
+在第三章中,
+我们研究了~Euler~法~(\ref{it:EM_BanachSpace})~在计算矩阵~$p$~次根的收敛行为,
+并得到了一个收敛域~$\MCR_{\text{E}}$~(见式~(\ref{set:EM_R})),
+使得~Euler~法可以保持其快速的局部三阶收敛速度. 此外,
+我们还讨论了~Euler~法的数值稳定性问题.
+说明了当初始点~$X_0$~与矩阵~$A$~可交换时,
+将~Euler~法~(\ref{it:EM_BanachSpace})~应用于矩阵方程~$X^p -
+A=0$~所得到的矩阵迭代格式在计算矩阵~$p$~次根时其数值稳定性很差,
+于是类似于~Newton~法,
+我们给出了一个具有数值稳定性的变形~Euler~迭代格式.
+类似地收敛性分析方法应用于~Halley~法,
+我们同时也得到了关于~Halley~法一个新的收敛域, 在该收敛域中,
+可以使~Halley~法仍然保持其局部的三阶收敛速度.
+
+
+
+最后在第四章中, 根据所得到的三个迭代算法的收敛性结果,
+结合~Schur~分解及矩阵平方根算法的计算优点,
+我们给出了一个带有预处理的新的计算矩阵~$p$~次根的算法框架.
+基于该框架, 选用不同的迭代法及相应的收敛域得到不同的算法.
+然后通过若干的数值算例来验证所得到的收敛性结果在计算矩阵~$p$~根时具有明显的优势.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%%
