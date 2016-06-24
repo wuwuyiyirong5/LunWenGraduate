@@ -7,7 +7,12 @@
 \contentsline {table}{\numberline {3.1}{\ignorespaces 用移动网格计算碰撞流的误差，$\nu = 1.0$。}}{36}{table.3.1}
 \contentsline {table}{\numberline {3.2}{\ignorespaces 用移动网格计算碰撞流的散度和涡量误差， $\nu = 1.0$。}}{36}{table.3.2}
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces 方腔流: 对比用 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces AMG 和 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces ILU 预处理来求解 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces \textup {\hbox {\mathsurround \z@ \normalfont \CJKfamily {rm}(\ignorespaces \ref {eq::linear_system}\unskip \@@italiccorr )}} 时，GMRES 的迭代步数，$Re = 2000$。}}{61}{table.4.1}
-\contentsline {table}{\numberline {4.2}{\ignorespaces 方腔流：对比用不同的预处理矩阵 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces $M_S^*$，求解 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces \textup {\hbox {\mathsurround \z@ \normalfont \CJKfamily {rm}(\ignorespaces \ref {eq::full_discreted_update}\unskip \@@italiccorr )}} 时，GMRES 平均迭代次数，$Re = 2000$。}}{61}{table.4.2}
+\contentsline {table}{\numberline {4.1}{\ignorespaces 方腔流: 对比用 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces AMG-PCD 和 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces ILU 预处理来求解 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces \textup {\hbox {\mathsurround \z@ \normalfont \CJKfamily {rm}(\ignorespaces \ref {eq::linear_system}\unskip \@@italiccorr )}} 时，GMRES 的迭代步数，$Re = 2000$。}}{59}{table.4.1}
+\contentsline {table}{\numberline {4.2}{\ignorespaces 方腔流：对比用不同的预处理矩阵 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces $M_S^*$，求解 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces \textup {\hbox {\mathsurround \z@ \normalfont \CJKfamily {rm}(\ignorespaces \ref {eq::full_discreted_update}\unskip \@@italiccorr )}} 时，GMRES 平均迭代次数，$Re = 2000$。}}{60}{table.4.2}
 \contentsline {table}{\numberline {4.3}{\ignorespaces 圆柱绕流：对比用不同的预处理矩阵 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces $F_p$ 和 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces $M_S^*$ 分别求解 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces \textup {\hbox {\mathsurround \z@ \normalfont \CJKfamily {rm}(\ignorespaces \ref {eq::linear_system}\unskip \@@italiccorr )}} 和 \hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces \textup {\hbox {\mathsurround \z@ \normalfont \CJKfamily {rm}(\ignorespaces \ref {eq::full_discreted_update}\unskip \@@italiccorr )}} 时，GMRES 的平均迭代次数，$\alpha = 5, Re = 240$。}}{63}{table.4.3}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
 \addvspace {10\p@ }

@@ -1,6 +1,6 @@
+\let \CTEX@spaceChar \relax 
 \contentsline {chapter}{摘\CTEX@spaceChar \CTEX@spaceChar 要}{i}{chapter*.1}
 \contentsline {chapter}{Abstract}{iii}{chapter*.2}
-\let \CTEX@spaceChar \relax 
 \contentsline {chapter}{目\CTEX@spaceChar \CTEX@spaceChar 录}{v}{chapter*.3}
 \contentsline {chapter}{\numberline {第\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces 1\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces 章\hspace {0.3em}}绪论}{1}{chapter.1}
 \contentsline {section}{\numberline {1.1}引言}{1}{section.1.1}
@@ -13,7 +13,7 @@
 \contentsline {section}{\numberline {2.4}预处理方法}{11}{section.2.4}
 \contentsline {subsection}{\numberline {2.4.1}针对Stokes方程}{11}{subsection.2.4.1}
 \contentsline {subsection}{\numberline {2.4.2}针对Navier-Stokes方程}{19}{subsection.2.4.2}
-\contentsline {chapter}{\numberline {第\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces 3\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces 章\hspace {0.3em}}基于$4P_1-P_1$元求解\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces Navier-Stokes 方程的移动网格有限元方法}{23}{chapter.3}
+\contentsline {chapter}{\numberline {第\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces 3\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces 章\hspace {0.3em}}基于$4P_1-P_1$元求解不可压\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces N-S 方程的移动网格有限元方法}{23}{chapter.3}
 \contentsline {section}{\numberline {3.1}数据结构}{24}{section.3.1}
 \contentsline {section}{\numberline {3.2}混合元近似}{24}{section.3.2}
 \contentsline {subsection}{\numberline {3.2.1}流体方程}{24}{subsection.3.2.1}
@@ -26,10 +26,10 @@
 \contentsline {subsection}{\numberline {3.4.4}散度为\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces $0$ 的插值}{33}{subsection.3.4.4}
 \contentsline {section}{\numberline {3.5}数值算例}{36}{section.3.5}
 \contentsline {subsection}{\numberline {3.5.1}碰撞流}{36}{subsection.3.5.1}
-\contentsline {subsection}{\numberline {3.5.2}喷射流}{37}{subsection.3.5.2}
+\contentsline {subsection}{\numberline {3.5.2}喷射流}{36}{subsection.3.5.2}
 \contentsline {subsection}{\numberline {3.5.3}流体经过一个凹形台阶}{38}{subsection.3.5.3}
-\contentsline {subsection}{\numberline {3.5.4}圆柱绕流}{43}{subsection.3.5.4}
-\contentsline {chapter}{\numberline {第\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces 4\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces 章\hspace {0.3em}}不可压\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces Navier-Stokes 方程的代数多重网格预处理的移动网格有限元方法}{47}{chapter.4}
+\contentsline {subsection}{\numberline {3.5.4}圆柱绕流}{38}{subsection.3.5.4}
+\contentsline {chapter}{\numberline {第\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces 4\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces 章\hspace {0.3em}}自适应网格上不可压\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces N-S 方程的代数多重网格预处理策略}{47}{chapter.4}
 \contentsline {section}{\numberline {4.1}数值离散}{48}{section.4.1}
 \contentsline {subsection}{\numberline {4.1.1}时间方向的离散}{48}{subsection.4.1.1}
 \contentsline {subsection}{\numberline {4.1.2}空间离散}{51}{subsection.4.1.2}
@@ -37,8 +37,15 @@
 \contentsline {section}{\numberline {4.3}移动网格策略}{55}{section.4.3}
 \contentsline {subsection}{\numberline {4.3.1}网格移动的流程}{55}{subsection.4.3.1}
 \contentsline {subsection}{\numberline {4.3.2}用AMG 预处理求解\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces \textup {\hbox {\mathsurround \z@ \normalfont \CJKfamily {rm}(\ignorespaces \ref {eq::full_discreted_update}\unskip \@@italiccorr )}}}{56}{subsection.4.3.2}
-\contentsline {section}{\numberline {4.4}数值算例}{58}{section.4.4}
-\contentsline {subsection}{\numberline {4.4.1}方腔驱动流}{58}{subsection.4.4.1}
-\contentsline {subsection}{\numberline {4.4.2}向后台阶流}{59}{subsection.4.4.2}
+\contentsline {section}{\numberline {4.4}数值算例}{57}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}方腔驱动流}{57}{subsection.4.4.1}
+\contentsline {subsection}{\numberline {4.4.2}向后台阶流}{61}{subsection.4.4.2}
 \contentsline {subsection}{\numberline {4.4.3}圆柱绕流}{62}{subsection.4.4.3}
-\contentsline {chapter}{参考文献}{65}{chapter*.6}
+\contentsline {chapter}{\numberline {第\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces 5\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces 章\hspace {0.3em}}总结与工作展望}{67}{chapter.5}
+\contentsline {section}{\numberline {5.1}总结}{67}{section.5.1}
+\contentsline {section}{\numberline {5.2}工作展望}{68}{section.5.2}
+\contentsline {chapter}{参考文献}{69}{chapter*.6}
+\contentsline {chapter}{简\CTEX@spaceChar \CTEX@spaceChar 历}{79}{chapter*.7}
+\contentsline {chapter}{致\CTEX@spaceChar \CTEX@spaceChar 谢}{81}{chapter*.8}
+\contentsline {chapter}{浙江大学学位论文独创性声明}{83}{chapter*.9}
+\contentsline {chapter}{学位论文使用授权声明}{83}{chapter*.10}

@@ -12,7 +12,7 @@
 \BOOKMARK [1][-]{section.2.4}{2.4 预处理方法}{chapter.2}% 12
 \BOOKMARK [2][-]{subsection.2.4.1}{2.4.1 针对Stokes方程}{section.2.4}% 13
 \BOOKMARK [2][-]{subsection.2.4.2}{2.4.2 针对Navier-Stokes方程}{section.2.4}% 14
-\BOOKMARK [0][-]{chapter.3}{第 3 章 \040基于4P1-P1元求解 Navier-Stokes 方程的移动网格有限元方法}{}% 15
+\BOOKMARK [0][-]{chapter.3}{第 3 章 \040基于4P1-P1元求解不可压 N-S 方程的移动网格有限元方法}{}% 15
 \BOOKMARK [1][-]{section.3.1}{3.1 数据结构}{chapter.3}% 16
 \BOOKMARK [1][-]{section.3.2}{3.2 混合元近似}{chapter.3}% 17
 \BOOKMARK [2][-]{subsection.3.2.1}{3.2.1 流体方程}{section.3.2}% 18
@@ -28,7 +28,7 @@
 \BOOKMARK [2][-]{subsection.3.5.2}{3.5.2 喷射流}{section.3.5}% 28
 \BOOKMARK [2][-]{subsection.3.5.3}{3.5.3 流体经过一个凹形台阶}{section.3.5}% 29
 \BOOKMARK [2][-]{subsection.3.5.4}{3.5.4 圆柱绕流}{section.3.5}% 30
-\BOOKMARK [0][-]{chapter.4}{第 4 章 \040不可压 Navier-Stokes 方程的代数多重网格预处理的移动网格有限元方法}{}% 31
+\BOOKMARK [0][-]{chapter.4}{第 4 章 \040自适应网格上不可压 N-S 方程的代数多重网格预处理策略}{}% 31
 \BOOKMARK [1][-]{section.4.1}{4.1 数值离散}{chapter.4}% 32
 \BOOKMARK [2][-]{subsection.4.1.1}{4.1.1 时间方向的离散}{section.4.1}% 33
 \BOOKMARK [2][-]{subsection.4.1.2}{4.1.2 空间离散}{section.4.1}% 34
@@ -40,4 +40,11 @@
 \BOOKMARK [2][-]{subsection.4.4.1}{4.4.1 方腔驱动流}{section.4.4}% 40
 \BOOKMARK [2][-]{subsection.4.4.2}{4.4.2 向后台阶流}{section.4.4}% 41
 \BOOKMARK [2][-]{subsection.4.4.3}{4.4.3 圆柱绕流}{section.4.4}% 42
-\BOOKMARK [0][-]{chapter*.6}{参考文献}{}% 43
+\BOOKMARK [0][-]{chapter.5}{第 5 章 \040总结与工作展望}{}% 43
+\BOOKMARK [1][-]{section.5.1}{5.1 总结}{chapter.5}% 44
+\BOOKMARK [1][-]{section.5.2}{5.2 工作展望}{chapter.5}% 45
+\BOOKMARK [0][-]{chapter*.6}{参考文献}{}% 46
+\BOOKMARK [0][-]{chapter*.7}{简 \040历}{}% 47
+\BOOKMARK [0][-]{chapter*.8}{致 \040谢}{}% 48
+\BOOKMARK [0][-]{chapter*.9}{浙江大学学位论文独创性声明}{}% 49
+\BOOKMARK [0][-]{chapter*.10}{学位论文使用授权声明}{}% 50

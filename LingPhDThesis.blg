@@ -5,6 +5,10 @@ A level-1 auxiliary file: Chapters/chapter1.aux
 A level-1 auxiliary file: Chapters/chapter2.aux
 A level-1 auxiliary file: Chapters/chapter3.aux
 A level-1 auxiliary file: Chapters/chapter4.aux
+A level-1 auxiliary file: Chapters/chapter5.aux
+A level-1 auxiliary file: Chapters/resume.aux
+A level-1 auxiliary file: Chapters/thanks.aux
+A level-1 auxiliary file: Chapters/statements.aux
 Database file #1: references/mathpaper.bib
 Repeated entry---line 1212 of file references/mathpaper.bib
  : @book{brenner2007mathematical

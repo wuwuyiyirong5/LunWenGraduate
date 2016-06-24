@@ -1,16 +1,16 @@
 %%---------------------------------------------------------------------------------------------------%%
-%%------ 第三章：基于4P1-P1元求解Navier-Stokes方程的移动网格有限元方法 ------------------------------------%%
+%%------ 第三章：基于4P1-P1元求解不可压Navier-Stokes方程的移动网格有限元方法 ------------------------------------%%
 %%---------------------------------------------------------------------------------------------------%%
 
 
-\chapter{基于$4P_1-P_1$元求解~Navier-Stokes 方程的移动网格有限元方法}
+\chapter{基于$4P_1-P_1$元求解不可压~N-S 方程的移动网格有限元方法}
 \label{chapter:4P1-P1_moving}
 
 
     根据上一章，我们知道混合元是求解不可压~Navier-Stokes 方程的一种重要
     方法。为了保证解的存在唯一性，需要使速度和压力两个解所在的空间满足
     ~LBB 条件。其中一种办法是使得速度空间相对压力空间来说，自由度足够多，
-    例如~Mini 元，Taylor-Hood 元等等。另外一中方法是对压力空间施加一些约束，
+    例如 ~Taylor-Hood 元。另外一种方法是对压力空间施加一些约束，
     比如说稳定化的~$P_1-P_1$ 元，$P_1-P_0$ 元。为了减少计算量，提高计算效率，通常会
     运用自适应网格方法。
 %    在文献\cite{danaila2014newton},\cite{ebeida2009unsteady}
@@ -22,7 +22,7 @@
 %    的工作。
     然而，不满足~LBB 条件的有限元对应用到自适应网格方法上有一定的技术困难。
     综合以上考虑，我们选取稳定的~$P_1isoP_2P_1$ 元，它自然满足~LBB 条件，详细见
-    ~\cite{bercovier1979error}。在~$P_1isoP_2P_1$ 元中，速度单元所在的网格可以有压
+    ~\cite{bercovier1979error}。在~$4P_1-P_1$ 元中，速度单元所在的网格可以有压
     单元的网格加密一次得到，由于速度单元网格上的~$3$ 个基函数不
     在同一个速度单元上，因此即拼装压力单元和速度
     单元时有一定技术上的困难。
@@ -30,23 +30,22 @@
     在本文的工作中，我们选取~$ 4P_1-P_1$ 元，它与~$P_1isoP_2P_1$ 拥有相同的
     网格结构，自然也满足~inf-sup 条件，但需要指出的是~$ P_1isoP_2P_1$ 元的
     速度单元上的基函数都局部的位于相同的速度单元内，并且全部是线性元。
-    这给我们拼装散度块矩阵提供了便利：只要我们建立四个速度单元和大的压
-    力单元之间的索引。索引的建立又依赖于两层网格的数据结构，用我们上一
-    章提到的几何遗传树结构，可以建立两层网格间的对应关系。
+    只要我们建立四个速度单元和压
+    力单元之间的一一索引，散度块矩阵的拼装过程变得很自然。通过我们上一
+    章提到的几何遗传树结构，很容易可以建立两层网格间的对应关系。
 
     基于这种几何遗传树的结构，我们可以很容易的建立四个小的速度单元与
-    压力宏单元间的索引。同时在~\cite{li2005multi} 中~$h$ 自适应方法也是基
-    于这种树结构。自适应网格可以减少计算量，同时可以研究流体局部小尺
-    度上的现象，比如涡。同时移动网格网格方法也可以应用在~$4P_1-P_1$ 元上，
-    网格移动我们只移动压力网格，当压力网格移动完，速度网格由压力网格加
-    密一次即可得到。但是需要注意的是，求解不可压的~Navier-Stokes 方程，
-    在将旧网格的解插值到移动后的网格的过程，要满足散度为~$0$ 的条件，这个
+    压力宏单元间的索引。同时在~\cite{li2005multi} 中~$h$ 自适应网格方法也是基
+    于这种树结构。自适应网格不仅可以减少计算量，还可以用来研究流体局部小尺
+    度上的现象，比如涡。移动网格网格方法也可以应用在~$4P_1-P_1$ 元上，
+    我们只需移动压力网格，始终保持速度网格是压力网格的全局一次加密。但是需要注意的是，求解不可压的~Navier-Stokes 方程，
+    在将旧网格的数值解插值到新网格的过程中，需要保证散度为~$0$，这个
     工作由~\cite{di2005moving} 中给出。
 
 \section{数据结构}
    $4P_1-P_1$ 是基于两套不同的网格和两种有限元空间。速度网格可以由压力网格
-   全局加密一次得到。网格的数据结构是基于~\cite{li2005multi} 中的几何遗
-   传树结构，如图 ~\ref{fig::hgeometrytree_chap2} 所示。一个宏压力单元对
+   全局加密一次得到。我们是用~\cite{li2005multi} 中的几何遗
+   传树结构来存储这两套网格，如图 ~\ref{fig::hgeometrytree_chap2} 所示。一个宏压力单元对
    应这四个速度单元，通过遍历一次所有的速度单元，利用几何遗传树结构，
    就可以建立速度单元和压力单元的~$1-1$ 对应。
 
@@ -80,11 +79,11 @@
                    \text{activeiterator}$-\rangle$ \text{parent}
            \State \text{int index-p-element} $\gets$
                    \text {parent}$-\rangle$ \text{index}
-           \State \text{int n-child} $\gets$
-                   \text{parent}$-\rangle$ \text{n-child}
+           \State \text{int n}$\_$\text{child} $\gets$
+                   \text{parent}$-\rangle$ \text{n}$\_$\text{child}
            \State
-                  \text{index-p2v[index-p-element].resize}(\text{n-child})
-           \While {$i \geq 0$ \textbf{and} $i < \text{n-child}$}
+                  \text{index-p2v[index-p-element].resize}(\text{n}$\_$\text{child})
+           \While {$i \geq 0$ \textbf{and} $i < \text{n}$\_$\text{child}$}
                   \State \text{HElement}$\langle$\text{DIM,DIM}$\rangle$ $\ast$\text{chi}
                          $\gets$ \text{parent}$-\rangle$\text{child[i]}
                   \State \text{int index-v-element} $\gets$
@@ -118,16 +117,14 @@
             \end{aligned}
             \label{eq::NS_system}
         \end{equation}
-        其中~$\nu > 0$ 是一个常数，称作动力学粘性系数。跟~Stokes 方程中类似，$\vec{u}$ 表示流体速度，
-        $p$ 表示压力。对流项~$\vec{u} \cdot \nabla \vec{u} := (\vec{u} \cdot \nabla) \vec{u}$，是非
+        其中~$\nu > 0$ 是一个常数，称作动力学粘性系数。对流项~$\vec{u} \cdot \nabla \vec{u} := (\vec{u} \cdot \nabla) \vec{u}$，是非
         线性项，这也使得~Navier-Stokes 方程的解不唯一，这也给我们的数值计算带来了一定的挑战。
-        系统~\eqref{eq::NS_system} 的计算区域是~$\Omega$，可以是二维的或三维的。在边界~$\partial \Omega =
-        \partial \Omega_D \cup \Omega_N$ 上的边界条件如下：
+        系统~\eqref{eq::NS_system} 的计算区域是~$\Omega$，可以是二维的或三维的。边界条件如下：
         \begin{equation}
             \begin{array}{ll}
-                \vec{u} = \vec{w},& \mbox{ on } \partial \Omega_D,\\
-                \nu \displaystyle \frac{\partial \vec{u}}{\partial n} - p =
-                \vec{0}, & \mbox{ on } \partial \Omega_N,  \\
+                \vec{u} = \vec{w},& \mbox{在} \partial \Omega_D,\\
+                \nu \displaystyle \frac{\partial \vec{u}}{\partial \vec{n}} - \vec{n} p =
+                \vec{0}, & \mbox{在} \partial \Omega_N,  \\
              \end{array}
             \label{eq::bc_chap3}
         \end{equation}
@@ -141,7 +138,7 @@
                 \partial \Omega_{-} = {x \mbox{在} \partial \Omega \mbox{上}|\vec{\omega} \cdot \vec{n} < 0}, \quad \mbox{入流边界}.\\
             \end{aligned}
         \end{equation}
-        如果边界全部是~Direchlet 边界条件，即~$\partial \Omega = \partial \Omega_D$，那么~Navier-Stokes 问题
+        如果边界全部是~Dirichlet 边界条件，即~$\partial \Omega = \partial \Omega_D$，那么~Navier-Stokes 问题
         ~\eqref{eq::NS_system} 和~\eqref{eq::bc_chap3} 的压力解除去一个常数外是唯一的。
         我们对~\eqref{eq::NS_system} 中的不可压约束应用散度定理，
         \begin{equation}
@@ -167,9 +164,9 @@
         对~\eqref{eq::NS_system} 中的动量方程取~$curl$，我们可以得到流函数形式：
         \begin{equation}
             -\nu \nabla^4 \psi + \frac{\partial \psi}{\partial y}\frac{\partial}{\partial x}(\nabla^2\psi) - \frac{\partial \psi}{\partial x}\frac{\partial }{\partial y}(\nabla^2 \psi) = -curl \vec{f}.
-            \label{eq::stream_line}
+            \label{eq::streamline}
         \end{equation}
-        但由于流函数形式~\eqref{eq::stream_line} 在三维空间没有一般形式，所以流函数形式只在二维。我们还是研究~\eqref{eq::NS_system} 中的原始
+        但由于流函数形式~\eqref{eq::streamline} 在三维空间没有一般形式，所以流函数形式只在二维。我们还是研究~\eqref{eq::NS_system} 中的原始
         变量形式。
     \subsection{弱形式}
         我们定义解和检验空间如下：
@@ -192,7 +189,6 @@
             & & \forall q \in L_2(\Omega), \notag
        \end{eqnarray}
 
-       其中~$\nabla \vec{u} : \nabla \vec{v} = \nabla u_x \cdot \nabla v_x + \nabla u_y \cdot \nabla v_y$。
        我们在构造混合元近似的时候要确保可解性条件
        \begin{equation}
             \int_{\Omega}p \nabla \cdot \vec{v} = 0, \quad \text{对任意的}\vec{v} \in \mathbf{H}_{E_0}^1. \Rightarrow \left\{ \begin{array}{ll}
@@ -207,54 +203,56 @@
             \inf_{ q \neq \mbox{constant}} \sup_{\vec{v} \neq \vec{0}} \frac{|(q, \nabla \cdot \vec{v})|}{||\vec{v}||_{H(\Omega)^1} ||q||_{L(\Omega)^0}} \geq \gamma > 0.
         \end{equation}
 
-       假设~$\tau_h$是~$\Omega$ 上对压力网格的三角剖分，网格尺度 ~$h = max_{T
-         \in \tau_h} diam(T)$，$T$ 为三角剖分 ~$\tau_h$ 的单元。对应地，
-       $\tau_{\frac{h}{2}}$ 是对速度网格的三角剖分。基于
-       ~$\tau_{\frac{h}{2}}$ 和 ~$\tau_{h}$ 上的有限元空间 ~$\mathbf{X}_E^h$ 和 ~$P_h$ 满足
+       假设~$\tau_H$是~$\Omega$ 上对压力网格的三角剖分，网格尺度 ~$H = max_{T
+         \in \tau_H} diam(T)$，$T$ 为三角剖分 ~$\tau_H$ 的单元。对应地，
+       $\tau_{h}(h = 1/2H)$ 是对速度网格的三角剖分。基于
+       ~$\tau_{h}$ 和 ~$\tau_{H}$ 上的有限元空间 ~$\mathbf{X}_E^h$ 和 ~$P^H$ 满足
        \begin{equation}
-         \mathbf{X}_E^h \subset \mathcal{H}_E, \quad P_h \subset L_2(\Omega).
+         \mathbf{X}_E^h \subset \mathcal{H}_E, \quad P^H \subset L_2(\Omega).
          \notag
        \end{equation}
 
        那么~\eqref{eq::generalweak_momentum}  和 ~\eqref{eq::generalweak_mass}
-       可以写成如下形式: 寻找 ~$(\vec{u}_h, p_h) \in \mathbf{X}_E^h \times P^h$ 使得
+       可以写成如下形式: 寻找 ~$(\vec{u}_h, p_H) \in \mathbf{X}_E^h \times P^H$ 使得
        \begin{equation}
          \begin{aligned}
            &\int_{\Omega}\frac{\partial \vec{u}_h}{\partial t} \cdot \vec{v}_h
            + \nu \int_\Omega \nabla \vec{u}_h : \nabla \vec{v}_h  \\
            + & \int_\Omega \left( \vec{u}_h \cdot \nabla \vec{u}_h \right)
-           \cdot \vec{v}_h - \int_\Omega p_h \left( \nabla \cdot \vec{v}_h
+           \cdot \vec{v}_h - \int_\Omega p_H \left( \nabla \cdot \vec{v}_h
            \right) & = &\int_\Omega \vec{f} \cdot \vec{v}_h, &\quad
            \forall \vec{v}_h \in \mathbf{X}_0^h,  \\
-           & \int_\Omega q_h \left( \nabla \cdot \vec{u}_h \right) & = &0,&
-           \quad \forall q_h \in P^h.
+           & \int_\Omega q_H \left( \nabla \cdot \vec{u}_h \right) & = &0,&
+           \quad \forall q_H \in P^H.
            \label{eq::discreted_weak}
          \end{aligned}
        \end{equation}
 
-   为了简便，我们时间离散上用显示~Euler 格式：
-   $\forall (\vec{v}_h, q_h) \in \mathbf{X}_0^h \times P^h$
+   为了简便，我们时间离散上用半显半隐格式：
+   $\forall (\vec{v}_h, q_H) \in \mathbf{X}_0^h \times P^H$
    \begin{equation}
      \begin{aligned}
-       \int_{\Omega} \frac{\vec{u}_h^{(n + 1)} -
-         \vec{u}_h^{(n)}}{\delta t} \cdot \vec{v} + \nu \int_{\Omega} \nabla
-       \vec{u}_h^{(n + 1)} : \nabla \vec{v}_h - \int_{\Omega} p_h^{(n
+       &\int_{\Omega} \frac{\vec{u}_h^{(n + 1)} -
+         \vec{u}_h^{(n)}}{\delta t} \cdot \vec{v}_h \\
+        & + \nu \int_{\Omega} \nabla \vec{u}_h^{(n + 1)} : \nabla \vec{v}_h
+         - \int_{\Omega} p_H^{(n
          + 1)} \left( \nabla \cdot \vec{v}_h \right)
-       & = \int_{\Omega}\left(\vec{f} + \vec{u}_h^{(n)} \cdot \nabla \vec{u}_h^{(n)}
-       \right) \cdot \vec{v}, &\\
-       \int_{\Omega} q_h \nabla \cdot \vec{u}_h^{(n + 1)} & = 0.&
+        & = & \int_{\Omega}\left(\vec{f} + \vec{u}_h^{(n)} \cdot \nabla \vec{u}_h^{(n)}
+       \right) \cdot \vec{v}_h, &\\
+       &\int_{\Omega} q_H \nabla \cdot \vec{u}_h^{(n + 1)} & = & 0.&
      \end{aligned}
      \label{eq::time_discreted_weak}
    \end{equation}
    令 ~$\{\phi_j \}_{j = 1}^n$ 和 ~$\{\psi_k\}_{k = 1}^m$ 分别为速度和压
-   力的线性元基函数。则数值解~$\vec{u}_h^{(n + 1)} = (u_{xh}^{(n + 1)},
-   u_{yh}^{(n + 1)}), p_h^{n + 1}$ 可以写成如下形式：
+   力的线性元基函数。则数值解~$\vec{u}_h^{(n + 1)} = (u_{x,h}^{(n + 1)},
+   u_{y,h}^{(n + 1)})^T, p_H^{n + 1}$ 可以写成如下形式：
    \begin{equation}
-     u_{xh}^{(n + 1)} = \sum_{j = 1}^n u_j \phi_j, \quad u_{yh}^{(n +
-       1)} = \sum_{j = 1}^n v_j \phi_j, \quad p_h^{(n + 1)} = \sum_{k
-       = 1}^m p_k \psi_k. \notag
+     u_{x,h}^{(n + 1)} = \sum_{j = 1}^n \alpha_{x,j} \phi_j, \quad u_{y,h}^{(n +
+       1)} = \sum_{j = 1}^n \alpha_{y,j} \phi_j, \quad p_H^{(n + 1)} = \sum_{k
+       = 1}^m \alpha_{p,k} \psi_k.
+       \label{eq::solutions_components}
    \end{equation}
-   将~$u_{xh}^{(n + 1)}, u_{yh}^{(n + 1)}, p_h^{(n + 1)}$ 带入离散弱形式
+   将 \eqref{eq::solutions_components} 带入离散弱形式
    ~\eqref{eq::time_discreted_weak} 中，可以
    得到线性方程组
    \begin{equation}
@@ -267,9 +265,9 @@
      \right]
      \left[
        \begin{array}{c}
-         u_x \\
-         u_y \\
-         p
+         \alpha_x \\
+         \alpha_y \\
+         \alpha_p
        \end{array}
      \right] =
      \left[
@@ -281,7 +279,9 @@
      \right],
      \label{eq::linear_system_chap3}
    \end{equation}
-   其中~$M$ 是 ~$n \times n$ 的质量矩阵，$A$ 是拉普拉斯矩阵，由以下形式：
+   其中 $\alpha_x = (\alpha_{x,1},\cdots,
+    \alpha_{x,n_u}),\alpha_y = (\alpha_{y,1},\cdots, \alpha_{y,n_u}),\alpha_p = (\alpha_{p,1},\cdots, \alpha_{p,n_p})$，
+    ~$dt$ 是时间步长(需满足~CFL 条件)，~$M$ 是 ~$n \times n$ 的质量矩阵，$A$ 是拉普拉斯矩阵，由以下形式：
    \begin{eqnarray}
      A & = & [a_{ij}], \quad a_{ij} = \int_\Omega \nabla \phi_i \cdot \nabla
      \phi_j;  \notag \\
@@ -290,18 +290,18 @@
      \frac{\partial{\phi_i}}{\partial x};  \notag \\
      B_y^T & = & [by^T_{ik}], \quad by^T_{ik} = \int_{\Omega} \psi_k
      \frac{\partial {\phi_i}}{\partial y};  \notag \\
-     f_x & = & [f_i], \quad f_i = \int_\Omega (\frac{u_{xh}^{(n)}}{dt} - (u_{xh}^{(n)};
-     \frac{\partial u_{xh}^{(n)}}{\partial x} + u_{yh}^{(n)} \frac{\partial
-       u_{xh}^{(n)}}{\partial y}) \phi_i; \notag \\
-     f_y & = & [f_i], \quad f_i = \int_\Omega (\frac{u_{yh}^{(n)}}{dt} - (u_{xh}^{(n)}
-     \frac{\partial u_{yh}^{(n)}}{\partial x} + u_{yh}^{(n)} \frac{\partial
-       u_{yh}^{(n)}}{\partial y}) \phi_i; \notag \\
+     f_x & = & [f_i], \quad f_i = \int_\Omega (\frac{u_{x,h}^{(n)}}{dt} - (u_{x,h}^{(n)};
+     \frac{\partial u_{x,h}^{(n)}}{\partial x} + u_{y,h}^{(n)} \frac{\partial
+       u_{x,h}^{(n)}}{\partial y}) \phi_i; \notag \\
+     f_y & = & [f_i], \quad f_i = \int_\Omega (\frac{u_{y,h}^{(n)}}{dt} - (u_{x,h}^{(n)}
+     \frac{\partial u_{y,h}^{(n)}}{\partial x} + u_{y,h}^{(n)} \frac{\partial
+       u_{y,h}^{(n)}}{\partial y}) \phi_i; \notag \\
      g & = &  [g_k],\quad  g_i = 0. \notag
    \end{eqnarray}
 
-   接下来我们着重解释一下散度块矩阵~$B_x B_y, B_x^T, B_y^T$ 的拼装。 以
+   接下来我们着重解释一下散度块矩阵~$B_x, B_y, B_x^T, B_y^T$ 的拼装。 以
    ~$B_x^T$ 为例, 令~$\triangle_{v_i}$ 为一个速度单元，我们可以通过上一节建立的
-   单元索引来找到对应的压力单元 ~$\triangle_{p_k}$(如图~\ref{fig::matrix_assemble})。$\phi_{i_1}, \phi_{i_2}, \phi_{i_3}$
+   单元索引，来找到对应的压力单元 ~$\triangle_{p_k}$(如图~\ref{fig::matrix_assemble})。$\phi_{i_1}, \phi_{i_2}, \phi_{i_3}$
    是定义在速度单元 ~$\triangle_{v_i}$ 上的线性元基函数，下标 ~$i_1,
    i_2, i_3$ 表示该顶点上的自由度在速度全部自由度的全局编号。同时
    ~$\psi_{k_1}, \psi_{k_2}, \psi_{k_3}$ 是定义在压力单元
@@ -372,28 +372,30 @@
      \label{fig::matrix_assemble}
    \end{figure}
    \section{预处理策略}
-      在我们的求解~Navier-Stokes 方程的算法中，我们用稳态的~Stokes 方程的解作为初始值，因此在这一部分中，我们考虑针对
-      ~Stokes 方程的预处理方法。我们写出~\eqref{eq::stokes_chap3} 的~$4P_1-P_1$ 近似的离散弱形式：寻找 ~$(\vec{u}_h, p_h) \in X_E^h \times P^h$
+      在我们求解~Navier-Stokes 方程的算法中，用稳态~Stokes 方程的解作为初始值，因此在这一部分中，我们考虑针对
+      ~Stokes 方程的预处理方法。我们写出~\eqref{eq::stokes_chap3} 的~$4P_1-P_1$ 近似的离散弱形式：
+      寻找 ~$(\vec{u}_h, p_h) \in X_E^h \times P^H$
       使得
        \begin{equation}
          \begin{aligned}
            \nu \int_\Omega \nabla \vec{u}_h : \nabla \vec{v}_h
-           - \int_\Omega p_h \left( \nabla \cdot \vec{v}_h
+           - \int_\Omega p_H \left( \nabla \cdot \vec{v}_h
            \right) & = \int_\Omega \vec{f} \cdot \vec{v}_h, \quad
            \forall \vec{v}_h \in \mathbf{X}_0^h,&  \\
-           \int_\Omega q_h \left( \nabla \cdot \vec{u}_h \right) & = 0,
-           \quad \forall q_h \in P^h.&
+           \int_\Omega q_H \left( \nabla \cdot \vec{u}_h \right) & = 0,
+           \quad \forall q_H \in P^h.&
            \label{eq::discreted_weak_stokes}
          \end{aligned}
        \end{equation}
-      同样的，令 ~$\{\phi_j \}_{j = 1}^n$ 和 ~$\{\psi_k\}_{k = 1}^m$ 分别为 ~$X_E^h$ 和~$\times P^h$ 的基函数。则数值解
-      ~$\vec{u}_h^{(n + 1)} = (u_{xh}^{(n + 1)}, u_{yh}^{(n + 1)}), p_h$ 可以写成如下形式：
+      同样的，令 ~$\{\phi_j \}_{j = 1}^n$ 和 ~$\{\psi_k\}_{k = 1}^m$ 分别为 ~$X_E^h$ 和~$\times P^H$ 的基函数。则数值解
+      ~$\vec{u}_h^{(n + 1)} = (u_{x,h}^{(n + 1)}, u_{y,h}^{(n + 1)})^T, p_H^{(n + 1)}$ 可以写成如下形式：
       \begin{equation}
-         u_{xh}^{(n + 1)} = \sum_{j = 1}^n u_j \phi_j, \quad u_{yh}^{(n +
-         1)} = \sum_{j = 1}^n v_j \phi_j, \quad p_h^{(n + 1)} = \sum_{k
-         = 1}^m p_k \psi_k. \notag
+         u_{x,h}^{(n + 1)} = \sum_{j = 1}^n \beta_{x,j} \phi_j, \quad u_{y,h}^{(n +
+         1)} = \sum_{j = 1}^n \beta_{y,j} \phi_j, \quad p_H^{(n + 1)} = \sum_{k
+         = 1}^m \beta_{p,k} \psi_k.
+         \label{eq::solutions_components_stokes}
       \end{equation}
-      将~$u_{xh}^{(n + 1)}, u_{yh}^{(n + 1)}, p_h^{(n + 1)}$ 带入离散弱形式
+      将 \eqref{eq::solutions_components_stokes} 带入离散弱形式
       ~\eqref{eq::time_discreted_weak}  中，可以
       得到线性方程组
        \begin{equation}
@@ -406,9 +408,9 @@
          \right]
          \left[
            \begin{array}{c}
-              u_x \\
-              u_y \\
-              p
+              \beta_x \\
+              \beta_y \\
+              \beta_p
            \end{array}
          \right] =
          \left[
@@ -421,39 +423,38 @@
          \label{eq::linear_system_stokes}
        \end{equation}
      为简便起见，我们令~\eqref{eq::linear_system_stokes} 中的右端项分别取为
-     ~$\hat{f}_x = 0, \hat{f}_y = 0, \hat{g} = 0$。我们选用~MINRES(极小化残差方法)来求解~\eqref{eq::linear_system_stokes}，通常情况下，
-     我们要为~MINRES 选择一个有效的预处理子。在前面一章中，压力空间的质量矩阵:
+     ~$\hat{f}_x = 0, \hat{f}_y = 0, \hat{g} = 0$。我们选用~MINRES (极小化残差方法)来求解~\eqref{eq::linear_system_stokes}，通常情况下，
+     我们要为~MINRES 选择一个有效的预处理子。从上一章中可知，压力空间的质量矩阵:
      \begin{equation}
-        Q  =  [Q_{ij}], \quad q_{ij} = \int_\Omega \nabla \psi_i \cdot \nabla \psi_j,  \notag
+        Q_p  =  [Q_{p,ij}], \quad q_{ij} = \int_\Omega \nabla \psi_i \cdot \nabla \psi_j,  \notag
      \end{equation}
-     可以作为~Schur 补~$S = B_x A^{-1} B_x^T + B_y A^{-1} B_y^T$ 的近似矩阵。在实际的计算中，压力质量矩阵的对角阵~$\hat{Q} = diag(Q)$，就能
+     可以作为~Schur 补~$S = B_x A^{-1} B_x^T + B_y A^{-1} B_y^T$ 的近似矩阵。
+     在实际的计算中，压力质量矩阵的对角阵~$\hat{Q_p} = diag(Q_p)$，就能
      有比较好的效果。因此，我们选取对角块矩阵~$K$
        \begin{equation}
          K = \left[
                \begin{array}{lll}
                  \nu A & 0 & 0 \\
                  0 & \nu A  & 0 \\
-                 0 & 0 & \hat{Q}
+                 0 & 0 & \hat{Q_p}
                \end{array}
              \right],
        \end{equation}
-       作为 ~\eqref{eq::linear_system_stokes} 的系数矩阵~$M$ 的近似。
-       \begin{equation}
-         M = \left[
-               \begin{array}{lll}
-                 \nu A & 0 & B_x^T \\
-                 0 & \nu A  & B_y^T \\
-                 B_x & B_y & 0
-               \end{array}
-             \right].
-       \end{equation}
+       作为 ~\eqref{eq::linear_system_stokes} 中系数矩阵的近似。
+%       \begin{equation}
+%         M = \left[
+%               \begin{array}{lll}
+%                 \nu A & 0 & B_x^T \\
+%                 0 & \nu A  & B_y^T \\
+%                 B_x & B_y & 0
+%               \end{array}
+%             \right].
+%       \end{equation}
    在预处理过程中，我们需要对矩阵~$K$ 求逆，即完成 ~$V_{dst} = K^{-1} V_{src}$ 的操作，
-   其中~$V_{dst}, V_{src}$ 分别为
-   \begin{equation}
-      V_{dst} = (V_{dst}^x, V_{dst}^y, V_{dst}^p)^T,\quad V_{src} = (V_{src}^x, V_{src}^y, V_{src}^p)^T.
-   \end{equation}
+   其中~$V_{dst} = (V_{dst}^x, V_{dst}^y, V_{dst}^p)^T$ 为未知量，$V_{src} = (V_{src}^x,
+   V_{src}^y, V_{src}^p)^T$ 为已知量。
    我们不是直接求解 ~$V_{dst} = K^{-1} V_{src}$，而是把~$K$ 分成三个对角块 ~$(0, 0)$，$(1, 1)$ 和 ~$(2, 2)$ 块，
-   然后每个块进行单独求解。我们用~possion 问题的代数多重网格求解器(AFEPack ~\cite{AFEPack} 中的~AMG 求解器)来求解
+   然后每个块进行单独求解。我们用~Poisson 问题的代数多重网格求解器(AFEPack ~\cite{AFEPack} 中的~AMG 求解器)来求解
    \begin{eqnarray}
       \nu A V_{des}^x = V_{src}^x, \notag \\
       \nu A V_{des}^y = V_{src}^y. \notag
@@ -466,18 +467,18 @@
 
 \section{移动网格策略}
 
-   我们主要的想法是有两套网格，速度网格和压力网格，速度网格可以由压力
-   网格加密一次得到。因此我们对压力网格进行移动，然后同步速度网格。
+   虽然我们用的是两套网格，即速度网格和压力网格，但是速度网格可以由压力
+   网格加密一次得到。因此我们只移动压力网格，然后始终保持速度网格是压力网格的
+   全局一次加密，就可以实现速度网格的同步移动。
 
-   在 ~$t = t_{n}$ 时刻，获得有限元解~$(\vec{u}_h^{(n)}, p_h^{(n)})$。下面的问题是如何用~$t_n$ 时刻数值
-   解和旧的网格~$\mathcal{T}_h^{(n)}$ 来获得新的网格~$\mathcal {T}_h^{(n +
-   1)}$，并在新网格上求解~N-S 方程获得 ~$(\vec{u}_h^{(n + 1)}, p_h^{(n + 1)})$。 我们采取文献 ~\cite{di2005moving} 中的方法，注意到我们区域的边
+   在 ~$t = t_{n}$ 时刻，获得有限元解~$(\vec{u}_h^{(n)}, p_H^{(n)})$。下面的问题是如何根据~$t_n$ 时刻数值
+   解和旧网格~$\mathcal{T}_H^{(n)}$ 来获得新的网格~$\mathcal {T}_H^{(n +
+   1)}$，并在新网格上求解~N-S 方程获得 ~$(\vec{u}_h^{(n + 1)}, p_H^{(n + 1)})$。 我们采取文献 ~\cite{di2005moving} 中的方法，注意到我们区域的边
    界均是~Dirichlet 或者 ~Neumann 边界，分为以下四步：
    \subsection{获取控制函数}
      选择一个合适的控制函数，对于移动网格的结果是非常重要的。应用在不
-     可压~Navier-Stokes 方程上的控制函数主要有如下几种.
-     令 ~$m = \frac{1}{G}$ 其中~$m$ 是~\eqref{eq::logical_chap3} 中的一个纯量函数。
-     关于~$G$ 有几种不同的选择.一种是基于涡量
+     可压~Navier-Stokes 方程上的网格控制函数~$G$ 主要有如下几种：
+     一种是基于涡量
      \begin{equation}
        G_0 = \sqrt{1 + \alpha |\omega|^\beta},
        \label{eq::monitor_vorticity_chap3}
@@ -522,13 +523,13 @@
        \end{aligned}
        \label{eq::logical_chap3}
      \end{eqnarray}
-     其中 ~$m$ 是上一节中的纯量函数。我们定义初始的逻辑网格~$\mathcal{T}_c^{0} (\mathcal
+     其中纯量函数~$m = \frac{1}{G}$。我们定义初始的逻辑网格~$\mathcal{T}_c^{0} (\mathcal
      {A}^{0} \text{为它的节点})$。一旦初始的逻辑网格给定，在整个的求解
      过程中，将一直保持不变。通过求解~\eqref{eq::logical_chap3}  我们可以得到
-     新的逻辑网格~$\mathcal{T}_c^*$($\mathcal{A}^*~$ 为它的节点)。
+     新的逻辑网格剖分~$\mathcal{T}_c^*$($\mathcal{A}^*~$ 为它的节点)。
   \subsection{物理网格的移动方向}
 
-     我们先引入一些定义。$\mathcal{T}_h$ 为物理区域上的三角剖分。第i个
+     我们先引入一些定义。$\mathcal{T}_H$ 为压力网格物理区域上的三角剖分。第~$i$ 个
      点定义为~$X_i$，以~$X_i$ 为顶点的单元的集合称之为~$T_i$。相应的计算
      区域上的标记为 ~$\mathcal{T}_c, \mathcal{A}_i$ 和 ~$T_{i,c}$。
      $\mathcal{A}_i$ 点在计算区域上的坐标定义为 ~$(\mathcal{A}_i^1,
@@ -537,7 +538,7 @@
      \begin{equation}
        \delta \mathcal{A}_i  = \mathcal{A}^{(0)} - \mathcal{A}^*.
      \end{equation}
-     对于一个给定的单元~$E \in \mathcal{T}_h$, $X_{E_k}, 0 \leq k \leq
+     对于一个给定的单元~$E \in \mathcal{T}_H$, $X_{E_k}, 0 \leq k \leq
      2 $，作为它的三个顶点。从~$V_{\mathcal{T}_c^*}(\Omega)$ 到
      ~$V_{\mathcal{T}}(\Omega)$ 的分片线性映射在单元 ~$E$ 上的梯度是常数，
      并且满足下面的方程组：
@@ -568,7 +569,7 @@
        \end{aligned}
      \end{eqnarray}
 
-  求解上面的方程组，可以获得单元 ~$E$ 上的~$\partial \vec{x} / \partial
+  求解该方程组，可以获得单元 ~$E$ 上的~$\partial \vec{x} / \partial
   \xi$。如果以单元的面积作为权重，则第i个点的加权平均的位移定义如下:
   \begin{eqnarray}
     \delta X_i = \frac{\sum\limits_{E \in T_i} |E| \frac{\partial
@@ -603,7 +604,7 @@
     用移动网格方法求解不可压流体时，要保证插值的过程散度是为~$0$ 的。通过
     求解一个对流方程，对流的速度是网格的移动速度，从而实现旧的物理网格
     上的数值解到新的物理网格上数值解的插值。令~$u_h = \sum u_i \phi_i,
-    u_h \in \mathbf{X}_E^h$， $\phi_i$ 是有限元空间~$\mathbf{X}^h$ 的
+    u_h \in \mathbf{X}_E^h$， $\phi_i$ 是有限元空间~$\mathbf{X}_E^h$ 的
     基函数。引入一个虚拟的时间~$\tau$，假设基函数~$\phi_i$ 和~$u_i$ 均是关
     于~$\tau$ 的函数,即~$\phi_i = \phi_i(\tau), u_i = u_i(\tau)$。
     我们引入一个从旧网格~$x^{\text{旧}}$ 到新网格~$x^{\text{新}}$ 网格点的
@@ -641,7 +642,7 @@
     我们将~\eqref{eq::divergence_free} 应用到不可压流上，即速度场要满足
     散度为~$0$ 的条件。令~$\mathbf{X}^h$ 为散度为~$0$ 的空间：
     \begin{equation}
-      \mathbf{X}_E^h = \mathbf{X}_E^h \cap \{\vec{u}_h|\nabla \cdot \vec{u}_h
+      \mathbf{X}^h = \mathbf{X}_E^h \cap \{\vec{u}_h|\nabla \cdot \vec{u}_h
       = 0 \},
     \end{equation}
     那么~\eqref{eq::divergence_free} 将变成：寻找~$w_h \in
@@ -677,15 +678,15 @@
     \begin{remark}
        这里的~$\hat{p}$ 跟外部~Navier-Stokes 方程的解~$p$ 不一致，只是一个辅助量。
     \end{remark}
-    \eqref{eq::continous_update_chap3} 的弱形式：寻找~$\left(\vec{u}_h, \hat{p}_h
-    \right) \in \mathbf{X}_E^h \times P^h$ 使得
+    \eqref{eq::continous_update_chap3} 的弱形式：寻找~$\left(\vec{u}_h, \hat{p}_H
+    \right) \in \mathbf{X}_E^h \times P^H$ 使得
     \begin{eqnarray}
       \begin{aligned}
         \left( \sum \phi_i \partial_{\tau}u_i - \sum u_i
           \nabla_{\vec{x}} \phi_i \cdot \delta \vec{x}, v_h \right)& =
-        \left( \hat{p}_h, \nabla v_h \right),& \quad \forall v_h \in \mathbf{X}_E^h, \\
-        \left( \nabla_{\vec{x}} \cdot u_h, q_h \right)& = 0, &\quad
-        \forall q_h \in P^h.
+        \left( \hat{p}_H, \nabla v_h \right),& \quad \forall v_h \in \mathbf{X}_E^h, \\
+        \left( \nabla_{\vec{x}} \cdot u_h, q_H \right)& = 0, &\quad
+        \forall q_H \in P^H.
       \end{aligned}
       \label{eq::discreted_update_chap3}
     \end{eqnarray}
@@ -697,8 +698,8 @@
         \left ( \frac{\sum \phi_i u_{i, *}^{(n)} - \sum \phi_i
             u_{i,*}^{(n)}}{\Delta \tau}, v_h \right) - \left ( \sum
           u_i^{(n)} \nabla \phi_i \cdot \delta \vec{x}, v_h \right) &
-        = \left( \hat{p}_{h,*}^{(n)},  \nabla v_h \right),& \\
-        \left( \nabla \cdot \vec{u}_{h, *}^{(n)}, q_h \right) & = 0. &
+        = \left( \hat{p}_{H,*}^{(n)},  \nabla v_h \right),& \\
+        \left( \nabla \cdot \vec{u}_{h, *}^{(n)}, q_H \right) & = 0. &
       \end{aligned}
     \end{eqnarray}
     注意到在做数值解插值的过程中，物理网格还没有发生移动，这时候基函
@@ -709,11 +710,11 @@
       \begin{aligned}
         \left ( \frac{\vec{u}_{h, *}^{(n)} - \vec{u}_h^{(n)}}{\Delta \tau}, \vec{v}_h
         \right) - \left (\nabla \vec{u}_{h,*}^{(n)} \cdot \delta \vec{x}, \vec{v}_h
-        \right) & = \left( \hat{p}_{h,*}^{(n)}, \nabla \vec{v}_h \right),& \\
-        \left( \nabla \cdot \vec{u}_{h, *}^{(n)}, q_h \right) & = 0, &
+        \right) & = \left( \hat{p}_{H,*}^{(n)}, \nabla \vec{v}_h \right),& \\
+        \left( \nabla \cdot \vec{u}_{h, *}^{(n)}, q_H \right) & = 0, &
       \end{aligned}
     \end{eqnarray}
-    其中~$u_h^{(n)}$ 和~$p_h$ 是在~$t = t_n$ 时刻的网格上，N-S 方程的数值解。而~$u_{h, *}^{(n)}$ 和 ~$p_{h,
+    其中~$u_h^{(n)}$ 和~$p_H$ 是在~$t = t_n$ 时刻的网格上，N-S 方程的数值解。而~$u_{h, *}^{(n)}$ 和 ~$p_{H,
       *}^{(n)}$ 是在新的网格上的数值解。但这组解不是外部~N-S 方程的解。在新网格上
       求解~N-S 方程，从而得到 ~$t_{n + 1}$ 时刻新网格上的解。
     为了更好的说明我们的数值方法，我们将算法的流程图如算法 ~\ref{alg::solve} 所示。
@@ -721,10 +722,10 @@
      \caption{移动网格有限元方法来求解~Navier Stokes 方程}
      \begin{algorithmic}[1]
        \State 在初始速度网格~$\triangle_v^{(0)}$ 和压力网格
-       ~$\triangle_p^{(0)}$ 上，求解~$t = t_n$ 时刻~Stokes 方程~\eqref{eq::stokes_chap3} ，获得数值解~$\vec{u}_h^{(0)}, p_h^{(0)}$。
+       ~$\triangle_p^{(0)}$ 上，求解~$t = t_n$ 时刻~Stokes 方程~\eqref{eq::stokes_chap3} ，获得数值解~$\vec{u}_h^{(0)}, p_H^{(0)}$。
        \While {$t_n < T$}
              \State 在压力网格~$\triangle_p^{(n)}$ 上，用~$\vec{u}_h^{(n)},
-                    p_h^{(n)}$ 来计算控制函数, 并通过求解
+                    p_H^{(n)}$ 来计算控制函数, 并通过求解
                     ~\eqref{eq::logical_chap3}，获得~$\vec{\xi}^*$。 \label{state::monitor}
              \State 判断~$\parallel \vec{\xi}^* -
                     \vec{\xi}^{(0)} \parallel_{L^2}$ 是否小于容忍量
@@ -736,7 +737,7 @@
              \State 利用~\ref{state::start} 中~$\delta \vec{x}$， 在速度网格
                     ~$\triangle_v^{(n)}$ 上求解更新数值解的方程
                     ~\eqref{eq::continous_update_chap3}，得到新网格上的中间量
-                    ~$\vec{u}_{h, *}^{(n)}, p_{h, *}^{(n)}$。
+                    ~$\vec{u}_{h, *}^{(n)}, p_{H, *}^{(n)}$。
              \State 更新~$\triangle_p^{(n)}$，通过几何遗传树结构，来
                     同步~$\triangle_v^{(n)}$，得到新的~$\triangle_p^{(n
                     + 1)}$ 和~$\triangle_v^{(n + 1)}$
@@ -744,7 +745,7 @@
              \State 在~$\triangle_v^{(n + 1)}$ 和~$\triangle_p^{(n + 1)}$
                     上求解~Navier-Stokes 方程
                     ~\eqref{eq::linear_system_chap3}。从而真正获得~$t = t_{n +
-                      1}$ 时刻的数值解~$\vec{u}_h^{(n + 1)}, p_h^{(n +
+                      1}$ 时刻的数值解~$\vec{u}_h^{(n + 1)}, p_H^{(n +
                       1)}$。
              \State $n = n + 1$
         \EndWhile
@@ -769,8 +770,8 @@
             \centering
             \begin{tabular}{ccccccc} \hline
               压力网格   & $||\vec{u} - \vec{u}_h ||_{L^2}$ & 误差阶 &$||\vec{u} -
-              \vec{u}_h ||_{H^1}$ & $||p - p_h||_{L^0}$ & 误差阶 &$||p -
-              p_h||_{H^1}$  \\ \hline
+              \vec{u}_h ||_{H^1}$ & $||p - p_H||_{L^0}$ & 误差阶 &$||p -
+              p_H||_{H^1}$  \\ \hline
               $10 \times 10$   &   $1.18 \times 10^{-1}$   &  &  $3.37 \times
               10^0$     &   $8.49 \times 10^{-1}$ & & $1.84 \times 10^1$    \\
               $20 \times 20 $   &   $2.94 \times 10^{-2}$   & 2.01  &  $1.67 \times
@@ -805,15 +806,10 @@
           表~\ref{tab::colliding_moving_div_error} 可以看出速度散度
           和涡量均有一阶收敛。
 
-          首先我们判断网格是不是往正确的方向移动。从
-          图~\ref{fig::mesh_move_direction} 中看出控制函数~$G_1$ 最大
-          的地方分布在区域的四个顶角上，中间区域控制函数的值是比较小的。
-          网格应该从控制函数小的地方移动到控制函数值大的地方。而网格的
-          移动方向也确实是往四个顶角上移动。因此我们可以确定网格移动方
-          向是对的。再者，判断选取~$G_1$ 为控制函数是否合适。从图
-          ~\ref{fig::uniform_vs_moving_err} 中看到：在均匀网格下，速度
-          ~$L^2$ 误差最大的地方分布在四个顶角上，这与控制函数的分布是一
-          致的。所以选取~$G_1$ 为控制函数是合理的。
+          首先从
+          图~\ref{fig::mesh_move_direction} 中看出网格是从控制函数大的地方移动到控制函数值小的地方；
+          从图~\ref{fig::uniform_vs_moving_err} 中看到：相比于均匀网格，移动网格
+          能够明显的降低速度~$L^2$ 误差。
           \begin{figure}[!htbp]
             \begin{center}
               \includegraphics[width = 0.43\textwidth, angle = -90]{picture/first/collidingFlow/mesh_move_direction.eps}
@@ -846,8 +842,8 @@
 
      \subsection{喷射流}
 
-       这个算例模拟的是一个很细的流体喷射入一个静止的流场，这种现象可以参考~\cite{milton1982album}， 一本有趣的画册。
-       我们的计算区域是~$\Omega = [0, 12] \times [-3, 3]$ 并且粘性系数是~$\nu = 0.0005$。自然条件设置在出流边界~$x = 12$ 上，
+       这个算例模拟的是一个很细的流体喷射入一个静止的流场，这种现象在~\cite{milton1982album}中有描述，
+        一本有趣的画册。我们的计算区域是~$\Omega = [0, 12] \times [-3, 3]$ 并且粘性系数是~$\nu = 0.0005$。自然条件设置在出流边界~$x = 12$ 上，
        同时入流边~$x = 0, y \in [-0.1, 0.1]$ 上设置~Poiseuille 流条件：
        \begin{equation}
          u_x = 1 - 100 y^2, \quad u_y = 0.
@@ -879,14 +875,14 @@
    \subsection{流体经过一个凹形台阶}
 
 
-      我们考虑~\cite{zheng2010posteriori} 中的算例，N-S 流体以~$Re = 1000$ 经过一个凹形的台阶，计算区域是
+      我们考虑~\cite{zheng2010adaptive} 中的算例，N-S 流体以~$Re = 1000$ 经过一个凹形的台阶，计算区域是
       ~$\Omega = (0, 4) \times (0, 1)/(1.2, 1.6) \times (0, 0.4)$，在上下边界上，设置~$\vec{u} = (0, 0)^T$ 的边界条件。
       入流边上的边界条件为~$\vec{u} = (4 y (1 - y), 0)$，出流边界是自然条件。
 
       我们选取涡量作为控制函数，控制函数的参数是 ~$\alpha = 0.4, \beta = 2.0$。众所周知，在这个问题中流体在凹进去的角上，
       会出现奇异性。
 %      从图~\ref{fig::step_initial_mesh} 中可以看出，初始的网格集中在凹进去的边上。
-      $t = 0.5s, t = 1s \text{，和 } t = 2s$
+      $t = 0.5s, t = 1s$ 和~$t = 2s$
       时刻的网格以及涡量的等高线在图~\ref{fig::step_flow_05s}，图~\ref{fig::step_flow_1s} 和 图~\ref{fig::step_flow_2s} 中展示出
       来。我们发现，网格在凹进去的边上比较密，并且跟涡的结构是一致的。
 
@@ -944,7 +940,7 @@
    \subsection{圆柱绕流}
 
       这个是经典算例，在一个长方形的管道中，流体流过一个圆柱。在~\cite{cao1999anr} 中，作者用移动网格方法求解流函数形式的~N-S 方程。圆柱圆心是~$(0, 0)$，半径是~$r = 0.3$。粘性系数是 ~$\nu = 0.003$，计算区域是 ~$\Omega = [-1, 5] \times [-1, 1]$。
-      Poiseuille流 ~$u = 1 - y^2, v = 0$ 设置在入流边界 ~$x = -1$。边界条件 ~$u = v = 0$ 施加在管道的上下边界。出流边界 ~$x = 5$
+      Poiseuille 流 ~$u = 1 - y^2, v = 0$ 设置在入流边界 ~$x = -1$。边界条件 ~$u = v = 0$ 施加在管道的上下边界。出流边界 ~$x = 5$
       是自然边界条件。
 
       如果我们关注流体的细微结构，因此需要在小结构上有高分辨率。为了抓住涡的结构，在我们的移动策略中，\eqref{eq::monitor_vorticity_chap3}
@@ -978,4 +974,3 @@
          $t = 23s$，粘性系数 $\nu = 0.001$。}
        \label{fig::cylinder_mesh_t23s}
      \end{figure}
-

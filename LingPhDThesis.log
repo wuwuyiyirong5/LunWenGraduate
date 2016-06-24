@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2016.4.7)  16 APR 2016 21:52
+This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2016.4.7)  19 JUN 2016 15:01
 entering extended mode
 **LingPhDThesis.tex
 (C:\Users\lenovo\Desktop\LunWenGraduate\LingPhDThesis.tex
@@ -696,7 +696,11 @@ File: ZJUThesis.cfg 2014/02/19 v0.1i ZJUThesis configuration file
 (C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/chapter1.aux)
 (C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/chapter2.aux)
 (C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/chapter3.aux)
-(C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/chapter4.aux))
+(C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/chapter4.aux)
+(C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/chapter5.aux)
+(C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/resume.aux)
+(C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/thanks.aux)
+(C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/statements.aux))
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
 LaTeX Font Info:    ... okay on input line 27.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
@@ -820,56 +824,106 @@ File: extended.enc 2008/12/29 4.8.2
 (E:\CTEX\MiKTeX\tex\latex\cjk\extended.chr
 File: extended.chr 2008/12/29 4.8.2
 )
-(C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/abstract.tex
+LaTeX Font Info:    Try loading font information for C19+zhkai on input line 45
+.
 
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                \hskip 12.05pt
-(hyperref)                replaced by space on input line 7.
+(E:\CTEX\CTeX\tex\latex\zhmetrics\c19zhkai.fd
+File: c19zhkai.fd 2009/09/23 4.8.2
+)
+Package CJKpunct Info: punctuation spaces for family 'zhkai' do not exist. Use 
+family 'def' instead. on input line 45.
+Package epstopdf Info: Source file: <figures/ZJU.eps>
+(epstopdf)                    date: 2014-04-13 20:16:44
+(epstopdf)                    size: 72293 bytes
+(epstopdf)             Output file: <figures/ZJU-eps-converted-to.pdf>
+(epstopdf)                    date: 2016-04-11 16:02:16
+(epstopdf)                    size: 33796 bytes
+(epstopdf)             Command: <epstopdf --outfile=figures/ZJU-eps-converted-t
+o.pdf figures/ZJU.eps>
+(epstopdf)             \includegraphics on input line 45.
+Package epstopdf Info: Output file is already uptodate.
 
+<figures/ZJU-eps-converted-to.pdf, id=206, 574.145pt x 206.7725pt>
+File: figures/ZJU-eps-converted-to.pdf Graphic file (type pdf)
 
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                \hskip 12.05pt
-(hyperref)                replaced by space on input line 7.
+<use figures/ZJU-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <figures/ZJULOGO.eps>
+(epstopdf)                    date: 2014-04-13 20:16:44
+(epstopdf)                    size: 108830 bytes
+(epstopdf)             Output file: <figures/ZJULOGO-eps-converted-to.pdf>
+(epstopdf)                    date: 2016-04-11 16:02:18
+(epstopdf)                    size: 43392 bytes
+(epstopdf)             Command: <epstopdf --outfile=figures/ZJULOGO-eps-convert
+ed-to.pdf figures/ZJULOGO.eps>
+(epstopdf)             \includegraphics on input line 45.
+Package epstopdf Info: Output file is already uptodate.
 
-LaTeX Font Info:    Try loading font information for C19+zhhei on input line 7.
+<figures/ZJULOGO-eps-converted-to.pdf, id=207, 574.145pt x 574.145pt>
+File: figures/ZJULOGO-eps-converted-to.pdf Graphic file (type pdf)
+
+<use figures/ZJULOGO-eps-converted-to.pdf>
+LaTeX Font Info:    Try loading font information for C19+zhhei on input line 45
+.
 
 (E:\CTEX\CTeX\tex\latex\zhmetrics\c19zhhei.fd
 File: c19zhhei.fd 2009/09/23 4.8.2
 )
-LaTeX Font Info:    Try loading font information for C19+rm on input line 9.
-
-(E:\CTEX\CTeX\tex\latex\ctex\fd\c19rm.fd
-File: c19rm.fd 2007/05/06 v0.8a ctex font definition file
-)
-Package CJKpunct Info: punctuation spaces for family 'zhsong' do not exist. Use
- family 'def' instead. on input line 9.
-LaTeX Font Info:    Try loading font information for U+msa on input line 15.
+LaTeX Font Info:    Try loading font information for U+msa on input line 45.
 
 (E:\CTEX\MiKTeX\tex\latex\amsfonts\umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 15.
+LaTeX Font Info:    Try loading font information for U+msb on input line 45.
 
 (E:\CTEX\MiKTeX\tex\latex\amsfonts\umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-Package CJKpunct Info: punctuation spaces for family 'zhhei' do not exist. Use 
-family 'def' instead. on input line 59.
- [1
+Overfull \hbox (24.92464pt too wide) detected at line 45
+  \C19/zhkai/bx/n/16.06/58 [][]  \C19/zhkai/bx/n/16.06/43 Û[][]  \C19/zhkai/bx
+/n/16.06/62 ‰[][]  \C19/zhkai/bx/n/16.06/42 B[][]  \C19/zhkai/bx/n/16.06/46 []
+[]  \C19/zhkai/bx/n/16.06/55 Ç[][] |\C19/zhkai/bx/n/16.06/25 ![][]|  \C19/zhkai
+/bx/n/16.06/44 ‘[][]  \C19/zhkai/bx/n/16.06/64 [][]  \C19/zhkai/bx/n/16.06/39 
+ˆ[][]  \C19/zhkai/bx/n/16.06/46 [][]  \C19/zhkai/bx/n/16.06/55 Ç[][] 
+ []
+
+[1
 
 
-
-
-] [2
-
-] [3])
+ <C:/Users/lenovo/Desktop/LunWenGraduate/figures/ZJU-eps-converted-to.pdf> <C:/
+Users/lenovo/Desktop/LunWenGraduate/figures/ZJULOGO-eps-converted-to.pdf>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 12.64998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[4]
+[2
+
+] (C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/abstract.tex
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                \hskip 12.05pt
+(hyperref)                replaced by space on input line 7.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                \hskip 12.05pt
+(hyperref)                replaced by space on input line 7.
+
+LaTeX Font Info:    Try loading font information for C19+rm on input line 9.
+(E:\CTEX\CTeX\tex\latex\ctex\fd\c19rm.fd
+File: c19rm.fd 2007/05/06 v0.8a ctex font definition file
+)
+Package CJKpunct Info: punctuation spaces for family 'zhsong' do not exist. Use
+ family 'def' instead. on input line 9.
+Package CJKpunct Info: punctuation spaces for family 'zhhei' do not exist. Use 
+family 'def' instead. on input line 65.
+ [1
+
+
+] [2
+
+] [3]) [4]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                \hskip 12.05pt
@@ -883,46 +937,54 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (C:\Users\lenovo\Desktop\LunWenGraduate\LingPhDThesis.toc [5
 
 
-])
+] [6])
 \tf@toc=\write5
- [6]
-(C:\Users\lenovo\Desktop\LunWenGraduate\LingPhDThesis.lot)
-\tf@lot=\write6
- [7
-
-] [8
+ [7] [8
 
 ]
-(C:\Users\lenovo\Desktop\LunWenGraduate\LingPhDThesis.lof [9])
+(C:\Users\lenovo\Desktop\LunWenGraduate\LingPhDThesis.lot)
+\tf@lot=\write6
+ [9] [10
+
+]
+(C:\Users\lenovo\Desktop\LunWenGraduate\LingPhDThesis.lof [11])
 \tf@lof=\write7
- [10]
+ [12]
 \c@newlist=\count167
 
 (C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/chapter1.tex
 µÚ\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces 1\hspace {0.25em plus
  0.125em minus 0.08em}\ignorespaces ÕÂ
-[1
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.32 
+      [1
 
 
 
-] [2] [3]) [4] (C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/chapter2.tex
+]pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has
+ been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.61 
+      [2]) [3] [4]
+(C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/chapter2.tex
 µÚ\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces 2\hspace {0.25em plus
  0.125em minus 0.08em}\ignorespaces ÕÂ
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 44.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 58.
 (E:\CTEX\MiKTeX\tex\latex\base\omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12.05> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 44.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 58.
  [5
 
 
 
 ]
-Package CJKpunct Info: punctuation spaces for family 'zhkai' do not exist. Use 
-family 'def' instead. on input line 68.
-
-Overfull \hbox (6.42966pt too wide) in paragraph at lines 70--72
+Overfull \hbox (6.42966pt too wide) in paragraph at lines 88--91
 []\C19/rm/m/n/12.05/63 3 \C19/rm/m/n/12.05/60 ï \C19/rm/m/n/12.05/46 Ä \C19/rm/
 m/n/12.05/62 ^ \C19/rm/m/n/12.05/44 · \C19/rm/m/n/12.05/43 Ü \C19/rm/m/n/12.05/
 63  \C19/rm/m/n/12.05/54  \C19/rm/m/n/12.05/48 l \C19/rm/m/n/12.05/54 Ñ \OT1/
@@ -935,10 +997,6 @@ m/m/it/12.05 X[]; P[]\OT1/cmr/m/n/12.05 ) \OMS/cmsy/m/n/12.05 $
  []
 
 [6] [7]
-Overfull \hbox (2.62195pt too wide) in paragraph at lines 172--200
-[][] [] 
- []
-
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -948,20 +1006,20 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [8]
 [9]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 251.
+put line 314.
  [10] [11] [12] [13] [14] [15] [16] [17] [18pdfTeX warning (ext4): destination 
 with the same identifier (name{equation.2.4.59}) has been already used, duplica
 te ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.652 
+l.859 
       pdfTeX warning (ext4): destination with the same identifier (name{equatio
 n.2.4.59}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.652 
+l.859 
       ] [19] [20] [21]) [22]
 (C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/chapter3.tex
 µÚ\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces 3\hspace {0.25em plus
@@ -990,18 +1048,13 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 ]
-[24] [25] [26]
-Overfull \hbox (60.33136pt too wide) detected at line 248
-[][] []
- []
-
-[27pdfTeX warning (ext4): destination with the same identifier (name{equation.3
-.2.16}) has been already used, duplicate ignored
+[24] [25] [26] [27pdfTeX warning (ext4): destination with the same identifier (
+name{equation.3.2.16}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.256    \end{equation}
-                       ]
+l.249    \begin{equation}
+                         ] [28]
 Overfull \hbox (1.6998pt too wide) in paragraph at lines 332--336
 []\C19/rm/m/n/12.05/45 ò \C19/rm/m/n/12.05/43   \C19/rm/m/n/12.05/59 z \C19/rm/
 m/n/12.05/46 Ý \C19/rm/m/n/12.05/64 
@@ -1015,58 +1068,46 @@ mr/m/n/12.05 (\OML/cmm/m/it/12.05 i[]; k[]\OT1/cmr/m/n/12.05 )$|\C19/rm/m/n/12.
 cmr/m/n/12.05 )$|\C19/rm/m/n/12.05/25 !|
  []
 
-[28pdfTeX warning (ext4): destination with the same identifier (name{equation.3
-.2.18}) has been already used, duplicate ignored
+[29pdfTeX warning (ext4): destination with the same identifier (name{equation.3
+.2.20}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.336 
-      pdfTeX warning (ext4): destination with the same identifier (name{equatio
-n.3.2.19}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.336 
-      ] [29pdfTeX warning (ext4): destination with the same identifier (name{eq
-uation.3.3.21}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.426      \begin{equation}
+l.424        \end{equation}
                            ] [30pdfTeX warning (ext4): destination with the sam
-e identifier (name{equation.3.3.22}) has been already used, duplicate ignored
+e identifier (name{equation.3.3.24}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.472    ÔÚ
-            ~$t = t_{n}$ Ê±¿Ì£¬»ñµÃÓÐÏÞÔª½â~$(\vec{u}_h^{(n)}, p_h^{(n)})$¡£...
+l.474    ÔÚ
+            ~$t = t_{n}$ Ê±¿Ì£¬»ñµÃÓÐÏÞÔª½â~$(\vec{u}_h^{(n)}, p_H^{(n)})$¡£...
 pdfTeX warning (ext4): destination with the same identifier (name{equation.3.3.
 25}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.472    ÔÚ
-            ~$t = t_{n}$ Ê±¿Ì£¬»ñµÃÓÐÏÞÔª½â~$(\vec{u}_h^{(n)}, p_h^{(n)})$¡£...
+l.474    ÔÚ
+            ~$t = t_{n}$ Ê±¿Ì£¬»ñµÃÓÐÏÞÔª½â~$(\vec{u}_h^{(n)}, p_H^{(n)})$¡£...
 ] [31] [32pdfTeX warning (ext4): destination with the same identifier (name{equ
 ation.3.4.33}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.595   \end{equation}
+l.596   \end{equation}
                       ]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 602.
+(hyperref)                removing `math shift' on input line 603.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 602.
+(hyperref)                removing `math shift' on input line 603.
 
 [33] [34]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [35]
-Overfull \hbox (36.88889pt too wide) in paragraph at lines 770--781
+Overfull \hbox (39.58937pt too wide) in paragraph at lines 771--782
  [][] 
  []
 
@@ -1081,10 +1122,10 @@ ction-eps-converted-to.pdf>
 (epstopdf)             Command: <epstopdf --outfile=picture/first/collidingFlow
 /mesh_move_direction-eps-converted-to.pdf picture/first/collidingFlow/mesh_move
 _direction.eps>
-(epstopdf)             \includegraphics on input line 819.
+(epstopdf)             \includegraphics on input line 815.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/first/collidingFlow/mesh_move_direction-eps-converted-to.pdf, id=1034,
+<picture/first/collidingFlow/mesh_move_direction-eps-converted-to.pdf, id=1093,
  578.16pt x 650.43pt>
 File: picture/first/collidingFlow/mesh_move_direction-eps-converted-to.pdf Grap
 hic file (type pdf)
@@ -1101,10 +1142,10 @@ ur-eps-converted-to.pdf>
 (epstopdf)             Command: <epstopdf --outfile=picture/first/collidingFlow
 /pressure_contour-eps-converted-to.pdf picture/first/collidingFlow/pressure_con
 tour.eps>
-(epstopdf)             \includegraphics on input line 820.
+(epstopdf)             \includegraphics on input line 816.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/first/collidingFlow/pressure_contour-eps-converted-to.pdf, id=1035, 57
+<picture/first/collidingFlow/pressure_contour-eps-converted-to.pdf, id=1094, 57
 8.16pt x 650.43pt>
 File: picture/first/collidingFlow/pressure_contour-eps-converted-to.pdf Graphic
  file (type pdf)
@@ -1112,19 +1153,19 @@ File: picture/first/collidingFlow/pressure_contour-eps-converted-to.pdf Graphic
 <use picture/first/collidingFlow/pressure_contour-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <picture/first/collidingFlow/uniform20_erro
 r.eps>
-(epstopdf)                    date: 2016-04-06 02:21:22
-(epstopdf)                    size: 1795237 bytes
+(epstopdf)                    date: 2016-05-24 16:38:44
+(epstopdf)                    size: 704647 bytes
 (epstopdf)             Output file: <picture/first/collidingFlow/uniform20_erro
 r-eps-converted-to.pdf>
-(epstopdf)                    date: 2016-04-07 13:54:54
-(epstopdf)                    size: 84568 bytes
+(epstopdf)                    date: 2016-05-24 16:41:07
+(epstopdf)                    size: 89345 bytes
 (epstopdf)             Command: <epstopdf --outfile=picture/first/collidingFlow
 /uniform20_error-eps-converted-to.pdf picture/first/collidingFlow/uniform20_err
 or.eps>
-(epstopdf)             \includegraphics on input line 829.
+(epstopdf)             \includegraphics on input line 825.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/first/collidingFlow/uniform20_error-eps-converted-to.pdf, id=1036, 578
+<picture/first/collidingFlow/uniform20_error-eps-converted-to.pdf, id=1095, 578
 .16pt x 650.43pt>
 File: picture/first/collidingFlow/uniform20_error-eps-converted-to.pdf Graphic 
 file (type pdf)
@@ -1132,19 +1173,19 @@ file (type pdf)
 <use picture/first/collidingFlow/uniform20_error-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <picture/first/collidingFlow/moving20_error
 .eps>
-(epstopdf)                    date: 2016-04-06 02:21:22
-(epstopdf)                    size: 1578089 bytes
+(epstopdf)                    date: 2016-05-24 16:38:34
+(epstopdf)                    size: 639049 bytes
 (epstopdf)             Output file: <picture/first/collidingFlow/moving20_error
 -eps-converted-to.pdf>
-(epstopdf)                    date: 2016-04-07 13:55:00
-(epstopdf)                    size: 73461 bytes
+(epstopdf)                    date: 2016-05-24 16:41:12
+(epstopdf)                    size: 143337 bytes
 (epstopdf)             Command: <epstopdf --outfile=picture/first/collidingFlow
 /moving20_error-eps-converted-to.pdf picture/first/collidingFlow/moving20_error
 .eps>
-(epstopdf)             \includegraphics on input line 830.
+(epstopdf)             \includegraphics on input line 826.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/first/collidingFlow/moving20_error-eps-converted-to.pdf, id=1037, 578.
+<picture/first/collidingFlow/moving20_error-eps-converted-to.pdf, id=1096, 578.
 16pt x 650.43pt>
 File: picture/first/collidingFlow/moving20_error-eps-converted-to.pdf Graphic f
 ile (type pdf)
@@ -1161,10 +1202,10 @@ Package epstopdf Info: Source file: <picture/first/collidingFlow/uniform_mesh20
 (epstopdf)             Command: <epstopdf --outfile=picture/first/collidingFlow
 /uniform_mesh20-eps-converted-to.pdf picture/first/collidingFlow/uniform_mesh20
 .eps>
-(epstopdf)             \includegraphics on input line 840.
+(epstopdf)             \includegraphics on input line 836.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/first/collidingFlow/uniform_mesh20-eps-converted-to.pdf, id=1038, 578.
+<picture/first/collidingFlow/uniform_mesh20-eps-converted-to.pdf, id=1097, 578.
 16pt x 650.43pt>
 File: picture/first/collidingFlow/uniform_mesh20-eps-converted-to.pdf Graphic f
 ile (type pdf)
@@ -1181,21 +1222,15 @@ eps-converted-to.pdf>
 (epstopdf)             Command: <epstopdf --outfile=picture/first/collidingFlow
 /moving_mesh20-eps-converted-to.pdf picture/first/collidingFlow/moving_mesh20.e
 ps>
-(epstopdf)             \includegraphics on input line 841.
+(epstopdf)             \includegraphics on input line 837.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/first/collidingFlow/moving_mesh20-eps-converted-to.pdf, id=1039, 578.1
+<picture/first/collidingFlow/moving_mesh20-eps-converted-to.pdf, id=1098, 578.1
 6pt x 650.43pt>
 File: picture/first/collidingFlow/moving_mesh20-eps-converted-to.pdf Graphic fi
 le (type pdf)
 
 <use picture/first/collidingFlow/moving_mesh20-eps-converted-to.pdf> [36]
-[37 <C:/Users/lenovo/Desktop/LunWenGraduate/picture/first/collidingFlow/mesh_mo
-ve_direction-eps-converted-to.pdf> <C:/Users/lenovo/Desktop/LunWenGraduate/pict
-ure/first/collidingFlow/pressure_contour-eps-converted-to.pdf> <C:/Users/lenovo
-/Desktop/LunWenGraduate/picture/first/collidingFlow/uniform20_error-eps-convert
-ed-to.pdf> <C:/Users/lenovo/Desktop/LunWenGraduate/picture/first/collidingFlow/
-moving20_error-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <picture/first/jet_flow_data/mesh_t12s.eps>
 
 (epstopdf)                    date: 2016-04-06 02:21:22
@@ -1206,10 +1241,10 @@ converted-to.pdf>
 (epstopdf)                    size: 131745 bytes
 (epstopdf)             Command: <epstopdf --outfile=picture/first/jet_flow_data
 /mesh_t12s-eps-converted-to.pdf picture/first/jet_flow_data/mesh_t12s.eps>
-(epstopdf)             \includegraphics on input line 862.
+(epstopdf)             \includegraphics on input line 858.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/first/jet_flow_data/mesh_t12s-eps-converted-to.pdf, id=1068, 339.2675p
+<picture/first/jet_flow_data/mesh_t12s-eps-converted-to.pdf, id=1109, 339.2675p
 t x 650.43pt>
 File: picture/first/jet_flow_data/mesh_t12s-eps-converted-to.pdf Graphic file (
 type pdf)
@@ -1225,24 +1260,30 @@ ps-converted-to.pdf>
 (epstopdf)             Command: <epstopdf --outfile=picture/first/jet_flow_data
 /contour_t12s-eps-converted-to.pdf picture/first/jet_flow_data/contour_t12s.eps
 >
-(epstopdf)             \includegraphics on input line 863.
+(epstopdf)             \includegraphics on input line 859.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/first/jet_flow_data/contour_t12s-eps-converted-to.pdf, id=1069, 339.26
+<picture/first/jet_flow_data/contour_t12s-eps-converted-to.pdf, id=1110, 339.26
 75pt x 650.43pt>
 File: picture/first/jet_flow_data/contour_t12s-eps-converted-to.pdf Graphic fil
 e (type pdf)
 
 <use picture/first/jet_flow_data/contour_t12s-eps-converted-to.pdf>
-Overfull \hbox (6.63663pt too wide) in paragraph at lines 862--864
+Overfull \hbox (6.63663pt too wide) in paragraph at lines 858--860
  [] 
  []
 
 
-Overfull \hbox (6.63663pt too wide) in paragraph at lines 862--864
+Overfull \hbox (6.63663pt too wide) in paragraph at lines 858--860
  [] 
  []
 
+[37 <C:/Users/lenovo/Desktop/LunWenGraduate/picture/first/collidingFlow/mesh_mo
+ve_direction-eps-converted-to.pdf> <C:/Users/lenovo/Desktop/LunWenGraduate/pict
+ure/first/collidingFlow/pressure_contour-eps-converted-to.pdf> <C:/Users/lenovo
+/Desktop/LunWenGraduate/picture/first/collidingFlow/uniform20_error-eps-convert
+ed-to.pdf> <C:/Users/lenovo/Desktop/LunWenGraduate/picture/first/collidingFlow/
+moving20_error-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <picture/first/jet_flow_data/mesh_t27s.eps>
 
 (epstopdf)                    date: 2016-04-06 02:21:22
@@ -1253,10 +1294,10 @@ converted-to.pdf>
 (epstopdf)                    size: 140468 bytes
 (epstopdf)             Command: <epstopdf --outfile=picture/first/jet_flow_data
 /mesh_t27s-eps-converted-to.pdf picture/first/jet_flow_data/mesh_t27s.eps>
-(epstopdf)             \includegraphics on input line 871.
+(epstopdf)             \includegraphics on input line 867.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/first/jet_flow_data/mesh_t27s-eps-converted-to.pdf, id=1070, 339.2675p
+<picture/first/jet_flow_data/mesh_t27s-eps-converted-to.pdf, id=1128, 339.2675p
 t x 650.43pt>
 File: picture/first/jet_flow_data/mesh_t27s-eps-converted-to.pdf Graphic file (
 type pdf)
@@ -1272,21 +1313,21 @@ ps-converted-to.pdf>
 (epstopdf)             Command: <epstopdf --outfile=picture/first/jet_flow_data
 /contour_t27s-eps-converted-to.pdf picture/first/jet_flow_data/contour_t27s.eps
 >
-(epstopdf)             \includegraphics on input line 872.
+(epstopdf)             \includegraphics on input line 868.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/first/jet_flow_data/contour_t27s-eps-converted-to.pdf, id=1071, 339.26
+<picture/first/jet_flow_data/contour_t27s-eps-converted-to.pdf, id=1129, 339.26
 75pt x 650.43pt>
 File: picture/first/jet_flow_data/contour_t27s-eps-converted-to.pdf Graphic fil
 e (type pdf)
 
 <use picture/first/jet_flow_data/contour_t27s-eps-converted-to.pdf>
-Overfull \hbox (6.63663pt too wide) in paragraph at lines 871--873
+Overfull \hbox (6.63663pt too wide) in paragraph at lines 867--869
  [] 
  []
 
 
-Overfull \hbox (6.63663pt too wide) in paragraph at lines 871--873
+Overfull \hbox (6.63663pt too wide) in paragraph at lines 867--869
  [] 
  []
 
@@ -1300,16 +1341,16 @@ Package epstopdf Info: Source file: <picture/first/step_flow_data/mesh_t_05.eps
 (epstopdf)                    size: 81551 bytes
 (epstopdf)             Command: <epstopdf --outfile=picture/first/step_flow_dat
 a/mesh_t_05-eps-converted-to.pdf picture/first/step_flow_data/mesh_t_05.eps>
-(epstopdf)             \includegraphics on input line 906.
+(epstopdf)             \includegraphics on input line 902.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/first/step_flow_data/mesh_t_05-eps-converted-to.pdf, id=1077, 332.2412
+<picture/first/step_flow_data/mesh_t_05-eps-converted-to.pdf, id=1135, 332.2412
 6pt x 650.43pt>
 File: picture/first/step_flow_data/mesh_t_05-eps-converted-to.pdf Graphic file 
 (type pdf)
 
 <use picture/first/step_flow_data/mesh_t_05-eps-converted-to.pdf>
-Overfull \hbox (31.66684pt too wide) in paragraph at lines 906--908
+Overfull \hbox (31.66684pt too wide) in paragraph at lines 902--904
  [][] 
  []
 
@@ -1323,16 +1364,16 @@ Package epstopdf Info: Source file: <picture/first/step_flow_data/mesh_t_1s.eps
 (epstopdf)                    size: 80970 bytes
 (epstopdf)             Command: <epstopdf --outfile=picture/first/step_flow_dat
 a/mesh_t_1s-eps-converted-to.pdf picture/first/step_flow_data/mesh_t_1s.eps>
-(epstopdf)             \includegraphics on input line 914.
+(epstopdf)             \includegraphics on input line 910.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/first/step_flow_data/mesh_t_1s-eps-converted-to.pdf, id=1078, 332.2412
+<picture/first/step_flow_data/mesh_t_1s-eps-converted-to.pdf, id=1136, 332.2412
 6pt x 650.43pt>
 File: picture/first/step_flow_data/mesh_t_1s-eps-converted-to.pdf Graphic file 
 (type pdf)
 
 <use picture/first/step_flow_data/mesh_t_1s-eps-converted-to.pdf>
-Overfull \hbox (31.66684pt too wide) in paragraph at lines 914--916
+Overfull \hbox (31.66684pt too wide) in paragraph at lines 910--912
  [][] 
  []
 
@@ -1347,16 +1388,16 @@ ps-converted-to.pdf>
 (epstopdf)             Command: <epstopdf --outfile=picture/first/step_flow_dat
 a/mesh_t_1_5s-eps-converted-to.pdf picture/first/step_flow_data/mesh_t_1_5s.eps
 >
-(epstopdf)             \includegraphics on input line 922.
+(epstopdf)             \includegraphics on input line 918.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/first/step_flow_data/mesh_t_1_5s-eps-converted-to.pdf, id=1079, 332.24
+<picture/first/step_flow_data/mesh_t_1_5s-eps-converted-to.pdf, id=1137, 332.24
 126pt x 650.43pt>
 File: picture/first/step_flow_data/mesh_t_1_5s-eps-converted-to.pdf Graphic fil
 e (type pdf)
 
 <use picture/first/step_flow_data/mesh_t_1_5s-eps-converted-to.pdf>
-Overfull \hbox (31.66684pt too wide) in paragraph at lines 922--924
+Overfull \hbox (31.66684pt too wide) in paragraph at lines 918--920
  [][] 
  []
 
@@ -1370,16 +1411,16 @@ Package epstopdf Info: Source file: <picture/first/step_flow_data/mesh_t_2s.eps
 (epstopdf)                    size: 83408 bytes
 (epstopdf)             Command: <epstopdf --outfile=picture/first/step_flow_dat
 a/mesh_t_2s-eps-converted-to.pdf picture/first/step_flow_data/mesh_t_2s.eps>
-(epstopdf)             \includegraphics on input line 930.
+(epstopdf)             \includegraphics on input line 926.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/first/step_flow_data/mesh_t_2s-eps-converted-to.pdf, id=1080, 332.2412
+<picture/first/step_flow_data/mesh_t_2s-eps-converted-to.pdf, id=1138, 332.2412
 6pt x 650.43pt>
 File: picture/first/step_flow_data/mesh_t_2s-eps-converted-to.pdf Graphic file 
 (type pdf)
 
 <use picture/first/step_flow_data/mesh_t_2s-eps-converted-to.pdf>
-Overfull \hbox (31.66684pt too wide) in paragraph at lines 930--932
+Overfull \hbox (31.66684pt too wide) in paragraph at lines 926--928
  [][] 
  []
 
@@ -1394,17 +1435,17 @@ mline_t_2s-eps-converted-to.pdf>
 (epstopdf)             Command: <epstopdf --outfile=picture/first/step_flow_dat
 a/contour_streamline_t_2s-eps-converted-to.pdf picture/first/step_flow_data/con
 tour_streamline_t_2s.eps>
-(epstopdf)             \includegraphics on input line 938.
+(epstopdf)             \includegraphics on input line 934.
 Package epstopdf Info: Output file is already uptodate.
 
 <picture/first/step_flow_data/contour_streamline_t_2s-eps-converted-to.pdf, id=
-1081, 333.245pt x 651.43375pt>
+1139, 333.245pt x 651.43375pt>
 File: picture/first/step_flow_data/contour_streamline_t_2s-eps-converted-to.pdf
  Graphic file (type pdf)
 
 <use picture/first/step_flow_data/contour_streamline_t_2s-eps-converted-to.pdf>
 
-Overfull \hbox (31.01047pt too wide) in paragraph at lines 938--940
+Overfull \hbox (31.01047pt too wide) in paragraph at lines 934--936
  [][] 
  []
 
@@ -1433,10 +1474,10 @@ esh-eps-converted-to.pdf>
 (epstopdf)             Command: <epstopdf --outfile=picture/first/obstacle_flow
 _data/initial_mesh-eps-converted-to.pdf picture/first/obstacle_flow_data/initia
 l_mesh.eps>
-(epstopdf)             \includegraphics on input line 959.
+(epstopdf)             \includegraphics on input line 955.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/first/obstacle_flow_data/initial_mesh-eps-converted-to.pdf, id=1140, 4
+<picture/first/obstacle_flow_data/initial_mesh-eps-converted-to.pdf, id=1199, 4
 04.51125pt x 650.43pt>
 File: picture/first/obstacle_flow_data/initial_mesh-eps-converted-to.pdf Graphi
 c file (type pdf)
@@ -1453,10 +1494,10 @@ _5s-eps-converted-to.pdf>
 (epstopdf)             Command: <epstopdf --outfile=picture/first/obstacle_flow
 _data/mesh_t_24_5s-eps-converted-to.pdf picture/first/obstacle_flow_data/mesh_t
 _24_5s.eps>
-(epstopdf)             \includegraphics on input line 967.
+(epstopdf)             \includegraphics on input line 963.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/first/obstacle_flow_data/mesh_t_24_5s-eps-converted-to.pdf, id=1141, 4
+<picture/first/obstacle_flow_data/mesh_t_24_5s-eps-converted-to.pdf, id=1200, 4
 04.51125pt x 650.43pt>
 File: picture/first/obstacle_flow_data/mesh_t_24_5s-eps-converted-to.pdf Graphi
 c file (type pdf)
@@ -1473,10 +1514,10 @@ s-eps-converted-to.pdf>
 (epstopdf)             Command: <epstopdf --outfile=picture/first/obstacle_flow
 _data/mesh_t_23s-eps-converted-to.pdf picture/first/obstacle_flow_data/mesh_t_2
 3s.eps>
-(epstopdf)             \includegraphics on input line 976.
+(epstopdf)             \includegraphics on input line 972.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/first/obstacle_flow_data/mesh_t_23s-eps-converted-to.pdf, id=1142, 404
+<picture/first/obstacle_flow_data/mesh_t_23s-eps-converted-to.pdf, id=1201, 404
 .51125pt x 650.43pt>
 File: picture/first/obstacle_flow_data/mesh_t_23s-eps-converted-to.pdf Graphic 
 file (type pdf)
@@ -1497,12 +1538,12 @@ rst/obstacle_flow_data/mesh_t_23s-eps-converted-to.pdf>]
  0.125em minus 0.08em}\ignorespaces ÕÂ
 Missing character: There is no þ in font cmr12!
 
-Overfull \hbox (54.50903pt too wide) in alignment at lines 108--115
+Overfull \hbox (54.50903pt too wide) in alignment at lines 107--114
  [][][] []
  []
 
 
-Overfull \hbox (22.04681pt too wide) in alignment at lines 116--125
+Overfull \hbox (22.04681pt too wide) in alignment at lines 115--124
  [][][] []
  []
 
@@ -1511,14 +1552,14 @@ name{equation.4.1.15}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.193          \end{equation}
+l.192          \end{equation}
                              ]
-Overfull \hbox (48.08684pt too wide) in alignment at lines 201--209
+Overfull \hbox (48.08684pt too wide) in alignment at lines 200--208
  [][][] []
  []
 
 
-Overfull \hbox (2.62195pt too wide) in paragraph at lines 236--264
+Overfull \hbox (2.62195pt too wide) in paragraph at lines 235--263
 [][] [] 
  []
 
@@ -1526,31 +1567,31 @@ Overfull \hbox (2.62195pt too wide) in paragraph at lines 236--264
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [51] [52] [53] [54] [55]
-Overfull \hbox (1.10358pt too wide) in alignment at lines 484--496
+Overfull \hbox (1.10358pt too wide) in alignment at lines 486--498
  [][][] []
  []
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\hbox' on input line 502.
+(hyperref)                removing `\hbox' on input line 504.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\mathsurround' on input line 502.
+(hyperref)                removing `\mathsurround' on input line 504.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\z@' on input line 502.
+(hyperref)                removing `\z@' on input line 504.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\unskip' on input line 502.
+(hyperref)                removing `\unskip' on input line 504.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\@@italiccorr' on input line 502.
+(hyperref)                removing `\@@italiccorr' on input line 504.
 
-[56] [57]
+[56] [57] [58]
 Package epstopdf Info: Source file: <picture/second/cavity_flow_data/moving_mes
 h_20.eps>
 (epstopdf)                    date: 2016-04-11 15:13:32
@@ -1562,10 +1603,10 @@ h_20-eps-converted-to.pdf>
 (epstopdf)             Command: <epstopdf --outfile=picture/second/cavity_flow_
 data/moving_mesh_20-eps-converted-to.pdf picture/second/cavity_flow_data/moving
 _mesh_20.eps>
-(epstopdf)             \includegraphics on input line 607.
+(epstopdf)             \includegraphics on input line 626.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/second/cavity_flow_data/moving_mesh_20-eps-converted-to.pdf, id=1366, 
+<picture/second/cavity_flow_data/moving_mesh_20-eps-converted-to.pdf, id=1427, 
 578.16pt x 650.43pt>
 File: picture/second/cavity_flow_data/moving_mesh_20-eps-converted-to.pdf Graph
 ic file (type pdf)
@@ -1582,55 +1623,55 @@ h20-eps-converted-to.pdf>
 (epstopdf)             Command: <epstopdf --outfile=picture/second/cavity_flow_
 data/vortex_mesh20-eps-converted-to.pdf picture/second/cavity_flow_data/vortex_
 mesh20.eps>
-(epstopdf)             \includegraphics on input line 608.
+(epstopdf)             \includegraphics on input line 627.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/second/cavity_flow_data/vortex_mesh20-eps-converted-to.pdf, id=1367, 5
+<picture/second/cavity_flow_data/vortex_mesh20-eps-converted-to.pdf, id=1428, 5
 78.16pt x 650.43pt>
 File: picture/second/cavity_flow_data/vortex_mesh20-eps-converted-to.pdf Graphi
 c file (type pdf)
 
 <use picture/second/cavity_flow_data/vortex_mesh20-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <picture/second/cavity_flow_data/divergence
-_uniform_1.eps>
-(epstopdf)                    date: 2016-04-11 15:13:32
-(epstopdf)                    size: 362568 bytes
+_uniform.eps>
+(epstopdf)                    date: 2016-05-18 22:54:32
+(epstopdf)                    size: 389730 bytes
 (epstopdf)             Output file: <picture/second/cavity_flow_data/divergence
-_uniform_1-eps-converted-to.pdf>
-(epstopdf)                    date: 2016-04-11 15:31:24
-(epstopdf)                    size: 73204 bytes
+_uniform-eps-converted-to.pdf>
+(epstopdf)                    date: 2016-05-18 23:19:21
+(epstopdf)                    size: 72735 bytes
 (epstopdf)             Command: <epstopdf --outfile=picture/second/cavity_flow_
-data/divergence_uniform_1-eps-converted-to.pdf picture/second/cavity_flow_data/
-divergence_uniform_1.eps>
-(epstopdf)             \includegraphics on input line 616.
+data/divergence_uniform-eps-converted-to.pdf picture/second/cavity_flow_data/di
+vergence_uniform.eps>
+(epstopdf)             \includegraphics on input line 635.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/second/cavity_flow_data/divergence_uniform_1-eps-converted-to.pdf, id=
-1368, 578.16pt x 650.43pt>
-File: picture/second/cavity_flow_data/divergence_uniform_1-eps-converted-to.pdf
- Graphic file (type pdf)
+<picture/second/cavity_flow_data/divergence_uniform-eps-converted-to.pdf, id=14
+29, 578.16pt x 650.43pt>
+File: picture/second/cavity_flow_data/divergence_uniform-eps-converted-to.pdf G
+raphic file (type pdf)
 
-<use picture/second/cavity_flow_data/divergence_uniform_1-eps-converted-to.pdf>
+<use picture/second/cavity_flow_data/divergence_uniform-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <picture/second/cavity_flow_data/divergence
-_moving_1.eps>
-(epstopdf)                    date: 2016-04-11 15:13:32
-(epstopdf)                    size: 442696 bytes
+_moving.eps>
+(epstopdf)                    date: 2016-05-18 22:54:18
+(epstopdf)                    size: 364060 bytes
 (epstopdf)             Output file: <picture/second/cavity_flow_data/divergence
-_moving_1-eps-converted-to.pdf>
-(epstopdf)                    date: 2016-04-11 15:31:30
-(epstopdf)                    size: 108235 bytes
+_moving-eps-converted-to.pdf>
+(epstopdf)                    date: 2016-05-18 23:19:26
+(epstopdf)                    size: 58869 bytes
 (epstopdf)             Command: <epstopdf --outfile=picture/second/cavity_flow_
-data/divergence_moving_1-eps-converted-to.pdf picture/second/cavity_flow_data/d
-ivergence_moving_1.eps>
-(epstopdf)             \includegraphics on input line 617.
+data/divergence_moving-eps-converted-to.pdf picture/second/cavity_flow_data/div
+ergence_moving.eps>
+(epstopdf)             \includegraphics on input line 636.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/second/cavity_flow_data/divergence_moving_1-eps-converted-to.pdf, id=1
-369, 578.16pt x 650.43pt>
-File: picture/second/cavity_flow_data/divergence_moving_1-eps-converted-to.pdf 
-Graphic file (type pdf)
+<picture/second/cavity_flow_data/divergence_moving-eps-converted-to.pdf, id=143
+0, 578.16pt x 650.43pt>
+File: picture/second/cavity_flow_data/divergence_moving-eps-converted-to.pdf Gr
+aphic file (type pdf)
 
-<use picture/second/cavity_flow_data/divergence_moving_1-eps-converted-to.pdf>
+<use picture/second/cavity_flow_data/divergence_moving-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <picture/second/cavity_flow_data/streamline
 _mesh20.eps>
 (epstopdf)                    date: 2016-04-11 15:13:32
@@ -1642,41 +1683,70 @@ _mesh20-eps-converted-to.pdf>
 (epstopdf)             Command: <epstopdf --outfile=picture/second/cavity_flow_
 data/streamline_mesh20-eps-converted-to.pdf picture/second/cavity_flow_data/str
 eamline_mesh20.eps>
-(epstopdf)             \includegraphics on input line 625.
+(epstopdf)             \includegraphics on input line 644.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/second/cavity_flow_data/streamline_mesh20-eps-converted-to.pdf, id=137
-0, 578.16pt x 650.43pt>
+<picture/second/cavity_flow_data/streamline_mesh20-eps-converted-to.pdf, id=143
+1, 578.16pt x 650.43pt>
 File: picture/second/cavity_flow_data/streamline_mesh20-eps-converted-to.pdf Gr
 aphic file (type pdf)
 
 <use picture/second/cavity_flow_data/streamline_mesh20-eps-converted-to.pdf>
-Package epstopdf Info: Source file: <picture/second/cavity_flow_data/Fp_compara
-tion_mesh20.eps>
-(epstopdf)                    date: 2016-04-11 15:13:32
-(epstopdf)                    size: 141618 bytes
-(epstopdf)             Output file: <picture/second/cavity_flow_data/Fp_compara
-tion_mesh20-eps-converted-to.pdf>
-(epstopdf)                    date: 2016-04-11 15:31:38
-(epstopdf)                    size: 65735 bytes
+Package epstopdf Info: Source file: <picture/second/cavity_flow_data/it_steps_v
+ia_nu.eps>
+(epstopdf)                    date: 2016-05-18 22:55:52
+(epstopdf)                    size: 10093 bytes
+(epstopdf)             Output file: <picture/second/cavity_flow_data/it_steps_v
+ia_nu-eps-converted-to.pdf>
+(epstopdf)                    date: 2016-05-18 23:21:36
+(epstopdf)                    size: 4512 bytes
 (epstopdf)             Command: <epstopdf --outfile=picture/second/cavity_flow_
-data/Fp_comparation_mesh20-eps-converted-to.pdf picture/second/cavity_flow_data
-/Fp_comparation_mesh20.eps>
-(epstopdf)             \includegraphics on input line 633.
+data/it_steps_via_nu-eps-converted-to.pdf picture/second/cavity_flow_data/it_st
+eps_via_nu.eps>
+(epstopdf)             \includegraphics on input line 652.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/second/cavity_flow_data/Fp_comparation_mesh20-eps-converted-to.pdf, id
-=1371, 449.68pt x 338.26375pt>
-File: picture/second/cavity_flow_data/Fp_comparation_mesh20-eps-converted-to.pd
-f Graphic file (type pdf)
+<picture/second/cavity_flow_data/it_steps_via_nu-eps-converted-to.pdf, id=1432,
+ 449.68pt x 338.26375pt>
+File: picture/second/cavity_flow_data/it_steps_via_nu-eps-converted-to.pdf Grap
+hic file (type pdf)
 
-<use picture/second/cavity_flow_data/Fp_comparation_mesh20-eps-converted-to.pdf
-> [58] [59 <C:/Users/lenovo/Desktop/LunWenGraduate/picture/second/cavity_flow_d
-ata/moving_mesh_20-eps-converted-to.pdf> <C:/Users/lenovo/Desktop/LunWenGraduat
-e/picture/second/cavity_flow_data/vortex_mesh20-eps-converted-to.pdf> <C:/Users
-/lenovo/Desktop/LunWenGraduate/picture/second/cavity_flow_data/divergence_unifo
-rm_1-eps-converted-to.pdf> <C:/Users/lenovo/Desktop/LunWenGraduate/picture/seco
-nd/cavity_flow_data/divergence_moving_1-eps-converted-to.pdf>]
+<use picture/second/cavity_flow_data/it_steps_via_nu-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <picture/second/cavity_flow_data/uniform_vs
+_moving_GMRES_new.eps>
+(epstopdf)                    date: 2016-06-03 13:42:04
+(epstopdf)                    size: 10245 bytes
+(epstopdf)             Output file: <picture/second/cavity_flow_data/uniform_vs
+_moving_GMRES_new-eps-converted-to.pdf>
+(epstopdf)                    date: 2016-06-03 13:47:06
+(epstopdf)                    size: 4533 bytes
+(epstopdf)             Command: <epstopdf --outfile=picture/second/cavity_flow_
+data/uniform_vs_moving_GMRES_new-eps-converted-to.pdf picture/second/cavity_flo
+w_data/uniform_vs_moving_GMRES_new.eps>
+(epstopdf)             \includegraphics on input line 680.
+Package epstopdf Info: Output file is already uptodate.
+
+<picture/second/cavity_flow_data/uniform_vs_moving_GMRES_new-eps-converted-to.p
+df, id=1437, 449.68pt x 338.26375pt>
+File: picture/second/cavity_flow_data/uniform_vs_moving_GMRES_new-eps-converted
+-to.pdf Graphic file (type pdf)
+
+<use picture/second/cavity_flow_data/uniform_vs_moving_GMRES_new-eps-converted-
+to.pdf>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[59 <C:/Users/lenovo/Desktop/LunWenGraduate/picture/second/cavity_flow_data/mov
+ing_mesh_20-eps-converted-to.pdf> <C:/Users/lenovo/Desktop/LunWenGraduate/pictu
+re/second/cavity_flow_data/vortex_mesh20-eps-converted-to.pdf>] [60 <C:/Users/l
+enovo/Desktop/LunWenGraduate/picture/second/cavity_flow_data/divergence_uniform
+-eps-converted-to.pdf> <C:/Users/lenovo/Desktop/LunWenGraduate/picture/second/c
+avity_flow_data/divergence_moving-eps-converted-to.pdf> <C:/Users/lenovo/Deskto
+p/LunWenGraduate/picture/second/cavity_flow_data/streamline_mesh20-eps-converte
+d-to.pdf>] [61 <C:/Users/lenovo/Desktop/LunWenGraduate/picture/second/cavity_fl
+ow_data/it_steps_via_nu-eps-converted-to.pdf> <C:/Users/lenovo/Desktop/LunWenGr
+aduate/picture/second/cavity_flow_data/uniform_vs_moving_GMRES_new-eps-converte
+d-to.pdf>]
 Package epstopdf Info: Source file: <picture/second/L_shaped_flow_data/mesh.eps
 >
 (epstopdf)                    date: 2016-04-06 02:21:22
@@ -1687,10 +1757,10 @@ Package epstopdf Info: Source file: <picture/second/L_shaped_flow_data/mesh.eps
 (epstopdf)                    size: 47524 bytes
 (epstopdf)             Command: <epstopdf --outfile=picture/second/L_shaped_flo
 w_data/mesh-eps-converted-to.pdf picture/second/L_shaped_flow_data/mesh.eps>
-(epstopdf)             \includegraphics on input line 740.
+(epstopdf)             \includegraphics on input line 769.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/second/L_shaped_flow_data/mesh-eps-converted-to.pdf, id=1404, 216.81pt
+<picture/second/L_shaped_flow_data/mesh-eps-converted-to.pdf, id=1484, 216.81pt
  x 650.43pt>
 File: picture/second/L_shaped_flow_data/mesh-eps-converted-to.pdf Graphic file 
 (type pdf)
@@ -1706,18 +1776,15 @@ ne-eps-converted-to.pdf>
 (epstopdf)             Command: <epstopdf --outfile=picture/second/L_shaped_flo
 w_data/streamline-eps-converted-to.pdf picture/second/L_shaped_flow_data/stream
 line.eps>
-(epstopdf)             \includegraphics on input line 742.
+(epstopdf)             \includegraphics on input line 771.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/second/L_shaped_flow_data/streamline-eps-converted-to.pdf, id=1405, 21
+<picture/second/L_shaped_flow_data/streamline-eps-converted-to.pdf, id=1485, 21
 6.81pt x 650.43pt>
 File: picture/second/L_shaped_flow_data/streamline-eps-converted-to.pdf Graphic
  file (type pdf)
 
 <use picture/second/L_shaped_flow_data/streamline-eps-converted-to.pdf>
-[60 <C:/Users/lenovo/Desktop/LunWenGraduate/picture/second/cavity_flow_data/str
-eamline_mesh20-eps-converted-to.pdf> <C:/Users/lenovo/Desktop/LunWenGraduate/pi
-cture/second/cavity_flow_data/Fp_comparation_mesh20-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <picture/second/L_shaped_flow_data/iteratio
 n_updateSolution.eps>
 (epstopdf)                    date: 2016-04-13 16:47:26
@@ -1729,16 +1796,16 @@ n_updateSolution-eps-converted-to.pdf>
 (epstopdf)             Command: <epstopdf --outfile=picture/second/L_shaped_flo
 w_data/iteration_updateSolution-eps-converted-to.pdf picture/second/L_shaped_fl
 ow_data/iteration_updateSolution.eps>
-(epstopdf)             \includegraphics on input line 749.
+(epstopdf)             \includegraphics on input line 778.
 Package epstopdf Info: Output file is already uptodate.
 
 <picture/second/L_shaped_flow_data/iteration_updateSolution-eps-converted-to.pd
-f, id=1418, 449.68pt x 338.26375pt>
+f, id=1486, 449.68pt x 338.26375pt>
 File: picture/second/L_shaped_flow_data/iteration_updateSolution-eps-converted-
 to.pdf Graphic file (type pdf)
 
 <use picture/second/L_shaped_flow_data/iteration_updateSolution-eps-converted-t
-o.pdf> [61 <C:/Users/lenovo/Desktop/LunWenGraduate/picture/second/L_shaped_flow
+o.pdf> [62 <C:/Users/lenovo/Desktop/LunWenGraduate/picture/second/L_shaped_flow
 _data/mesh-eps-converted-to.pdf> <C:/Users/lenovo/Desktop/LunWenGraduate/pictur
 e/second/L_shaped_flow_data/streamline-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <picture/second/obstacle_flow_data/iteratio
@@ -1752,11 +1819,11 @@ n_steps_via_alpha-eps-converted-to.pdf>
 (epstopdf)             Command: <epstopdf --outfile=picture/second/obstacle_flo
 w_data/iteration_steps_via_alpha-eps-converted-to.pdf picture/second/obstacle_f
 low_data/iteration_steps_via_alpha.eps>
-(epstopdf)             \includegraphics on input line 774.
+(epstopdf)             \includegraphics on input line 803.
 Package epstopdf Info: Output file is already uptodate.
 
 <picture/second/obstacle_flow_data/iteration_steps_via_alpha-eps-converted-to.p
-df, id=1439, 449.68pt x 338.26375pt>
+df, id=1507, 449.68pt x 338.26375pt>
 File: picture/second/obstacle_flow_data/iteration_steps_via_alpha-eps-converted
 -to.pdf Graphic file (type pdf)
 
@@ -1773,11 +1840,11 @@ tex_t2s-eps-converted-to.pdf>
 (epstopdf)             Command: <epstopdf --outfile=picture/second/obstacle_flo
 w_data/mesh_vortex_t2s-eps-converted-to.pdf picture/second/obstacle_flow_data/m
 esh_vortex_t2s.eps>
-(epstopdf)             \includegraphics on input line 801.
+(epstopdf)             \includegraphics on input line 830.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/second/obstacle_flow_data/mesh_vortex_t2s-eps-converted-to.pdf, id=144
-8, 433.62pt x 650.43pt>
+<picture/second/obstacle_flow_data/mesh_vortex_t2s-eps-converted-to.pdf, id=151
+6, 433.62pt x 650.43pt>
 File: picture/second/obstacle_flow_data/mesh_vortex_t2s-eps-converted-to.pdf Gr
 aphic file (type pdf)
 
@@ -1793,36 +1860,114 @@ tex_t40s-eps-converted-to.pdf>
 (epstopdf)             Command: <epstopdf --outfile=picture/second/obstacle_flo
 w_data/mesh_vortex_t40s-eps-converted-to.pdf picture/second/obstacle_flow_data/
 mesh_vortex_t40s.eps>
-(epstopdf)             \includegraphics on input line 809.
+(epstopdf)             \includegraphics on input line 838.
 Package epstopdf Info: Output file is already uptodate.
 
-<picture/second/obstacle_flow_data/mesh_vortex_t40s-eps-converted-to.pdf, id=14
-49, 433.62pt x 650.43pt>
+<picture/second/obstacle_flow_data/mesh_vortex_t40s-eps-converted-to.pdf, id=15
+17, 433.62pt x 650.43pt>
 File: picture/second/obstacle_flow_data/mesh_vortex_t40s-eps-converted-to.pdf G
 raphic file (type pdf)
 
 <use picture/second/obstacle_flow_data/mesh_vortex_t40s-eps-converted-to.pdf>)
-[62 <C:/Users/lenovo/Desktop/LunWenGraduate/picture/second/L_shaped_flow_data/i
-teration_updateSolution-eps-converted-to.pdf>] [63 <C:/Users/lenovo/Desktop/Lun
+[63 <C:/Users/lenovo/Desktop/LunWenGraduate/picture/second/L_shaped_flow_data/i
+teration_updateSolution-eps-converted-to.pdf>] [64 <C:/Users/lenovo/Desktop/Lun
 WenGraduate/picture/second/obstacle_flow_data/iteration_steps_via_alpha-eps-con
-verted-to.pdf>] [64 <C:/Users/lenovo/Desktop/LunWenGraduate/picture/second/obst
-acle_flow_data/mesh_vortex_t2s-eps-converted-to.pdf> <C:/Users/lenovo/Desktop/L
+verted-to.pdf> <C:/Users/lenovo/Desktop/LunWenGraduate/picture/second/obstacle_
+flow_data/mesh_vortex_t2s-eps-converted-to.pdf>] [65 <C:/Users/lenovo/Desktop/L
 unWenGraduate/picture/second/obstacle_flow_data/mesh_vortex_t40s-eps-converted-
-to.pdf>] (C:\Users\lenovo\Desktop\LunWenGraduate\LingPhDThesis.bbl [65
+to.pdf>] (C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/chapter5.tex [66
+
 
 
 ]
-[66] [67] [68] [69] [70] [71]) [72]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 130.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 130.
+µÚ\hspace {0.25em plus 0.125em minus 0.08em}\ignorespaces 5\hspace {0.25em plus
+ 0.125em minus 0.08em}\ignorespaces ÕÂ
+[67]) [68] (C:\Users\lenovo\Desktop\LunWenGraduate\LingPhDThesis.bbl [69
 
-(C:\Users\lenovo\Desktop\LunWenGraduate\LingPhDThesis.aux
+
+]
+[70] [71] [72] [73] [74] [75]) [76] [77
+
+]
+(C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/resume.tex [78
+
+
+]
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                \hskip 12.05pt
+(hyperref)                replaced by space on input line 2.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                \hskip 12.05pt
+(hyperref)                replaced by space on input line 2.
+
+) [79] (C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/thanks.tex [80
+
+
+
+]
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                \hskip 12.05pt
+(hyperref)                replaced by space on input line 8.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                \hskip 12.05pt
+(hyperref)                replaced by space on input line 8.
+
+) [81] (C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/statements.tex [82
+
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 13--22
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 13--22
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 23--28
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 40--43
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 40--43
+
+ []
+
+)
+Overfull \hbox (38.32639pt too wide) in paragraph at lines 8--131
+[]$[]$ 
+ []
+
+[83
+
+
+]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 134.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 134.
+ (C:\Users\lenovo\Desktop\LunWenGraduate\LingPhDThesis.aux
 (C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/abstract.aux)
 (C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/chapter1.aux)
 (C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/chapter2.aux)
 (C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/chapter3.aux)
-(C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/chapter4.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 130.
+(C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/chapter4.aux)
+(C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/chapter5.aux)
+(C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/resume.aux)
+(C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/thanks.aux)
+(C:\Users\lenovo\Desktop\LunWenGraduate\Chapters/statements.aux))
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 134.
 
 
 Package rerunfilecheck Warning: File `LingPhDThesis.out' has changed.
@@ -1830,53 +1975,53 @@ Package rerunfilecheck Warning: File `LingPhDThesis.out' has changed.
 (rerunfilecheck)                or use package `bookmark'.
 
 Package rerunfilecheck Info: Checksums for `LingPhDThesis.out':
-(rerunfilecheck)             Before: B18F1357B3B9FF5BE7AF239A1F2F772C;6680
-(rerunfilecheck)             After:  06D445CF002019817612BBAD8DA07DE3;2895.
+(rerunfilecheck)             Before: C1FA671FEBD63A42522BB8C4097297D0;7342
+(rerunfilecheck)             After:  CF12252CD4CE129F26D82A0B17EB3EE4;3273.
  ) 
 Here is how much of TeX's memory you used:
- 18693 strings out of 495285
- 317409 string characters out of 3181588
- 383156 words of memory out of 3000000
- 20817 multiletter control sequences out of 15000+200000
- 91469 words of font info for 317 fonts, out of 3000000 for 9000
+ 19102 strings out of 495285
+ 326605 string characters out of 3181588
+ 387361 words of memory out of 3000000
+ 21174 multiletter control sequences out of 15000+200000
+ 110404 words of font info for 381 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
- 54i,18n,51p,840b,1262s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/s
-imhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS
-/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:
+ 54i,18n,51p,840b,1261s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/s
+imhei.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS
+/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:
+/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simhei
+.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Font
+s/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simsun.ttc><C:/WIND
+OWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc>
+<C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/sim
+sun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/F
+onts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/W
+INDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.t
+tc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/
+simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOW
+S/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C
+:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsu
+n.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fon
+ts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WIN
+DOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf
+><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/si
+mkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/
+Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/
+WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai.
+ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts
+/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDO
+WS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><
+C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simh
+ei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fo
+nts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WI
+NDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.tt
+f><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/s
+imhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS
+/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:
 /WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai
 .ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Font
 s/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WIND
-OWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf>
-<C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/sim
-kai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/F
-onts/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/W
-INDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai.t
-tf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/
-simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simkai.ttf><C:/WINDOW
-S/Fonts/simkai.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C
-:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simsu
-n.ttc><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fon
-ts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WIN
-DOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf
-><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/si
-mhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/
-Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/
-WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simhei.
-ttf><C:/WINDOWS/Fonts/simhei.ttf><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts
-/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDO
-WS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><
-C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/sims
-un.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fo
-nts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WI
-NDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.tt
-c><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/s
-imsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS
-/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:
-/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun
-.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Font
-s/simsun.ttc><C:/WINDOWS/Fonts/simsun.ttc><C:/WINDOWS/Fonts/simhei.ttf><C:/WIND
-OWS/Fonts/simhei.ttf><E:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+OWS/Fonts/simkai.ttf><E:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 <E:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx8.pfb><E:/CTEX/MiKTeX/fonts/
 type1/public/amsfonts/cm/cmex10.pfb><E:/CTEX/MiKTeX/fonts/type1/public/amsfonts
 /cm/cmmi10.pfb><E:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><E:/CT
@@ -1892,9 +2037,9 @@ TeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><E:/CTEX/MiKTeX/fonts/type1/public
 /amsfonts/cm/cmsy8.pfb><E:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pf
 b><E:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb><E:/CTEX/MiKTeX/fon
 ts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on LingPhDThesis.pdf (82 pages, 4578254 bytes).
+Output written on LingPhDThesis.pdf (97 pages, 4697983 bytes).
 PDF statistics:
- 1963 PDF objects out of 2073 (max. 8388607)
- 439 named destinations out of 1000 (max. 500000)
- 507 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2079 PDF objects out of 2487 (max. 8388607)
+ 458 named destinations out of 1000 (max. 500000)
+ 578 words of extra memory for PDF output out of 10000 (max. 10000000)
 

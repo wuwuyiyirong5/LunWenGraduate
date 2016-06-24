@@ -3,7 +3,7 @@
 %%---------------------------------------------------------------------------%%
 
 
-\chapter{不可压~Navier-Stokes 方程的代数多重网格预处理的移动网格有限元方法}
+\chapter{自适应网格上不可压~N-S 方程的代数多重网格预处理策略}
     \label{chapter:AMG_preconditioner}
     原始变量形式的不可压~Navier-Stokes 方程
     \begin{equation}
@@ -19,18 +19,18 @@
     边界条件以及初值条件:
     \begin{equation}
       \begin{array}{ll}
-        \vec{u} = \vec{w},& \mbox{ on } \partial \Omega_D \times [0,
-        T]\\
-        \nu \displaystyle \frac{\partial \vec{u}}{\partial n} - p =
-        \vec{0}, & \mbox{ on } \partial \Omega_N \times [0, T],  \\
-        \vec{u}|_{t = 0} = \vec{u_0}, & \mbox{ in } \Omega.
+        \vec{u} = \vec{w},& \mbox{ 在 } \partial \Omega_D \times [0,
+        T] \mbox{上},\\
+        \nu \displaystyle \frac{\partial \vec{u}}{\partial n} - \mathbf{n} p =
+        \vec{0}, & \mbox{ 在 } \partial \Omega_N \times [0, T] \mbox{上},  \\
+        \vec{u}|_{t = 0} = \vec{u_0}, & \mbox{在} \Omega \mbox{中}.
       \end{array}
       \label{eq::bc_chap4}
     \end{equation}
     其中 ~$\Omega \in \mathcal{R}^d,(d = 2, 3)$ 是计算区域，
     $[0,T]$ 是时间区间，$\vec{u}$ 是速度变量并且常量~$p$ 是压力， $\vec{n}$ 是边界
     ~$\partial \Omega$ 上的外法向方向，$\nu > 0$ 是粘性动力学系数。
-    我们用~\cite{li2001mesh} 和 ~\cite{di2005}中提出的移动网格有限元方法求解~\eqref{eq::NS_chap4} 和 ~\eqref{eq::bc_chap4}。
+    我们用~\cite{li2001mesh} 和 ~\cite{di2005moving} 中提出的移动网格有限元方法求解~\eqref{eq::NS_chap4} 和 ~\eqref{eq::bc_chap4}。
 %    过去几十年，很多人在移动网格移动网格方法上做出了很多工作(~\cite{cao1999adaptive}、
 %    ~\cite{cao2003moving}、\cite{di2005moving}、\cite{di2007level}、\cite{di2007moving}、
 %    \cite{li2001PHDthesis}、\cite{li2006moving})。Winslow \cite{Winslow1966NUMERICAL} 提出了
@@ -43,22 +43,21 @@
 %    数据结构，但是$4P1-P1$元中的速度单元上的基函数全部位于一个速度单元上，在速度单元和压力单元
 %    进行拼装的时候，只要建立速度单元和压力单元间的索引，便是一个简单的过程。
 
-    据我们所知，用满足~inf-sup 条件的~$4P_1-P_1$ 元可以推出一个鞍点问题，许和何(\cite{xu1992iterative}、\cite{shen1999schur})
+    据我们所知，用满足~inf-sup 条件的~$4P_1-P_1$ 元离散可以导出一个鞍点问题，许等(\cite{xu1992iterative}、\cite{shen1999schur})
     将两格子方法应用到~Navier-Stokes 方程的求解。很多人在为~Krylov 子空间方法提供预处理子方面做出了很多工作。
-    在~\cite{benzi2005numerical}文中，概括了求解鞍点问题常用的数值方法，例如块预处理和多重网格预处理。文献(
-    \cite{bai2005inexact}, \cite{bai2006structured},\cite{elman2007least},\cite{elman2009boundary}等)中提出了许多块预处理方法，来
-    找到鞍点问题的~schur 补的更好的近似。\cite{benzi2006augmented}中提出了求解~Ossen 系统的增广的基于~Lagarian 方法。在\cite{benzi2011relaxed}
+    在~\cite{benzi2005numerical} 中，概括了求解鞍点问题常用的数值方法，例如块预处理和多重网格预处理。文献(\cite{bai2005inexact}, \cite{bai2006structured},\cite{elman2007least},\cite{elman2009boundary} 等)中提出了许多块预处理方法，来
+    找到鞍点问题的~Schur 补的更好的近似。\cite{benzi2006augmented} 中提出了求解~Ossen 系统的增广的基于~Lagrange 方法。在~\cite{benzi2011relaxed}
     中提出了求解不可压~Navier-Stokes 方程的维数分解的预处理方法。(\cite{boyle2007hsl}、
-    \cite{boyle2010hsl_mi20})中提出了求解~Navier-Stokes 方程的一种高效的~Krylov 子空间方法，这种方法是用代数多重网格做预处理子。
-    但是据我们所知，对于鞍点问题的高效预处理方法基本上都是基于均匀网格上的，尽管在~\cite{benzi2011relaxed}一文中，考虑了拉伸
+    \cite{boyle2010hsl_mi20}) 中提出了求解~Navier-Stokes 方程的一种高效的~Krylov 子空间方法，这种方法是用代数多重网格做预处理子。
+    但是据我们所知，对于鞍点问题的高效预处理方法基本上都是基于均匀网格上的，尽管在~\cite{benzi2011relaxed} 一文中，考虑了拉伸
     网格的情形。
 
-    在~\cite{elman2005finite} 的基础上，我们将为移动网格有限元方法求解~\eqref{eq::NS_chap4} 和
-    \eqref{eq::bc_chap4} 提供了一个代数多重网格预处理方法。我们通过数值例子来表明，我们的预处理子的高效性。
+    在~\cite{elman2014finite} 的基础上，我们将为移动网格有限元方法求解~\eqref{eq::NS_chap4} 和
+    \eqref{eq::bc_chap4} 提供了一种代数多重网格预处理策略。通过数值例子来表明，我们预处理子的高效性。
     \section{数值离散}
         \subsection{时间方向的离散}
             在时间层离散上，我们把时间区间~$[0, T]$ 分成~$N$ 份，$\{t_i\}_{i = 1}^N$。令~$\vec{u}^j$ 和 ~$p^j$ 是连续形式解~$\vec{u}(\cdot, t_j)$ 和 ~$p(\cdot, t_j)$ 的离散近似。在时间格式的离散上，主要分为算子分裂方法和全隐格式。
-            在算子分裂方法，也可以看成是分部方法。最简单的方法是将算子分成两步，在每一步中分别用向前和向后欧拉格式，可以参考~\cite{peaceman1955numerical}。
+            在算子分裂方法，也可以看成是分步方法。最简单的方法是将算子分成两步，在每一步中分别用向前和向后欧拉格式，可以参考~\cite{peaceman1955numerical}。
             在~\cite{he2003two} 中，将这种两步分裂方法应用到~Navier-Stokes 方程的时间离散上。
             通常的两步方法如下：
         \begin{algorithm}
@@ -85,12 +84,12 @@
 %            \end{algorithmic}
             \label{alg::Peaceman_Rachford}
          \end{algorithm}
-         在算法~\ref{alg::Peaceman_Rachford}中~$\vec{u}^*$ 的取值要保证散度为~$0$  的条件，并且~$\alpha + \beta = 1$。它实际上是先求解一个对流方程
+         在算法~\ref{alg::Peaceman_Rachford} 中~$\vec{u}^*$ 的取值要保证散度为~$0$  的条件，并且~$\alpha + \beta = 1$。它实际上是先求解一个对流方程
          ~\eqref{eq::first_step_PR} ，然后再求解一个广义的~Stokes 方程~\eqref{eq::second_step_PR} 。这个算法第一步计算的时候需要~$p^0$ 的值，它
          可以在很小的时间步长情况下，全隐格式向前发展一步得到。一般自然的，$\vec{u}^* = \vec{u}^n$，这样在时间格式上只有一阶精度的。这种
          方法不是无条件稳定的，并且需要比较小的时间步长。当~$\theta = \frac{1}{2}, \vec{u}^* = \vec{u}^{n + \theta}$ 时，可以获得二阶精度，
          这时候求解~\eqref{eq::first_step_PR} 变成了一个求解非线性的对流方程。详细内容可以参考(\cite{silvester1996fast})。\cite{dean1993some} 将
-         两步~Peaceman-Rachford 推广到三步, 保持了当~$t \leftarrow \infty$ 时的数值稳定性：
+         两步~Peaceman-Rachford 推广到三步, 保持了当~$t \rightarrow \infty$ 时的数值稳定性：
          \begin{algorithm}
              \caption{Glowinski ~$\Theta$ 格式}
 %            \begin{algorithmic}[1]
@@ -126,7 +125,7 @@
 %            \end{algorithmic}
          \end{algorithm}
          这种算法需要在每个时间步中计算两个广义的~Stokes 方程~\eqref{eq::second_step_GL_theta}  和~\eqref{eq::third_step_GL_theta} , 和一个非线性的对流
-         方程~\eqref{eq::first_step_GL_theta} 。当我们取~$\alpha = \beta = 1/2$ 或者~$\theta = 1 - 1/\sqrt{2}, \alpha + \beta = 1$，当~$t \leftarrow
+         方程~\eqref{eq::first_step_GL_theta} 。当我们取~$\alpha = \beta = 1/2$ 或者~$\theta = 1 - 1/\sqrt{2}, \alpha + \beta = 1$，当~$t \rightarrow
          \infty$ 时，该格式时间上有二阶精度。特别的，当~$\theta = 1 - 1/\sqrt{2}, \alpha = (1 -2\theta)/(1 - \theta), \beta = \theta/(1 - \theta)$ 时，
          这种方法在时间上是有二阶精度的，并且是无条件稳定的。
          \cite{smith1997implicit} 中提出了一种线性化~$\Theta-$ 格式，它保持了二阶精度。它的想法是将对流方程~\eqref{eq::second_step_GL_theta} 中的对流项
@@ -212,9 +211,9 @@
          \end{algorithm}
         其中~$u^1$ 可以由向后欧拉格式得到， 算法~\ref{alg::simo_armero} 也是无条件稳定的，证明过程可以根据线性化向后欧拉格式的证明。
    \subsection{空间离散}
-   根据第 ~$2$ 章中，我们提到的~$4P_1-P_1$ 元，这种有限元是基于两套三角形网格和两个有限元空间。根据~\cite{li2005multi} 中的几何遗传树中的四叉树结构，
+   根据第 ~$2$ 章中，我们提到的~$4P_1-P_1$ 元，这种有限元是基于两套独立的三角形网格。根据~\cite{li2005multi} 中的几何遗传树，
    速度网格可以通过压力网格全局加密一次得到，如图~\ref{fig::hgeometrytree_chap2} 所示。速度单元和压力单元间的~$1-1$ 对应关系可以根据几何遗传树结构，
-   相对容易的获得。我们先给出一些符号的定义：
+   相对容易地获得。我们先给出一些符号的定义：
    $\mathcal{T}_h$ 是速度网格的一个三角剖分，最大的网格尺度~$h = \max_{T \in \mathcal{T}_h} diam(T)$，同样的，$\mathcal{T}_{H}(H = 2h)$ 是压力
    网格的三角剖分。速度和压力的有限维空间分别为~$\mathbf{X}^h \subset (H_0^1(\Omega)^2)$ 和 ~$P^H \subset \mathcal{L}^2(\Omega)$。那么~Navier-Stokes 问题
    的全离散形式为：
@@ -304,7 +303,7 @@
     \right],
     \label{eq::linear_system}
   \end{equation}
-  注意到散度矩阵 ~$B = [Bx, By]$ 为
+  注意到散度矩阵 ~$B = [B_x, B_y]$ 为
   \begin{eqnarray}
     B_x := [B_x]_{kj} = -\left(\psi_k, \frac{\partial \phi_j}{\partial
         x} \right), k = 1, \cdots, n_p, j = 1, \cdots, n_u, \\
@@ -319,11 +318,11 @@
     n_u, \\
     A := &[A]_{ij} =& \left( \nabla \phi_i, \nabla \phi_j \right), i,j =
     1, \cdots, n_u, \\
-    N := &[N]_{ij} =& \left(\vec{u}_h^n, \nabla \phi_i, \phi_j \right),
+    N := &[N]_{ij} =& \left(\vec{u}_h^n \cdot \nabla \phi_i, \phi_j \right),
     i,j = 1, \cdots, n_u.
   \end{eqnarray}
 
-  为了高效的求解线性方程组~\eqref{eq::linear_system} ，我们用预处理的~GMRES(generalized minimal residual algorithm)作为求解器。在~\cite{elman2005finite}
+  为了高效的求解线性方程组~\eqref{eq::linear_system} ，我们用预处理的~GMRES(generalized minimal residual algorithm)作为求解器。在~\cite{elman2014finite}
   中考虑的块三角预处理~$\mathcal{P}$ 定义如下：
   \begin{equation}
     \mathcal{P} =
@@ -335,9 +334,9 @@
       \end{array}
     \right),
   \end{equation}
-  其中 ~$S = B_xF^{-1}B_x^T + B_yF^{-1}B_y^T$ 是 ~schur  补矩阵。预处理就是要完成近似矩阵的求逆，实施~$\mathcal{P}^{-1}$ 的过程分为两步，
-  第一步是求解~schur 补的系统，第二步是求解两个纯量的跟~$F$ 有关的系统。直接求解~schur 补的方程组是非常耗时的，因为它系数矩阵里包含一个逆
-  矩阵。所以，在实际的计算中，找到~schur 补的近似矩阵，然后用近似矩阵代替~schur 补矩阵来进行求解。第 ~$2$ 章中提到~PCD 中近似~schur  补的矩阵为：
+  其中 ~$S = B_xF^{-1}B_x^T + B_yF^{-1}B_y^T$ 是 ~Schur  补矩阵。在迭代方法中，预处理就是要完成近似矩阵的求逆，实现~$\mathcal{P}^{-1}$ 的过程分为两步：
+  第一步是求解~Schur 补的系统，第二步是求解两个与矩阵~$F$ 有关的系统。直接求解~Schur 补的方程组是非常耗时的，因为它系数矩阵里包含一个逆
+  矩阵。所以，在实际的计算中，找到~Schur 补的良好近似，然后用近似矩阵代替~Schur 补来进行求解。第 ~$2$ 章中提到~PCD 中近似~Schur  补的矩阵为：
   \begin{equation}
     S_* = A_p F_p^{-1} Q_p,
     \label{eq::PCD}
@@ -368,11 +367,11 @@
     \mathcal{M}^{-1} =
     \left(
       \begin{array}{lll}
-        F^{-1} & 0 & B_x^T \\
-        0 & F^{-1} & B_y^T \\
-        0 & 0 &S_*^{-1}
+        F & 0 & B_x^T \\
+        0 & F & B_y^T \\
+        0 & 0 & S_*
       \end{array}
-    \right)
+    \right)^{-1}
   \end{equation}
   我们分两步解释预处理的求解过程：令~$V^d = \mathcal{M}^{-1} V^s$，
   其中
@@ -384,8 +383,9 @@
     V_p^d = S_*^{-1} V_p^s = Q_p^{-1} F_p A_p^{-1} V_p^s.
     \label{eq::solve_schur}
   \end{equation}
-  它其中包含两个泊松问题的求解~$Q_p^{-1}$ 和 ~$A_p^{-1}$，所以我们可以用为求解泊松问题设计的代数多重网格求解器来实现求解。
-  第二步我们再用这种多重网格求解器去求解
+  它其中包含一个质量矩阵~$Q_p^{-1}$ 的求解和一个~Poisson 问题~$A_p^{-1}$ 的求解，
+  所以我们可以用为求解泊松问题设计的代数多重网格求解器来实现求解。
+  第二步中，因为矩阵~$F$ 是质量矩阵占优的，因此我们也用~Poisson 问题的多重网格求解器去求解
   \begin{equation}
     \begin{aligned}
       V_x^d = F^{-1} (V_x^s - B_x^T V_p^d), \\
@@ -396,8 +396,8 @@
   将~\eqref{eq::solve_schur}  和 ~\eqref{eq::solve_velocity} 中的解合并在一起，就得到了要求解的 ~$V^d$.
 
   在实际的计算中，我们对矩阵~$F$、 $F_p$、 $Q_p$ 和 ~$A_p$ 的求解，是用固定的几步代数多重网格迭代(algebraic multi-grid)来代替精确求解。这
-  就是迭代的~PCD 方法。我们用的多重网格求解器是在~AFEPack \cite{AFEPack} (一个自适应有限元包)中。在~(\cite{elman2005finite}，
-  第10章)中，数值算例说明了~PCD 预处理的高效。\cite{elman2011fast} 一文将~PCD 预处理方法应用到~bouyancy 驱动流问题上。在我们的数值实验中，发现如果将
+  就是迭代的~PCD 方法。我们用的多重网格求解器是在~AFEPack \cite{AFEPack} (一个自适应有限元包)中。在~(\cite{elman2014finite}，
+  第10章)中，数值算例说明了~PCD 预处理的高效。\cite{elman2011fast} 一文将~PCD 预处理方法应用到~Bouyancy 驱动流问题上。在我们的数值实验中，发现如果将
   ~\eqref{eq::pcd_mat} 中的
   \begin{equation}
     F_p = \nu A_p + W_p^n,
@@ -411,17 +411,19 @@
   \end{equation}
   通过第 ~$2$ 章中的预处理方法分析知，在出流边界
    ~$\partial \Omega_N$ 上，离散的压力 ~$p_h$ 需要满足一个齐次的~Dirichlet 边界条件。
-   而在~$\Omega_D$ 上，压力~$p_h$ 要满足自然条件 ~$\frac{\partial p_h}{\partial n} = 0$，那就意味着我们在Dirichlet边界上，对~$A_p$ 不采取任何操作。
+   而在~$\Omega_D$ 上，压力~$p_h$ 要满足自然条件 ~$\frac{\partial p_h}{\partial n} = 0$，那就意味着我们在~Dirichlet 边界上，对~$A_p$ 不采取任何操作。
   我们知道对于方腔流，在所有的边界上~$\vec{w}_h \cdot \vec{n} = 0$，所以~\eqref{eq::bc_Fp} 将会退化成
   \begin{equation}
     \frac{\partial p_h}{\partial n} = 0.
   \end{equation}
-  这就意味着我们在所有的边界~$\partial \Omega$ 上，对~$F_p, A_p$ 不采取任何操作。
-  在本文中，我们将~PCD 预处理方法应用到移动网格有限元方法，来高效地求解~Navier-Stokes 问题~\eqref{eq::linear_system}。
+  这就意味着我们在所有的边界~$\partial \Omega$ 上，对~$F_p, A_p$ 不采取任何操作。在实际的
+  计算中，我们在~Neumann 边界上对~$F_p$ 施加与~$A_p$ 相同的操作，即~$p_h = 0$。
+  在本文中，我们将~PCD 预处理应用到移动网格有限元方法，来高效地求解~Navier-Stokes 问题~\eqref{eq::linear_system}。
 \section{移动网格策略}
   \subsection{网格移动的流程}
-     再第~$3$ 章中我们详细的介绍过移动网格的策略，这一章中简要描述一下。在~$t = t_{n}$ 时刻，我们获得了数值解 ~$\vec{u}_h^{(n)}, p_H^{(n)}$ 在~$t_n$ 时刻的
-     网格 ~$\mathcal{T}_h^n$ 上。我们根据~\cite{di2005moving} 中的方法，用保持散度为0的差值方法将~$\mathcal{T}_h^n$ 上的数值解差值到~$t_{n + 1}$ 时刻的网格
+     在第~$3$ 章中我们详细的介绍过移动网格的策略，这一章中简要描述一下。在~$t = t_{n}$ 时刻，
+     我们获得了~$\mathcal{T}_h^n$ 上的数值解 ~$\vec{u}_h^{(n)}, p_H^{(n)}$。根据~\cite{di2005moving}
+     中的方法，用保持散度为~$0$ 的插值方法将~$\mathcal{T}_h^n$ 上的数值解插值到~$t_{n + 1}$ 时刻的网格
      ~$\mathcal{T}_h^{(n + 1)}$ 上。简单的来说，总共分为三步：
      \begin{enumerate}[step 1]
      \item 获取控制函数。 令~$m = 1/G$，其中~$G$ 是控制函数。基于涡量的控制函数
@@ -452,8 +454,8 @@
        \begin{equation}
          X_i^{(n + 1)} = X_i^{(n)} + \mu \delta X_i.
        \end{equation}
-     \item 保持散度为~$0$ 的差值。
-       在用移动网格有限元方法来求解不可压流体方程的时候，需要在数值解差值的过程中保持散度为~$0$。在~\cite{di2005moving} 中，
+     \item 保持散度为~$0$ 的插值。
+       在用移动网格有限元方法来求解不可压流体方程的时候，需要在数值解插值的过程中保持散度为~$0$。在~\cite{di2005moving} 中，
        数值解在新网格~$\mathcal{T}^{(n + 1)}$ 上的重新分布，是通过求解一个类似无粘的~Navier-Stokes 方程。
        \begin{eqnarray}
          \begin{aligned}
@@ -464,8 +466,8 @@
          \label{eq::continous_update}
        \end{eqnarray}
        其中 ~$\delta \vec{x} := x^{\text{old}} - x^{\text{new}}$，
-       $x^{\text{old}}, x^{\text{new}}$  是物理区域上的两组坐标。$\tau$ 是一个虚拟时间，通常取成~$1.0$。因为对流速度~$\delta \vec{x}$
-       相对较小。这里 ~$\hat{p}$ 是一个临时变量，为了跟~\eqref{eq::NS_chap4} 中的压力变量区别开来。
+       $x^{\text{old}}, x^{\text{new}}$  是物理区域上的两组坐标。$\tau$ 是一个虚拟时间，因为对流速度~$\delta \vec{x}$
+       相对较小，通常取成~$1.0$。这里 ~$\hat{p}$ 是一个临时变量，为了跟~\eqref{eq::NS_chap4} 中的压力变量区别开来。
 
        ~\eqref{eq::continous_update} 的弱形式是: 寻找 ~$(\vec{u}_h, \hat{p}_H) \in X_E^h \times P^H$ 使得
        \begin{eqnarray}
@@ -496,11 +498,11 @@
        \end{eqnarray}
        其中~$\vec{u}_h^{(n)}$ 和 ~$p_H^{(n)}$ 是方程~\eqref{eq::NS_chap4}
         在 ~$t = t_{n}$ 时刻的网格上计算的数值解。$\vec{u}_{h,*}^{(n)}$ 和 ~$p_{h, *}^{(n)}$
-      是在新网格~$\mathcal{T}^{(n + 1)}$ 上，$t_n$ 时刻的数值解，是一个中间变量。
+      是~$t_n$ 时刻在新网格上的数值解，是一组中间变量。
      \end{enumerate}
 
    \subsection{用AMG 预处理求解~\eqref{eq::full_discreted_update}}
-   \eqref{eq::full_discreted_update} 将会得到一个线性系统， 它的系数矩阵为~$\mathcal{M}^p$，定义如下：
+   对\eqref{eq::full_discreted_update} 数值离散将会得到一个线性系统， 它的系数矩阵为~$\mathcal{M}^p$，定义如下：
    \begin{equation}
      \mathcal{M}^p =
      \left(
@@ -512,12 +514,12 @@
      \right)
      \label{mat::moving}
    \end{equation}
-   据我们所知，矩阵~$\mathcal{M}^p$ 的~schur补矩阵为：
+   据我们所知，矩阵~$\mathcal{M}^p$ 的~Schur 补矩阵为：
    \begin{equation}
     M_S = B_x Q_p^{-1} B_x^T + B_y Q_p^{-1} B_y^T.
    \end{equation}
    根据第~$2$ 章，对于满足~LBB 条件的混合元近似，当边界条件全部是封闭流体边界时，$M_S$ 是跟压力空间的刚度矩阵
-   ~$A_p$ 谱等价的。因此我们可以用 ~$A_p$ 来作为~Schur 补矩阵的近似矩阵。那么我们可以选取
+   ~$A_p$ 谱等价的。因此我们可以用 ~$A_p$ 来作为~Schur 补矩阵的近似。那么我们可以选取
    \begin{equation}
      \mathcal{K} =
      \left(
@@ -530,7 +532,7 @@
      \label{eq::updateSolution_precond}
    \end{equation}
    来作为~\eqref{mat::moving} 的块预处理矩阵，其中 ~$M_S^* = A_p$ 或者 ~$M_S^* =
-   \frac{1}{\nu} A_p$。我们选择不同的~$M_S^*$ 来作为~schur 补矩阵的近似矩阵，
+   \frac{1}{\nu} A_p$。我们选择不同的~$M_S^*$ 来作为~Schur 补矩阵的近似矩阵，
    来对比求解效率的差别。在我们的实际计算中，$\frac{1}{\nu}A_p$ 要比 ~$A_p$ 效率要高。
    对于入流/出流问题，$A_p$ 需要在~Neumann 边界上做出一些修改来提高计算效率。在出流边界
    ~$\partial \Omega_N$ 上，需要满足压力 ~$p_h = 0$。
@@ -549,7 +551,7 @@
       \begin{algorithm}
         \caption{移动网格有限元方法求解~Navier-Stokes}
         \begin{algorithmic}[1]
-          \State 用~AMG 预处理来求解稳态的~Stokes 方程来获得初值值 ~$\vec{u}_h^{(0)}, p_H^{(0)}$。
+          \State 用第 3 章中针对~Stokes方程的~AMG 预处理方法，来求解稳态~Stokes 方程，从而获得初值 ~$\vec{u}_h^{(0)}, p_H^{(0)}$。
           \While {$t_n < T$}
           \State 在~$\triangle_p^{(n)}$ 上，用 ~$\vec{u}_h^{(n)}, p_H^{(n)}$  计算控制函数，并且通过求解调和映射~\eqref{eq::logical} 来获得
                  新的逻辑网格~$\vec{\xi}^*$。 \label{state::monitor_chap4}
@@ -577,9 +579,9 @@
 %	SECTION 6
 % ----------------------------------------------------------------------------------------
 \section{数值算例}
-      我们用三个数值算例来展示我们的方法。在实际的计算过程中，我们采用稳态的~Stokes 方程的解作为~Navier-Stokes 方程的初始值，
-      边界条件设置跟~Navier-Stokes 方程一致。在我们的算法中，初始的物理区域和逻辑区域是一致的。网格的移动效果以及数值解在
-      下面展示出来。我们的代码是基于有限元包~AFEPack。
+      我们用三个数值算例来展示我们的方法。在实际的计算中，我们采用稳态~Stokes 方程的解作为~Navier-Stokes 方程的初始值，
+      边界条件设置跟~Navier-Stokes 方程一致。在我们的算法中，初始的物理区域和逻辑区域是一致的。我们的代码是基于有限元
+      包~AFEPack。
 
      \subsection{方腔驱动流}
        我们考虑经典算例：正则化的方腔流。我们的计算区域是~$\Omega = [-1, 1] \times [-1, 1]$，粘性系数是~$Re = 2000$。Dirichlet
@@ -587,19 +589,36 @@
        的其它部分。
 
        在我们的移动策略中，我们选取涡量~\eqref{eq::monitor_vorticity} 为控制函数。参数取成~$\alpha = 0.5, \beta = 2.0$ 时网格移动效果
-       比较好。在图~\ref{fig::cavity_flow_mesh} 中展示的是发展到稳态的移动网格以及涡量的等高线。我们可以看出网格集中在顶部边和右边边界
+       令人满意。在图~\ref{fig::cavity_flow_mesh} 中展示的是发展到稳态的移动网格以及涡量的等高线。我们可以看出网格集中在顶部边和右边边界
        ，这些地方都是涡量比较大的地方。速度的流速线如图~\ref{fig::cavity_flow_streamline}。
-       在图~\ref{fig::cavity_flow_divergence} 中，我们对比了均匀网格和移动网格下，速度散度大小。结果发现，速度散度值在移动网格下比
-       均匀网格要小一半，这说明了，移动网格的效果比均匀网格要好。
+       在图~\ref{fig::cavity_flow_divergence} 中，我们对比了均匀网格和移动网格下，速度散度分布。结果发现，速度散度值在移动网格下保持的、
+       明显比均匀网格要好。
        \begin{enumerate}
            \item 对比求解 ~\eqref{eq::linear_system} 中~GMRES 的迭代步数。
 
-                从图 ~\ref{fig::cavity_compare_Fp} 中我们可以看出：在~PCD 预处理中选取 ~$F_p = A_p + W_p^n$ 需要的~GMRES 的迭代次数比 ~$F_p = \nu A_p + W_p^n$ 少。我们在表 ~\ref{tab::comparation_GMRES_steps} 中对比了，用~ AMG 和 ~ILU两种预处理方法求解时，GMRES 的平均迭代步数。我们发现
-                ~AMG 预处理比~ILU 效率高很多。
+                在图 ~\ref{fig::cavity_compare_Fp}
+                中，在预处理中选用六组不同的 $F_p = \gamma
+                A_p + W_h^n$，来对比~GMRES
+                的平均迭代步数。当 ~$\gamma = 1$
+                时，相对比其它~5
+                种情况，需要较少的迭代步数，从而得到一个令我们满意的
+                结果。为简便起见，我们将~$F_p = \nu A_p +
+                W_h^n$ 中的 ~$\nu$ 去掉。 我们在表
+                ~\ref{tab::comparation_GMRES_steps}
+                中对比了，用~ AMG-PCD 和 ~ILU
+                两种预处理方法求解时，GMRES
+                的平均迭代步数以及~CPU
+                的计算时间。我们发现~AMG-PCD 预处理比 ~ILU
+                更高效。从图
+                ~\ref{fig::cavity_compare_move_vs_uni}
+                中，可以看出在均匀网格上，AMG-PCD 的~GMRES
+                平均迭代次数跟网格尺度无关，但在移动网格上，GMRES
+                的迭代次数有所增加，这是因为不同网格尺度的网格移动效果不同。
+                但是相比于~ILU，效率还是非常高的。
            \item 对比求解 ~\eqref{eq::full_discreted_update} 中~GMRES 的 迭代步数。
-
-               表 ~\ref{tab::GMRES_steps_update}，我们对比不同的预处理矩阵
-               ~$M_S^*$ 对应的平均的~GMRES 迭代步数。结果发现：在求解 ~\ref{eq::full_discreted_update} 时选取 ~$M_S^* = \frac{1}{\nu} A_p$，GMRES 迭代步数会减少非常明显，相对比 ~$M_S^* = A_p$。
+               在表 ~\ref{tab::GMRES_steps_update}中，我们对比不同的预处理矩阵
+               ~$M_S^*$ 对应的~GMRES 平均迭代步数。结果发现：在求解 ~\eqref{eq::full_discreted_update}
+               时选取 ~$M_S^* = \frac{1}{\nu} A_p$，GMRES 迭代步数相对于 ~$M_S^* = A_p$ 会明显减少。
        \end{enumerate}
 
        \begin{figure}[!htbp]
@@ -613,8 +632,8 @@
 
        \begin{figure}[!htbp]
          \begin{center}
-             \includegraphics[width = 0.43\textwidth, angle = -90]{picture/second/cavity_flow_data/divergence_uniform_1.eps}
-             \includegraphics[width = 0.43\textwidth, angle = -90]{picture/second/cavity_flow_data/divergence_moving_1.eps}
+             \includegraphics[width = 0.43\textwidth, angle = -90]{picture/second/cavity_flow_data/divergence_uniform.eps}
+             \includegraphics[width = 0.43\textwidth, angle = -90]{picture/second/cavity_flow_data/divergence_moving.eps}
         \end{center}
         \caption{  方腔流，速度的散度等高线，左：均匀网格，右：移动网格，压力网格 ~$20 \times 20$，$Re = 2000$。}
         \label{fig::cavity_flow_divergence}
@@ -630,9 +649,9 @@
 
        \begin{figure}[!htbp]
          \begin{center}
-           \includegraphics[width = 0.55\textwidth, angle = 0]{picture/second/cavity_flow_data/Fp_comparation_mesh20.eps}
+           \includegraphics[width = 0.55\textwidth, angle = 0]{picture/second/cavity_flow_data/it_steps_via_nu.eps}
         \end{center}
-        \caption{  方腔流：对比在~PCD 预处理中用不同的 ~$F_p$ 来求解~\eqref{eq::linear_system} 时，GMRES 的迭代步数，
+        \caption{  方腔流：对比~AMG-PCD 预处理中，选用不同的~$F_p = \gamma A_p + W_h^n$ (其中~$\gamma$ 的值可以变化)，来求解~\eqref{eq::linear_system} 时，GMRES 的平均迭代步数，
         压力网格 ~$20 \times 20$， $Re = 2000$。}
         \label{fig::cavity_compare_Fp}
        \end{figure}
@@ -641,19 +660,28 @@
          \centering
          \begin{tabular}{ccc}
            \hline
-           \multirow{2}{*}{压力网格}  & \multicolumn{2}{c}{GMRES 的平均迭代次数} \\
+           \multirow{2}{*}{压力网格}  & \multicolumn{2}{c}{GMRES 的平均迭代次数(CPU 时间)} \\
            \cline{2-3}
-                           & $AMG$ & $ILU$ \\ \hline
-           $20 \times 20$   &      $10.8$           &     $107.5$
+                           & AMG-PCD & ILU \\ \hline
+%           $10 \times 10$   &      $9(0.036s)$              &     $43.83(0.122s)$  \\ \hline
+           $20 \times 20$   &      $10.8(0.16s)$           &     $104.47(1.974s)$
            \\ \hline
-           $40 \times 40$   &      $16.01$             &     $307.33$
+           $40 \times 40$   &      $15.93(0.712s)$             &     $296.29(8.278s)$
            \\ \hline
            $80 \times 80$   &     $27.18$              &     $>500$
            \\ \hline
          \end{tabular}
-         \caption{  方腔流: 对比用 ~AMG 和 ~ILU 预处理来求解 ~\eqref{eq::linear_system} 时，GMRES 的迭代步数，$Re = 2000$。}
+         \caption{方腔流: 对比用 ~AMG-PCD 和 ~ILU 预处理来求解 ~\eqref{eq::linear_system} 时，GMRES 的迭代步数，$Re = 2000$。}
          \label{tab::comparation_GMRES_steps}
        \end{table}
+
+       \begin{figure}[!h]
+         \begin{center}
+           \includegraphics[width = 0.55\textwidth, angle = 0]{picture/second/cavity_flow_data/uniform_vs_moving_GMRES_new.eps}
+        \end{center}
+        \caption{  方腔流：在均匀网格上和移动网格上，求解~\eqref{eq::linear_system} 时，GMRES 的平均迭代次数，$Re = 2000$。}
+        \label{fig::cavity_compare_move_vs_uni}
+       \end{figure}
 
        \begin{table}[!htbp]
          \centering
@@ -662,6 +690,7 @@
            \multirow{2}{*}{压力网格}   & \multicolumn{2}{c}{GMRES 迭代次数} \\
            \cline{2-3}
                            & $M_S^* = \frac{1}{\nu}A_p $& $M_S^* = A_p$ \\ \hline
+%           $10 \times 10$  &      $3.73$           &     $11$   \\ \hline
            $20 \times 20$  &      $4.96$           &     $13.19$
            \\ \hline
            $40 \times 40$  &      $10.99$           &     $42.36$
@@ -766,7 +795,7 @@
       要比 ~$\alpha = 1$ 时的迭代次数多。在表 ~\ref{tab::GMRES_steps_cylinder} 中，我们对比了在求解 ~\eqref{eq::linear_system} 和 ~\eqref{eq::full_discreted_update} 时，预处理方法中选取不同的 ~$F_p$ 和 ~$M_S^*$，GMRES 的平均迭代次数。
       结果发现，选取 ~$F_p = \nu A + W_p^n$，GMRES 的平均迭代次数会相对减少 ~$10$ 次。同时，选取 ~$M_S^* = \frac{1}{\nu} A_p$ 比 ~$M_S^* = A_p$ 迭代次数会减少一半，因此选取 ~$M_S^* = \frac{1}{\nu} A_p$ 更高效。
 
-      在图 ~\ref{fig::cylinder_mesh_2s} 中，展示了 ~$t = 2s$ 时的网格移动效果。可以发现，网格明显的聚集在圆形障碍物的周围。据我们所知，
+      在图 ~\ref{fig::cylinder_mesh_2s} 中，展示了 ~$t = 2s$ 时的网格移动效果。可以发现，网格明显地聚集在圆形障碍物的周围。据我们所知，
       当选取适当的雷诺数时，会出现涡街现象，参考~\cite{milton1982album} 一文，正如图 ~\ref{fig::cylinder_mesh_40s} 所展示的。
 
       \begin{figure}[!htbp]

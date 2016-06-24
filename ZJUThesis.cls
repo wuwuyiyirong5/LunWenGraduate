@@ -95,12 +95,13 @@
 %%
 %%ÎÄµµ²¼¾Ö
 %%
-\oddsidemargin 0.6 true cm
-\if@twoside
-  \evensidemargin 0.6 true cm
-\else
-  \evensidemargin 0 true cm
-\fi
+%% Îâ×¢ÊÍµô¡£
+%%\oddsidemargin 0.6 true cm
+%%\if@twoside
+%%  \evensidemargin 0.6 true cm
+%%\else
+%%  \evensidemargin 0 true cm
+%%\fi
 \textheight 21 true cm
 \textwidth 14.5 true cm
 \headheight 12pt
@@ -108,9 +109,10 @@
 \topmargin 15pt
 \voffset 0pt
 \parskip 0.5ex plus 0.25ex minus 0.25ex
-\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
-  \thispagestyle{empty}%
-  \hbox{}\newpage\if@twocolumn\hbox{}\newpage\fi\fi\fi}
+%% Îâ×¢ÊÍµô
+%%\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
+%%  \thispagestyle{empty}%
+%%  \hbox{}\newpage\if@twocolumn\hbox{}\newpage\fi\fi\fi}
 \renewcommand{\floatpagefraction}{0.80}
 %%
 %%²Î¿¼ÎÄÏ×Ê¹ÓÃ¸ñÊ½
@@ -163,14 +165,15 @@
         \hfill
       \CAST@label@SchoolCode~
       \CASTunderline[100pt]{\CAST@value@SchoolCode}
-    \vskip \stretch{1}
+    \vskip \stretch{0}
     \vskip 30pt 
+    \vspace{-1em}
     \begin{figure}[h]
         \begin{center}
         \scalebox{0.3}{\includegraphics{figures/ZJU.eps}}
         \end{center}
     \end{figure}
-    \bf\kaishu\zihao{-0}
+    \bf\kaishu\zihao{-1}
     \CAST@value@DegreeThesis
     \begin{figure}[h]
         \begin{center}
@@ -204,19 +207,20 @@
         \CASTunderline[180pt]{\CAST@value@SubmitDate}
     \end{tabular}
   \end{center}
-  \clearpage
-  \if@twoside
-    \thispagestyle{empty}
-    \ifCAST@typeinfo
-      \vspace*{\stretch{1}}
-      \begin{footnotesize}
-        \noindent
-%%        Typeset by \LaTeXe{} at \CTEX@todayold \\
-%%        With package \texttt{ZJUThesis} \CASTfileversion{} made by Ling.
-      \end{footnotesize}
-    \fi
-    \cleardoublepage
-  \fi
+%% Îâ×¢ÊÍµô¡£
+%%  \clearpage
+%%  \if@twoside
+%%    \thispagestyle{empty}
+%%    \ifCAST@typeinfo
+%%      \vspace*{\stretch{1}}
+%%      \begin{footnotesize}
+%%        \noindent
+%%%%        Typeset by \LaTeXe{} at \CTEX@todayold \\
+%%%%        With package \texttt{ZJUThesis} \CASTfileversion{} made by Ling.
+%%      \end{footnotesize}
+%%    \fi
+%%    \cleardoublepage
+%%  \fi
 }
 \newcommand\EnglishTitle[1]{\def\CAST@value@EnglishTitle{#1}}
 \newcommand\EnglishAuthor[1]{\def\CAST@value@EnglishAuthor{#1}}
@@ -253,11 +257,12 @@
     \vskip 80pt
       \normalfont\zihao{-4} \CAST@value@EnglishDate
   \end{center}
-  \clearpage
-  \if@twoside
-    \thispagestyle{empty}
-    \cleardoublepage
-  \fi
+%%  Îâ×¢ÊÍµô¡£
+%%  \clearpage
+%%  \if@twoside
+%%    \thispagestyle{empty}
+%%    \cleardoublepage
+%%  \fi
 }
 
 %% Ò³Ã¼

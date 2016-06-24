@@ -10,27 +10,33 @@
         有很多的优点。在计算流体问题时，通常的有限元是把速度和压力分开来求解，
         先计算压力，然后对压力求导之后再计算速度，这样做会降低计算精度。而混合
         元方法是把速度和压力耦合在一起求解，从而提高计算精度。混合元涉及到
-        两个有限元空间，这两个有限元空间需要满足~inf-sup 或 ~LBB 条件来保证混合 有限元解的存在唯一性。因此这个条件对于求解非常的关键。
+        两个有限元空间，这两个有限元空间需要满足~inf-sup 或 ~LBB 条件来保证
+        混合有限元解的存在唯一性。因此这个条件对于求解非常的关键。
 
-        本文使用的是 ~$4P_1-P_1$ 元，因为这种混合元自然满足~inf-sup 条件，保证了有限元解的存在唯一性，而且在速度和压力空间都只用线性元逼近。
+        本文使用的是 ~$4P_1-P_1$ 元，因为这种混合元自然满足~inf-sup 条件，保证了有限元解
+        的存在唯一性，而且在速度和压力空间都只用线性元逼近。
         $4P_1-P_1$ 元是基于两层嵌套的网格结构，即速度网格和压力网格，而速度网格由压力网
         格加密一次得到。这种两层网格结构其实是一种特殊的四叉树，它有以下两个
         优点：
-        
+
         (1) 这种树结构为有利于开发数值代数的快速求解器，即代数多重网格
         预处理；
-        
+
         (2) 为自适应网格的求解提供了数据结构上的便利。
-        
-        在邸教授 ~\cite{di2005moving} 的工作基础之上，基于 ~$4P_1-P_1$ 元，我们推广了求解不可压~Navier-Stokes 方程的移动网格有限元方法。
-        这种方法在求解不可压流体时，不局限于周期性边界条件。 我们的移动网格策略是：首先移动压力网格，然后通过树状结构来同
+
+        在 Di 等~\cite{di2005moving} 的工作基础之上，基于 ~$4P_1-P_1$ 元，我们推广
+        了求解不可压~Navier-Stokes 方程的移动网格有限元方法。
+        这种方法在求解不可压流体时，不局限于周期性边界条件。 我们的移动网格策略是：
+        首先移动压力网格，然后通过树状结构来同
         步速度网格。为了检验这种方法可以求解更一般的流体问题，本文算例中采用
         的边界均是~Dirichlet 或者 ~Neumann 条件。
 
 
-        为了提高计算效率，我们结合 ~Elman 在 ~\cite{elman2014finite} 中对不可压~N-S 的~PCD 预处理方法以及已有的代数多重网格预处理策略， 用移动网格有限元求解~N-S 方程组。特别是，在从旧网格
-        到新网格的插值过程中，我们也使用了代数多重网格预处理策略。从而，我们提出了
-        一种代数多重网格预处理策略，来加速移动网格有限元方法求解不可压~N-S 方程组。最后，我们在数值算例中展示这种预处理策略的高效性。
+        为了提高计算效率，我们结合 ~Elman 等~\cite{elman2014finite} 中对不可压~N-S
+        的~PCD 预处理方法以及已有的代数多重网格预处理策略， 用移动网格有限元求解~N-S
+        方程组。特别是，在数值解从旧网格到新网格的插值过程中，我们也使用了代数多重网
+        格预处理策略。从而，我们提出了一套完整的代数多重网格预处理策略，来加速移动网
+        格有限元方法求解不可压~N-S 方程组。最后，我们在数值算例中展示这种预处理策略的高效性。
 
 
 %        自适应移动网格方法能够
@@ -62,10 +68,10 @@
 
 \begin{EnglishAbstract}
     It is an important method for solving incompressible flow equations with
-    mixed finite element method, and it has more advantages than general finite
-    element method. When solving flow problems, velocity and pressure are
-    separately solved, pressure solution is computed firstly, velocity solution
-    is obtained after pressure derivation in general finite element method. This
+    mixed finite element methods, and it has more advantages than general finite
+    element method. When solving flow problems with general finite element methods,
+    velocity and pressure are separately solved. Pressure solution is computed firstly,
+    then velocity solution is obtained after pressure derivation. This
     may reduce the calculation precision. While velocity and pressure are computed
     together in mixed finite element method, it will increase the calculation
     accuracy. It contains two finite element spaces, which need to satisfy inf-sup
@@ -73,27 +79,36 @@
     unique if the inf-sup condition is satisfied, so this condition is very important
     for solving.
 
-    In this work, $4P_1-P_1$ finite element pair is used, which naturally satisfies the inf-sup condition,
+    In this work, $4P_1-P_1$ finite element pair is used, which naturally satisfies
+    the inf-sup condition,
     so the existence and uniqueness of discrete finite element solutions is
-    guaranteed, And linear approximation is for velocity and pressure finite
-    element spaces. $4P_1-P_1$ pair is based on two nested mesh structure,
+    guaranteed. And linear approximation is used for velocity and pressure finite
+    element spaces. $4P_1-P_1$ pair is based on two nested mesh structure including
     velocity mesh and pressure mesh. Velocity mesh can be obtained by globally
     refining pressure mesh. The structure of this two layer mesh is actually a
-    special four-fork tree, it has two advantages as following: 
-    
-    (1) This tree structre benefits for developing numerical fast solver, algebraic multi-grid precondition;
-    
-    (2) It provides convenience for adaptive mesh solving in data structure. 
+    special four-fork tree, it has two advantages as following:
 
-    Based on the work of Prof. Di \cite{di2005moving}, we promote moving mesh finite element method for solving incompressible Navier-Stokes equations 
-    based on the $4P_1-P_1$ finite element pair. This method is not restricted to period boundary condition in solving incompressible flow. Our moving strategy is: Firstly, we move the pressure mesh; next, we synchronize the velocity mesh by tree structure. For checking this method in solving general flow problem, Dirichlet or Neumann conditions are imposed on the boundaries of numerical experiments in this work.
+    (1) This tree structre benefits for developing numerical fast solver, algebraic multi-grid precondition.
 
-    For improving the calculation efficiency, we solve Navier-Stokes equations with moving mesh finite element method, combining the work of Elman \cite{elman2014finite}
+    (2) It provides convenience for adaptive mesh solving in data structure.
+
+    Based on the work of Di  et al.\cite{di2005moving}, we promote moving mesh finite element method
+    for solving incompressible Navier-Stokes equations
+    based on the $4P_1-P_1$ finite element pair. This method is not restricted to period boundary
+    condition in solving incompressible flow. Our moving strategy is: firstly, we move
+    the pressure mesh; next, we synchronize the velocity mesh by the tree structure. For checking
+    this method in solving general flow problem, Dirichlet or Neumann conditions are imposed
+    on the boundaries of numerical experiments in this work.
+
+    For improving the calculation efficiency, we solve Navier-Stokes equations
+    with moving mesh finite element method, combining the work of Elman et al. \cite{elman2014finite}
     that the PCD preconditioning and current AMG preconditioning stretegy.
-    Especially, in the process of the interpolation from old mesh to new mesh, we also apply AMG preconditioning strategy. Then we propose an AMG preconditioning strategy, for accelerating the solving incompressible Navier-Stokes equations with moving mesh finite element method.
-    Finally, we show efficiency of the preconditioning strategy by numerical 
+    Especially, in the process of the interpolation of numerical solutions from old mesh to new mesh, we also
+    apply AMG preconditioning strategy. Then we propose a complete set of AMG preconditioning strategy to
+    accelerate  the solving of incompressible Navier-Stokes equations with moving mesh finite element method.
+    Finally, we show efficiency of the preconditioning strategy by numerical
     experiments.
-    
+
 %      It is an important method for solving incompressible flow equations with
 %      mixed finite element method. Adaptive moving mesh method can efficiently solve
 %      problems with local singularities. It can not only capture the local structure

@@ -1,7 +1,7 @@
 \begin{thebibliography}{10}
 
 \bibitem{wang2004book}
-王烈衡 and 许学军, 有限元方法的数学基础, 科学出版社, 2004.
+王烈衡，许学军, 有限元方法的数学基础, 科学出版社, 2004.
 
 \bibitem{bai2006structured}
 Bai Z.Z., Structured preconditioners for nonsingular matrices of block
@@ -127,11 +127,6 @@ Di Y., Li R., Tang T. and Zhang P., Moving mesh finite element methods for the
   incompressible navier--stokes equations, SIAM Journal on Scientific
   Computing, 2005, 26(3): 1036--1056.
 
-\bibitem{di2005}
-Di Y., Li R., Tang T. and Zhang P., {Moving mesh finite element methods for the
-  incompressible Navier-Stokes equations}, SIAM Journal on Scientific
-  Computing, 2005, 26(3): 1036--1056.
-
 \bibitem{di2007level}
 Di Y., Li R., Tang T. and Zhang P., {Level set calculations for incompressible
   two-phase flows on a dynamically adaptive grid}, Journal of Scientific
@@ -163,11 +158,6 @@ Elman H., Mihajlovi{\'c} M. and Silvester D., Fast iterative solvers for
 Elman H. and Silvester D., Fast nonsymmetric iterations and preconditioning for
   navier-stokes equations, SIAM Journal on Scientific Computing, 1996, 17(1):
   33--46.
-
-\bibitem{elman2005finite}
-Elman H.C., Silvester D.J. and Wathen A.J., Finite Elements and Fast Iterative
-  Solvers: with Applications in Incompressible Fluid Dynamics: with
-  Applications in Incompressible Fluid Dynamics, Oxford University Press, 2005.
 
 \bibitem{elman2014finite}
 Elman H.C., Silvester D.J. and Wathen A.J., Finite elements and fast iterative
